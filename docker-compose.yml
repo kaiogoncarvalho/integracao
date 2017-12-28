@@ -8,32 +8,6 @@ networks:
       -
         subnet: 172.18.1.0/24
 services:
-    nginx:
-        build:
-            dockerfile: ./DockerFiles/Nginx/Dockerfile
-            context: .
-        container_name: nginx
-        image: idealinvest/nginx
-        dns:
-            - 10.10.100.72
-        dns_search:
-           - idealinvest.local
-        ports:
-            - "80:80"
-        depends_on:
-          - backoffice
-          - portal_pravaler
-          - creditscore
-          - api_aprovacao
-          - api_apartada
-          - agendamento
-        environment:
-          - BACKOFFICE=$BACKOFFICE_URL
-          - API_BACKOFFICE=$BACKOFFICE_API_URL
-          - PORTAL_PRAVALER=$PORTALPRAVALER_URL
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.8
     backoffice:
         volumes:
             - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
@@ -135,24 +109,6 @@ services:
         networks:
             idealinvest-network:
                 ipv4_address: 172.18.1.6
-    agendamento:
-        volumes:
-            - $AGENDAMENTO_LOCAL:$AGENDAMENTO_DOCKER
-            - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-        container_name: agendamento
-        image: kaioidealinvest/php7.1
-        extra_hosts:
-            - "$AGENDAMENTO_URL:127.0.0.1"
-        dns:
-            - 10.10.100.72
-        environment:
-            - SITE_HOST=$AGENDAMENTO_URL
-            - SITE_DOCUMENT_ROOT=$AGENDAMENTO_DOCUMENT_ROOT
-        dns_search:
-           - idealinvest.local
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.9
     mongo_db:
         build: 
             dockerfile: ./DockerFiles/MongoDB/Dockerfile

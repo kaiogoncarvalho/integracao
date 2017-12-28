@@ -4,7 +4,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 
 ### ***Pré-requisitos:
 1. Ter o composer instalado e as dependências necessárias;
-    * php-dom php-mbstring php-curl
+    * **php-dom php-mbstring php-curl php-soap**
 2. Ter o Docker instalado;
 3. Ter Acesso a um dos repositórios abaixo:
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**

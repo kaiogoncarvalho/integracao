@@ -1,9 +1,10 @@
-# Integração de todos os Sistemas para Servidor
+# Integração de todos os Sistemas
 
 Criar o ambiente de todos os Sistemas de uma vez
 
 ### ***Pré-requisitos:
 1. Ter o composer instalado e as dependências necessárias;
+    * php-dom php-mbstring php-curl
 2. Ter o Docker instalado;
 3. Ter Acesso a um dos repositórios abaixo:
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
@@ -18,12 +19,12 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Fazer o clone deste repositório:
     * **Observação:** Caso queira deixar usuario e senha pré-definido, 
     usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/ambientes/servidor.git`
+         * `git clone http://[usuario]:[senha]@10.10.100.75/ambientes/integracao.git`
          * Se a senha ou usuario tiver caracteres especiais, 
          procurar o código do caractere, 
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/ambientes/servidor.git`
+        * `git clone http://10.10.100.75/ambientes/integracao.git`
 2. Criar o ENV
     * Acessar a pasta deste repositório 
     * Copiar example.env para .env
@@ -42,12 +43,12 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Fazer o clone do repositório do Backoffice:
     * **Observação:** Caso queira deixar usuario e senha pré-definido, 
     usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV Backoffice`
+         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV`
          * Se a senha ou usuario tiver caracteres especiais, 
          procurar o código do caractere, 
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/ideal-invest/BO-PRV Backoffice`
+        * `git clone http://10.10.100.75/ideal-invest/BO-PRV`
 2. Alterar o caminho do Backoffice dentro do ENV
     * Acessar o .env do repositório do Servidor
     * Altera a propriedade BACKOFFICE_LOCAL para o caminho do repositório do Backoffice
@@ -153,7 +154,9 @@ Criar o ambiente de todos os Sistemas de uma vez
         * Caso Queira subir somente o API Apartada:
             * `docker-compose up -d api_apartada`
         * Caso Queira subir somente o CreditScore:
-            * `docker-compose up -d creditscore`    
+            * `docker-compose up -d creditscore` 
+        * Caso Queira subir somente o CreditScore e Api de Aprovação:
+            * `docker-compose up -d creditscore api_aprovacao`      
         
         
 ## Testar os sistemas

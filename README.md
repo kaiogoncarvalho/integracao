@@ -43,12 +43,12 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Fazer o clone do repositório do Backoffice:
     * **Observação:** Caso queira deixar usuario e senha pré-definido, 
     usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV`
+         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV.git`
          * Se a senha ou usuario tiver caracteres especiais, 
          procurar o código do caractere, 
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/ideal-invest/BO-PRV`
+        * `git clone http://10.10.100.75/ideal-invest/BO-PRV.git`
 2. Alterar o caminho do Backoffice dentro do ENV
     * Acessar o .env do repositório do Servidor
     * Altera a propriedade BACKOFFICE_LOCAL para o caminho do repositório do Backoffice

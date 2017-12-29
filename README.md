@@ -5,7 +5,10 @@ Criar o ambiente de todos os Sistemas de uma vez
 ### ***Pré-requisitos:
 
 1. Ter o Docker instalado;
-2. Ter Acesso a um dos repositórios abaixo:
+    * `sudo apt-get install docker.io`
+2. Ter Docker-Compose instalado;
+    * `sudo apt-get install docker-compose`
+3. Ter Acesso a um dos repositórios abaixo:
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
     * Backoffice: http://10.10.100.75/ideal-invest/BO-PRV
     * Portal Pravaler **(Portal Pravaler necessita do Backoffice)**: http://10.10.100.75/portalpravaler/portalpravaler.git 

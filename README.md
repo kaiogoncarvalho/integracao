@@ -49,9 +49,9 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/ideal-invest/BO-PRV.git`
-2. Alterar o caminho do Backoffice dentro do ENV
-    * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **BACKOFFICE_LOCAL** para o caminho do repositório do Backoffice
+2. Alterar o caminho do Backoffice dentro do .env do Repositório de Integração
+    * Acessar o .env do Repositório de Integração
+    * Altera a propriedade **BACKOFFICE_LOCAL** para o **caminho completo do repositório do Backoffice**
 3. Executar script de configuração do Backoffice:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/Backoffice/Files`;
     * Executar o script de configuração do Backoffice:
@@ -68,9 +68,9 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/portalpravaler/portalpravaler.git`
-2. Alterar o caminho do Portal Pravaler dentro do ENV
-    * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **PORTALPRAVALER_LOCAL** para o caminho do repositório do Portal Pravaler        
+2. Alterar o caminho do Portal Pravaler dentro do .env do Repositório de Integração
+    * Acessar o .env do repositório de Integração
+    * Altera a propriedade **PORTALPRAVALER_LOCAL** para o **caminho completo do repositório do Portal Pravaler**        
 3. Executar script de configuração do Portal Pravaler:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/PortalPravaler/Files`;
     * Executar o script de configuração do Portal Pravaler:
@@ -87,9 +87,9 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/pravaler/api-pravaler.git`
-2. Alterar o caminho da Api de Aprovação dentro do ENV
+2. Alterar o caminho da Api de Aprovação dentro do .env do Repositório de Integração
     * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **APIAPROVACAO_LOCAL** para o caminho do repositório da Api da Aprovação         
+    * Altera a propriedade **APIAPROVACAO_LOCAL** para o **caminho completo do repositório da Api da Aprovação**       
 3. Executar script de configuração da Api de Aprovação:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiAprovacao/Files`;
     * Executar o script de configuração da Api de Aprovação:
@@ -106,9 +106,9 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/ideal-invest/BO-PRV-API.git`
-2. Alterar o caminho da Api Apartada dentro do ENV
-    * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **APIAPARTADA_LOCAL** para o caminho do repositório da Api Apartada            
+2. Alterar o caminho da Api Apartada dentro do .env do Repositório de Integração
+    * Acessar o .env do repositório de Integração
+    * Altera a propriedade **APIAPARTADA_LOCAL** para o **caminho completo do repositório da Api Apartada**            
 3. Executar script de configuração da API Apartada:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiApartada/Files`;
     * Executar o script de configuração da API Apartada:
@@ -124,9 +124,9 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/bsy.jhones/credit-score.git`
-2. Alterar o caminho do CreditScore dentro do ENV
-    * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **CREDITSCORE_LOCAL** para o caminho do repositório do CreditScore           
+2. Alterar o caminho do CreditScore dentro do .env do Repositório de Integração
+    * Acessar o .env do repositório de Integração
+    * Altera a propriedade **CREDITSCORE_LOCAL** para o **caminho completo do repositório do CreditScore**           
 3. Executar script de configuração do CreditScore:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/CreditScore/Files`;
     * Executar o script de configuração do CreditScore:

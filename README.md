@@ -153,7 +153,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * Caso Queira subir somente o Portal Pravaler + Backoffice:
             * `docker-compose up -d portalpravaler`
         * Caso Queira subir somente o API de Aprovação:
-            * `docker-compose up -d api_aprovacao    
+            * `docker-compose up -d api_aprovacao`    
         * Caso Queira subir somente o API Apartada:
             * `docker-compose up -d api_apartada`
         * Caso Queira subir somente o CreditScore:

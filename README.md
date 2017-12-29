@@ -147,6 +147,8 @@ Criar o ambiente de todos os Sistemas de uma vez
     * Acessar a pasta do repositório da Integração;
     * Subir os containers:
         * `docker-compose up -d`
+    * Parar os containers:
+        * `docker-compose stop`
     * **Opcional**:
         * Caso Queira subir somente o Backoffice:
             * `docker-compose up -d backoffice`
@@ -159,7 +161,9 @@ Criar o ambiente de todos os Sistemas de uma vez
         * Caso Queira subir somente o CreditScore:
             * `docker-compose up -d creditscore` 
         * Caso Queira subir somente o CreditScore e Api de Aprovação:
-            * `docker-compose up -d creditscore api_aprovacao`      
+            * `docker-compose up -d creditscore api_aprovacao`
+        * Caso Queira parar somente o CreditScore e Api de Aprovação:
+            * `docker-compose stop creditscore api_aprovacao` 
         
         
 ## Testar os sistemas

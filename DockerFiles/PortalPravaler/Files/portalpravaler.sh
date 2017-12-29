@@ -1,18 +1,10 @@
-cd $(grep -E "PORTALPRAVALER_LOCAL=(.*)" ../../../.env | sed -n 's/^PORTALPRAVALER_LOCAL=*//p' ../../../.env)
-composer install --no-scripts
-composer update --no-scripts
+export DIR=$(grep -E "PORTALPRAVALER_LOCAL=(.*)" ../../../.env | sed -n 's/^PORTALPRAVALER_LOCAL=*//p' ../../../.env)
+docker run --rm -v $DIR/:/app kaioidealinvest/composer:php7.1 install --no-scripts
+docker run --rm -v $DIR/:/app kaioidealinvest/composer:php7.1 update --no-scripts
+docker run --rm -v $DIR/workbench/portal/analytics:/app kaioidealinvest/composer:php7.1 dump
+docker run --rm -v $DIR/workbench/portal/plugins:/app kaioidealinvest/composer:php7.1 dump
+docker run --rm -v $DIR/workbench/portal/pravaler-backoffice:/app kaioidealinvest/composer:php7.1 dump
+docker run --rm -v $DIR/workbench/portal/proposal:/app kaioidealinvest/composer:php7.1 dump
+docker run --rm -v $DIR/workbench/portal/marketplace:/app kaioidealinvest/composer:php7.1 dump
+cd $DIR
 chmod -R 777 app/storage
-cd workbench/portal/analytics
-composer dump
-cd ..
-cd plugins
-composer dump
-cd ..
-cd pravaler-backoffice
-composer dump
-cd ..
-cd proposal
-composer dump
-cd ..
-cd marketplace
-composer dump

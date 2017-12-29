@@ -3,9 +3,12 @@
 Criar o ambiente de todos os Sistemas de uma vez
 
 ### ***Pré-requisitos:
-1. Ter o composer instalado e as dependências necessárias;
-    * **php-dom php-mbstring php-curl php-soap (extensões compatíveis com ubuntu 16.04)**
-2. Ter o Docker instalado;
+
+1. Ter o Docker instalado;
+    * `sudo apt-get install docker.io`
+2. Ter Docker-Compose instalado;
+    * sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-\`uname -s\`-\`uname -m\` -o /usr/bin/docker-compose
+    * sudo chmod +x /usr/bin/docker-compose
 3. Ter Acesso a um dos repositórios abaixo:
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
     * Backoffice: http://10.10.100.75/ideal-invest/BO-PRV
@@ -36,7 +39,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * `172.18.1.2 backoffice.desenv api.backoffice.desenv`
         * `172.18.1.3 portalpravaler.dev`
         * `172.18.1.4 api.aprovacao.dev`
-        * `172.18.1.5 api.backoffice.dev`
+        * `172.18.1.5 api.apartada.dev`
         * `172.18.1.6 creditscore.dev`
 
 ## Backoffice
@@ -144,19 +147,23 @@ Criar o ambiente de todos os Sistemas de uma vez
     * Acessar a pasta do repositório da Integração;
     * Subir os containers:
         * `docker-compose up -d`
+    * Parar os containers:
+        * `docker-compose stop`
     * **Opcional**:
         * Caso Queira subir somente o Backoffice:
             * `docker-compose up -d backoffice`
         * Caso Queira subir somente o Portal Pravaler + Backoffice:
             * `docker-compose up -d portalpravaler`
         * Caso Queira subir somente o API de Aprovação:
-            * `docker-compose up -d api_aprovacao    
+            * `docker-compose up -d api_aprovacao`    
         * Caso Queira subir somente o API Apartada:
             * `docker-compose up -d api_apartada`
         * Caso Queira subir somente o CreditScore:
             * `docker-compose up -d creditscore` 
         * Caso Queira subir somente o CreditScore e Api de Aprovação:
-            * `docker-compose up -d creditscore api_aprovacao`      
+            * `docker-compose up -d creditscore api_aprovacao`
+        * Caso Queira parar somente o CreditScore e Api de Aprovação:
+            * `docker-compose stop creditscore api_aprovacao` 
         
         
 ## Testar os sistemas
@@ -164,5 +171,5 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **Backoffice:** http://backoffice.desenv
     * **Portal Pravaler:** http://portalpravaler.dev
     * **API de Aprovação:** http://api.aprovacao.dev
-    * **API Apartada:** http://api.backoffice.dev
+    * **API Apartada:** http://api.apartada.dev
     * **CreditScore:** http://creditscore.dev

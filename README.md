@@ -39,7 +39,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * `172.18.1.2 backoffice.desenv api.backoffice.desenv`
         * `172.18.1.3 portalpravaler.dev`
         * `172.18.1.4 api.aprovacao.dev`
-        * `172.18.1.5 api.backoffice.dev`
+        * `172.18.1.5 api.apartada.dev`
         * `172.18.1.6 creditscore.dev`
 
 ## Backoffice
@@ -167,5 +167,5 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **Backoffice:** http://backoffice.desenv
     * **Portal Pravaler:** http://portalpravaler.dev
     * **API de Aprovação:** http://api.aprovacao.dev
-    * **API Apartada:** http://api.backoffice.dev
+    * **API Apartada:** http://api.apartada.dev
     * **CreditScore:** http://creditscore.dev

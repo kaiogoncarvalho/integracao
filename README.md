@@ -121,7 +121,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 ## Integração
 1. Acessar a pasta do repositório da Integração:
 2. Configurar os ambientes:
-    * sh ambientes.sh
+    * `sh ambientes.sh`
 3. Executar o docker-compose:
     * Criar as imagens e serviços
         * `docker-compose build`
@@ -162,4 +162,4 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:
     * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-phpstorm
 2. Para instalar o xdebug no **NETBEANS**, use o seguinte passo a passo:
-    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-netbeans-com-docker    
+    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-netbeans-com-docker

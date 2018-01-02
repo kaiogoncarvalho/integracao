@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
 AMBIENTES=./ambientes.sh
+
+. $AMBIENTES
+
 # Configuração do Agendamento
 AGENDAMENTO_SH=$INTEGRACAO_DIR/DockerFiles/Agendamento/Files/agendamento.sh
 # Configuração do Nginx
 NGINX_SH=$INTEGRACAO_DIR/DockerFiles/Nginx/Files/nginx.sh
 
-. $AMBIENTES
 . $AGENDAMENTO_SH
 . $NGINX_SH
 

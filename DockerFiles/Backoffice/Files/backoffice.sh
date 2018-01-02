@@ -26,5 +26,5 @@ setup_backoffice()
     cd bancos
     mkdir db
     cd $BACKOFFICE_LOCAL
-    chmod 777 -R html/
+    chmod 777 -R .
 }

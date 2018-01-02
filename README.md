@@ -4,11 +4,9 @@ Criar o ambiente de todos os Sistemas de uma vez
 
 ### ***Pré-requisitos:
 
-1. Ter o Docker instalado;
+1. Ter o Docker instalado:
     * `sudo apt-get install docker.io`
 2. Ter Docker-Compose instalado;
-    * sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-\`uname -s\`-\`uname -m\` -o /usr/bin/docker-compose
-    * sudo chmod +x /usr/bin/docker-compose
 3. Ter Acesso a um dos repositórios abaixo:
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
     * Backoffice: http://10.10.100.75/ideal-invest/BO-PRV
@@ -55,10 +53,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Alterar o caminho do Backoffice dentro do .env do Repositório de Integração
     * Acessar o .env do Repositório de Integração
     * Altera a propriedade **BACKOFFICE_LOCAL** para o **caminho completo do repositório do Backoffice**
-3. Executar script de configuração do Backoffice:
-    * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/Backoffice/Files`;
-    * Executar o script de configuração do Backoffice:
-        * `sudo sh backoffice.sh`
+
         
         
 ## Portal Pravaler
@@ -74,10 +69,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Alterar o caminho do Portal Pravaler dentro do .env do Repositório de Integração
     * Acessar o .env do repositório de Integração
     * Altera a propriedade **PORTALPRAVALER_LOCAL** para o **caminho completo do repositório do Portal Pravaler**        
-3. Executar script de configuração do Portal Pravaler:
-    * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/PortalPravaler/Files`;
-    * Executar o script de configuração do Portal Pravaler:
-        * `sudo sh portalpravaler.sh`     
+  
         
         
 ## API de Aprovação
@@ -93,10 +85,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Alterar o caminho da Api de Aprovação dentro do .env do Repositório de Integração
     * Acessar o .env do repositório do Servidor
     * Altera a propriedade **APIAPROVACAO_LOCAL** para o **caminho completo do repositório da Api da Aprovação**       
-3. Executar script de configuração da Api de Aprovação:
-    * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiAprovacao/Files`;
-    * Executar o script de configuração da Api de Aprovação:
-        * `sudo sh api_aprovacao.sh`  
+
         
         
 ## Api Apartada
@@ -112,10 +101,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Alterar o caminho da Api Apartada dentro do .env do Repositório de Integração
     * Acessar o .env do repositório de Integração
     * Altera a propriedade **APIAPARTADA_LOCAL** para o **caminho completo do repositório da Api Apartada**            
-3. Executar script de configuração da API Apartada:
-    * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiApartada/Files`;
-    * Executar o script de configuração da API Apartada:
-        * `sudo sh api_apartada.sh`          
+      
 
 ## CreditScore
 1. Fazer o clone do repositório do CreditScore:
@@ -130,20 +116,18 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Alterar o caminho do CreditScore dentro do .env do Repositório de Integração
     * Acessar o .env do repositório de Integração
     * Altera a propriedade **CREDITSCORE_LOCAL** para o **caminho completo do repositório do CreditScore**           
-3. Executar script de configuração do CreditScore:
-    * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/CreditScore/Files`;
-    * Executar o script de configuração do CreditScore:
-        * `sudo sh creditscore.sh`  
-        
+
         
 ## Integração
 1. Acessar a pasta do repositório da Integração:
-2. Executar o docker-compose:
+2. Configurar os ambientes:
+    * sh ambientes.sh
+3. Executar o docker-compose:
     * Criar as imagens e serviços
         * `docker-compose build`
     * Subir os containers:
         * `docker-compose up -d`
-3. Agora somente é necessário subir os containers quando necessário:
+4. Agora somente é necessário subir os containers quando necessário:
     * Acessar a pasta do repositório da Integração;
     * Subir os containers:
         * `docker-compose up -d`
@@ -173,3 +157,9 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **API de Aprovação:** http://api.aprovacao.dev
     * **API Apartada:** http://api.apartada.dev
     * **CreditScore:** http://creditscore.dev
+    
+# Opcional: Instalar o Xdebug
+1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:
+    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-phpstorm
+2. Para instalar o xdebug no **NETBEANS**, use o seguinte passo a passo:
+    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-netbeans-com-docker    

@@ -11,5 +11,7 @@ setup_portal_pravaler()
     docker run --rm -v $PORTALPRAVALER_LOCAL/workbench/portal/marketplace:/app kaioidealinvest/composer:php7.1 install
     cd $PORTALPRAVALER_LOCAL
     chmod -R 777 app/storage
+    chmod -R 777 vendor
+    chmod 777 composer.lock
 }
 

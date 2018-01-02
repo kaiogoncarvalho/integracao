@@ -7,6 +7,8 @@ setup_backoffice()
     cp sample.env .env
     OLD_DB=$(grep -E "db.default.host=(.*)" .env | sed -n 's/^db.default.host=*//p' .env)
     sed -i -e "s/$OLD_DB/$DATABASE/g" .env
+    OLD_PORT=$(grep -E "db.default.port=(.*)" .env | sed -n 's/^db.default.port=*//p' .env)
+    sed -i -e "s/$OLD_PORT/$PORT/g" .env
     sed -i -E "s/api.aprovacaoIes.path=(.*)/api.aprovacaoIes.path=$APIAPROVACAO_URL\\/v1.1/g" .env
     OLD_HOST=$(grep -E "backoffice.domain=(.*)" .env | sed -n 's/^backoffice.domain=*//p' .env)
     sed -i -e "s/$OLD_HOST/$BACKOFFICE_URL/g" .env

@@ -157,3 +157,9 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **API de Aprovação:** http://api.aprovacao.dev
     * **API Apartada:** http://api.apartada.dev
     * **CreditScore:** http://creditscore.dev
+    
+# Opcional: Instalar o Xdebug
+1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:
+    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-phpstorm
+2. Para instalar o xdebug no **NETBEANS**, use o seguinte passo a passo:
+    * https://slimwiki.com/ideal-invest/instalar-o-xdebug-no-netbeans-com-docker    

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-DIR=$(grep -E "APIAPARTADA_LOCAL=(.*)" ../../../.env | sed -n 's/^APIAPARTADA_LOCAL=*//p' ../../../.env)
-
-cd $DIR
-cd html/portal/pravaler_v2/api/app
-mkdir log
-cd $DIR
-chmod 777 -R html
+setup_api_apartada()
+{
+    cd $APIAPARTADA_LOCAL
+    chmod 777 -R html
+    cd html/portal/pravaler_v2/api/app
+    mkdir log
+}

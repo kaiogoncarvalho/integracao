@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-AGENDAMENTO_DIR=$(grep -E "AGENDAMENTO_LOCAL=(.*)" ../../../.env | sed -n 's/^AGENDAMENTO_LOCAL=*//p' ../../../.env)
-BACKOFFICE_DIR=$(grep -E "BACKOFFICE_LOCAL=(.*)" ../../../.env | sed -n 's/^BACKOFFICE_LOCAL=*//p' ../../../.env)
-docker run --rm -v $BACKOFFICE_DIR/:/app kaioidealinvest/composer:php7.1 install
-cd $AGENDAMENTO_DIR
-cp .env.example .env
-cp $BACKOFFICE_DIR/.env $AGENDAMENTO_DIR/helpers/backoffice.env.bkp
-chmod 777 -R $AGENDAMENTO_DIR
+setup_agendamento()
+{
+    docker run --rm -v $AGENDAMENTO_LOCAL/:/app kaioidealinvest/composer:php7.1 install
+    cd $AGENDAMENTO_LOCAL
+    cp .env.example .env
+    DIR_DOCKER=$(echo $BACKOFFICE_DOCKER | sed -e "s/\//\\\\\//g")
+    sed -i -E "s/BACKOFFICE_REPOSITORY=(.*)/BACKOFFICE_REPOSITORY=$DIR_DOCKER/g" .env
+    cp $BACKOFFICE_LOCAL/.env $AGENDAMENTO_LOCAL/helpers/backoffice.env.bkp
+    chmod 777 -R $AGENDAMENTO_LOCAL
+}
 

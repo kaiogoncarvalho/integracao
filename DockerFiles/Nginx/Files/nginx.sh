@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-BACKOFFICE=$(grep -E "BACKOFFICE_URL=(.*)" ../../../.env | sed -n 's/^BACKOFFICE_URL=*//p' ../../../.env)
-BACKOFFICE_API=$(grep -E "BACKOFFICE_API_URL=(.*)" ../../../.env | sed -n 's/^BACKOFFICE_API_URL=*//p' ../../../.env)
-PORTALPRAVALER=$(grep -E "PORTALPRAVALER_URL=(.*)" ../../../.env | sed -n 's/^PORTALPRAVALER_URL=*//p' ../../../.env)
-APIAPROVACAO=$(grep -E "APIAPROVACAO_URL=(.*)" ../../../.env | sed -n 's/^APIAPROVACAO_URL=*//p' ../../../.env)
-APIAPARTADA=$(grep -E "APIAPARTADA_URL=(.*)" ../../../.env | sed -n 's/^APIAPARTADA_URL=*//p' ../../../.env)
-CREDITSCORE=$(grep -E "CREDITSCORE_URL=(.*)" ../../../.env | sed -n 's/^CREDITSCORE_URL=*//p' ../../../.env)
 
 server()
 {
@@ -27,11 +21,18 @@ server()
     echo $SERVER >> default.conf
 }
 
-cp default.example.conf default.conf
-server $BACKOFFICE backoffice
-server $BACKOFFICE_API backoffice
-server $PORTALPRAVALER portal_pravaler
-server $APIAPROVACAO api_aprovacao
-server $APIAPARTADA api_apartada
-server $CREDITSCORE creditscore
+setup_nginx()
+{
+    cd $INTEGRACAO_DIR/$NGINX_DIR
+    cp default.example.conf default.conf
+    chmod 777 default.conf
+    server $BACKOFFICE_URL backoffice
+    server $BACKOFFICE_API_URL backoffice
+    server $PORTALPRAVALER_URL portal_pravaler
+    server $APIAPROVACAO_URL api_aprovacao
+    server $APIAPARTADA_URL api_apartada
+    server $CREDITSCORE_URL creditscore
+    server $AGENDAMENTO_URL agendamento
+}
+
 

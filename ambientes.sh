@@ -1,9 +1,28 @@
-# Variáveis que resgatam os diretórios dos projetos à partir do arquivo .env da aplicação
-export API_APARTADA_DIR=$(grep -E "APIAPARTADA_LOCAL=(.*)" .env | sed -n 's/^APIAPARTADA_LOCAL=*//p' .env)
-export API_APROVACAO_DIR=$(grep -E "APIAPROVACAO_LOCAL=(.*)" .env | sed -n 's/^APIAPROVACAO_LOCAL=*//p' .env)
-export BACKOFFICE_DIR=$(grep -E "BACKOFFICE_LOCAL=(.*)" .env | sed -n 's/^BACKOFFICE_LOCAL=*//p' .env)
-export CREDIT_SCORE_DIR=$(grep -E "CREDITSCORE_LOCAL=(.*)" .env | sed -n 's/^CREDITSCORE_LOCAL=*//p' .env)
-export PORTAL_PRAVALER_DIR=$(grep -E "PORTALPRAVALER_LOCAL=(.*)" .env | sed -n 's/^PORTALPRAVALER_LOCAL=*//p' .env)
+#!/usr/bin/env bash
+
+INTEGRACAO_DIR=$(pwd)
+
+#Variáveis do ENV
+ENV=./.env
+# Configuração da Api Apartada
+APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
+# Configuração da Api de Aprovação
+APIAPROVACAO_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
+# Configuração do Backoffice
+BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
+# Configuração do CreditScore
+CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
+# Configuração do Portal Pravaler
+PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
+
+
+. $ENV
+. $APIAPROVACAO_SH
+. $APIAPARTADA_SH
+. $BACKOFFICE_SH
+. $CREDITSCORE_SH
+. $PORTALPRAVALER_SH
+
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
@@ -28,80 +47,44 @@ isValidRepository() {
   fi
 }
 
-# Configura a API Apartada
-setup_api_apartada() {
-  cd $1
-  chmod 777 -R portal
-  cd portal/pravaler_v2/api/app
-  mkdir log
-}
-
-# Configura a API de Aprovação da IES
-setup_api_aprovacao() {
-  docker run --rm -v $1/:/app kaioidealinvest/composer:php7.1 install
-  cd $1
-  cd config/
-  cp database.example.php database.php
-  cp serasa.example.php serasa.php
-}
-
-# Configura o Backoffice
-setup_backoffice() {
-  docker run --rm -v $1/:/app kaioidealinvest/composer:php7.1 install
-  cd $1
-  cp sample.env .env
-  cd html/portal/pravaler/
-  mkdir log
-  cd backoffice/
-  mkdir cnab
-  cd cnab
-  mkdir bancos
-  cd bancos
-  mkdir db
-  cd $1
-  chmod 755 -R html/
-}
-
-# Configura o Credit Score
-setup_credit_score() {
-  docker run --rm -v $1/:/app kaioidealinvest/composer:php7.1 install
-}
-
-# Configura o Portal Pravaler
-setup_portal_pravaler() {
-  docker run --rm -v $1/:/app kaioidealinvest/composer:php7.1 install --no-scripts
-  docker run --rm -v $1/:/app kaioidealinvest/composer:php7.1 update --no-scripts
-  docker run --rm -v $1/workbench/portal/analytics:/app kaioidealinvest/composer:php7.1 dump
-  docker run --rm -v $1/workbench/portal/plugins:/app kaioidealinvest/composer:php7.1 dump
-  docker run --rm -v $1/workbench/portal/pravaler-backoffice:/app kaioidealinvest/composer:php7.1 dump
-  docker run --rm -v $1/workbench/portal/proposal:/app kaioidealinvest/composer:php7.1 dump
-  docker run --rm -v $1/workbench/portal/marketplace:/app kaioidealinvest/composer:php7.1 dump
-  cd $1
-  chmod -R 777 app/storage
-}
-
 # Inicializa as funções de configuração dos projetos
 main() {
-  if isValidRepository $API_APARTADA_DIR; then
-    echo "$API_APARTADA_DIR $( isValidRepository $API_APARTADA_DIR && echo ' (DIRETÓRIO OK)' || echo ' (DIRETÓRIO INVÁLIDO)')"
-    # setup_api_apartada $API_APARTADA_DIR
+
+  if isValidRepository $APIAPROVACAO_LOCAL; then
+    echo "\nComeçando configuração da Api de Aprovação:\n"
+    setup_api_aprovacao
+  else
+    echo "\nRepositório da Api de Aprovação não foi encontrado.\n"
   fi
-  if isValidRepository $API_APROVACAO_DIR; then
-    echo "$API_APROVACAO_DIR $( isValidRepository $API_APROVACAO_DIR && echo ' (DIRETÓRIO OK)' || echo ' (DIRETÓRIO INVÁLIDO)')"
-    # setup_api_aprovacao $API_APROVACAO_DIR
+
+  if isValidRepository $APIAPARTADA_LOCAL; then
+    echo "\nComeçando configuração da Api Apartada:\n"
+    setup_api_apartada
+  else
+    echo "\nRepositório da Api Apartada não foi encontrado.\n"
   fi
-  if isValidRepository $BACKOFFICE_DIR; then
-    echo "$BACKOFFICE_DIR $( isValidRepository $BACKOFFICE_DIR && echo ' (DIRETÓRIO OK)' || echo ' (DIRETÓRIO INVÁLIDO)')"
-    # setup_backoffice $BACKOFFICE_DIR
+
+  if isValidRepository $BACKOFFICE_LOCAL; then
+    echo "\nComeçando configuração do Backoffice:\n"
+    setup_backoffice
+  else
+    echo "\nRepositório do Backoffice não foi encontrado.\n"
   fi
-  if isValidRepository $CREDIT_SCORE_DIR; then
-    echo "$CREDIT_SCORE_DIR $( isValidRepository $CREDIT_SCORE_DIR && echo ' (DIRETÓRIO OK)' || echo ' (DIRETÓRIO INVÁLIDO)')"
-    # setup_credit_score $CREDIT_SCORE_DIR
+
+  if isValidRepository $CREDITSCORE_LOCAL; then
+    echo "\nComeçando configuração do CreditScore:\n"
+    setup_credit_score
+  else
+    echo "\nRepositório do CreditScore não foi encontrado.\n"
   fi
-  if isValidRepository $PORTAL_PRAVALER_DIR; then
-    echo "$PORTAL_PRAVALER_DIR $( isValidRepository $PORTAL_PRAVALER_DIR && echo ' (DIRETÓRIO OK)' || echo ' (DIRETÓRIO INVÁLIDO)')"
-    # setup_portal_pravaler $PORTAL_PRAVALER_DIR
+
+  if isValidRepository $PORTALPRAVALER_LOCAL; then
+    echo "\nComeçando configuração do Portal Pravaler:\n"
+    setup_portal_pravaler
+  else
+    echo "\nRepositório do Portal Pravaler não foi encontrado.\n"
   fi
+
 }
 
 main

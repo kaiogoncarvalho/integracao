@@ -14,9 +14,7 @@ setup_backoffice()
     sed -i -e "s/$OLD_HOST/$BACKOFFICE_URL/g" .env
     sed -i -E "s/api.url=(.*)/api.url=$BACKOFFICE_API_URL/g" .env
     OLD_HOSTPORTAL=$(grep -E "portal.domain=(.*)" .env | sed -n 's/^portal.domain=*//p' .env)
-    sed -i -E "s/portal.domai=(.*)/portal.domai=$PORTALPRAVALER_URL/g" .env
-    DIR_DOCKER=$(echo $BACKOFFICE_DOCKER | sed -e "s/\//\\\\\//g")
-    sed -i -E "s/\/home\/httpd\/html\/idealinvest.com.br\//$DIR_DOCKER\//g" .env
+    sed -i -E "s/portal.domain=(.*)/portal.domain=$PORTALPRAVALER_URL/g" .env
     cd html/portal/pravaler/
     mkdir log
     cd backoffice/

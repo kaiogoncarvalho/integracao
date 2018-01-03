@@ -6,10 +6,13 @@ setup_api_aprovacao()
     cd $APIAPROVACAO_LOCAL
     chmod 777 -R vendor/
     cd config/
-        cp database.example.php database.php
+    cp database.example.php database.php
     chmod 777  database.php
     sed -i -E "s/10.10.100.110/$DATABASE/g" database.php
     sed -i -E "s/''/'123456'/g" database.php
     cp serasa.example.php serasa.php
     chmod 777 serasa.php
+    cd $APIAPROVACAO_LOCAL
+    mkdir xdebug-profile-logs
+    chmod 777 -R xdebug-profile-logs/
 }

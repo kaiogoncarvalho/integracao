@@ -13,5 +13,7 @@ setup_portal_pravaler()
     chmod -R 777 app/storage
     chmod -R 777 vendor
     chmod 777 composer.lock
+    mkdir xdebug-profile-logs
+    chmod 777 -R xdebug-profile-logs/
 }
 

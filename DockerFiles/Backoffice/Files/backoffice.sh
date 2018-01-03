@@ -26,5 +26,6 @@ setup_backoffice()
     cd bancos
     mkdir db
     cd $BACKOFFICE_LOCAL
+    mkdir xdebug-profile-logs
     chmod 777 -R .
 }

@@ -8,107 +8,111 @@ networks:
       -
         subnet: 172.18.1.0/24
 services:
-    backoffice:
-        volumes:
-            - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-        build: 
-            dockerfile: ./DockerFiles/Backoffice/Dockerfile
-            context: .
-        container_name: backoffice
-        image: idealinvest/backoffice
-        extra_hosts:
-            - "$BACKOFFICE_URL:127.0.0.1"
-            - "$BACKOFFICE_API_URL:127.0.0.1"
-            - "$APIAPROVACAO_URL:172.18.1.4"
-            - "$APIAPARTADA_URL:172.18.1.5"
-        dns:
-            - 10.10.100.72
-        dns_search:
-           - idealinvest.local
-        environment:
-            - SITE_HOST=$BACKOFFICE_URL
-            - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
-            - API_HOST=$BACKOFFICE_API_URL
-            - API_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.2
-    portal_pravaler:
-        volumes:
-            - $PORTALPRAVALER_LOCAL:$PORTALPRAVALER_DOCKER
-        container_name: portal_pravaler
-        image: kaioidealinvest/php5.6
-        extra_hosts:
-            - "$PORTALPRAVALER_URL:127.0.0.1"
-            - "$BACKOFFICE_URL:172.18.1.2"
-            - "$BACKOFFICE_API_URL:172.18.1.2"
-            - "$APIAPARTADA_URL:172.18.1.5"
-        dns:
-            - 10.10.100.72
-        dns_search:
-           - idealinvest.local
-        depends_on:
-          - backoffice
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.3
-        environment:
-            - SITE_HOST=$PORTALPRAVALER_URL
-            - SITE_DOCUMENT_ROOT=$PORTALPRAVALER_DOCUMENT_ROOT
-    api_aprovacao:
-        volumes:
-            - $APIAPROVACAO_LOCAL:$APIAPROVACAO_DOCKER
-        container_name: api_aprovacao
-        image: kaioidealinvest/php7.1
-        extra_hosts:
-            - "$APIAPROVACAO_URL:127.0.0.1"
-        environment:
-            - SITE_HOST=$APIAPROVACAO_URL
-            - SITE_DOCUMENT_ROOT=$APIAPROVACAO_DOCUMENT_ROOT
-        dns:
-            - 10.10.100.72
-        dns_search:
-           - idealinvest.local
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.4
-    api_apartada:
-        volumes:
-            - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
-        container_name: api_apartada
-        image: kaioidealinvest/php5.3
-        extra_hosts:
-            - "$APIAPARTADA_URL:127.0.0.1"
-        environment:
-            - SITE_HOST=$APIAPARTADA_URL
-            - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
-        dns:
-            - 10.10.100.72
-        dns_search:
-           - idealinvest.local
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.5
-    creditscore:
-        volumes:
-            - $CREDITSCORE_LOCAL:$CREDITSCORE_DOCKER
-        build: 
-            dockerfile: ./DockerFiles/CreditScore/Dockerfile
-            context: .
-        container_name: creditscore
-        image: kaioidealinvest/php7.1
-        extra_hosts:
-            - "$CREDITSCORE_URL:127.0.0.1"
-        dns:
-            - 10.10.100.72
-        environment:
-            - SITE_HOST=$CREDITSCORE_URL
-            - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
-        dns_search:
-           - idealinvest.local
-        networks:
-            idealinvest-network:
-                ipv4_address: 172.18.1.6
+   backoffice:
+           volumes:
+               - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
+           build:
+               dockerfile: ./DockerFiles/Backoffice/Dockerfile
+               context: .
+           container_name: backoffice
+           image: idealinvest/backoffice
+           extra_hosts:
+               - "$BACKOFFICE_URL:127.0.0.1"
+               - "$BACKOFFICE_API_URL:127.0.0.1"
+               - "$APIAPROVACAO_URL:172.18.1.4"
+               - "$APIAPARTADA_URL:172.18.1.5"
+           dns:
+               - 10.10.100.72
+           dns_search:
+              - idealinvest.local
+           environment:
+               - SITE_HOST=$BACKOFFICE_URL
+               - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
+               - VOLUME=$BACKOFFICE_DOCKER
+               - API_HOST=$BACKOFFICE_API_URL
+               - API_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
+           networks:
+               idealinvest-network:
+                   ipv4_address: 172.18.1.2
+       portal_pravaler:
+           volumes:
+               - $PORTALPRAVALER_LOCAL:$PORTALPRAVALER_DOCKER
+           container_name: portal_pravaler
+           image: kaioidealinvest/php5.6
+           extra_hosts:
+               - "$PORTALPRAVALER_URL:127.0.0.1"
+               - "$BACKOFFICE_URL:172.18.1.2"
+               - "$BACKOFFICE_API_URL:172.18.1.2"
+               - "$APIAPARTADA_URL:172.18.1.5"
+           dns:
+               - 10.10.100.72
+           dns_search:
+              - idealinvest.local
+           depends_on:
+             - backoffice
+           networks:
+               idealinvest-network:
+                   ipv4_address: 172.18.1.3
+           environment:
+               - VOLUME=$PORTALPRAVALER_DOCKER
+               - SITE_HOST=$PORTALPRAVALER_URL
+               - SITE_DOCUMENT_ROOT=$PORTALPRAVALER_DOCUMENT_ROOT
+       api_aprovacao:
+           volumes:
+               - $APIAPROVACAO_LOCAL:$APIAPROVACAO_DOCKER
+           container_name: api_aprovacao
+           image: kaioidealinvest/php7.1
+           extra_hosts:
+               - "$APIAPROVACAO_URL:127.0.0.1"
+           environment:
+               - SITE_HOST=$APIAPROVACAO_URL
+               - SITE_DOCUMENT_ROOT=$APIAPROVACAO_DOCUMENT_ROOT
+           dns:
+               - 10.10.100.72
+           dns_search:
+              - idealinvest.local
+           networks:
+               idealinvest-network:
+                   ipv4_address: 172.18.1.4
+       api_apartada:
+           volumes:
+               - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
+           container_name: api_apartada
+           image: kaioidealinvest/php5.3
+           extra_hosts:
+               - "$APIAPARTADA_URL:127.0.0.1"
+           environment:
+               - VOLUME=$APIAPARTADA_DOCKER
+               - SITE_HOST=$APIAPARTADA_URL
+               - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
+           dns:
+               - 10.10.100.72
+           dns_search:
+              - idealinvest.local
+           networks:
+               idealinvest-network:
+                   ipv4_address: 172.18.1.5
+       creditscore:
+           volumes:
+               - $CREDITSCORE_LOCAL:$CREDITSCORE_DOCKER
+           build:
+               dockerfile: ./DockerFiles/CreditScore/Dockerfile
+               context: .
+           container_name: creditscore
+           image: kaioidealinvest/php7.1
+           extra_hosts:
+               - "$CREDITSCORE_URL:127.0.0.1"
+           dns:
+               - 10.10.100.72
+           environment:
+               - VOLUME=$CREDITSCORE_DOCKER
+               - SITE_HOST=$CREDITSCORE_URL
+               - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
+           dns_search:
+              - idealinvest.local
+           networks:
+               idealinvest-network:
+                   ipv4_address: 172.18.1.6
     mongo_db:
         build: 
             dockerfile: ./DockerFiles/MongoDB/Dockerfile

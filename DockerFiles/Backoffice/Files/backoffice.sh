@@ -4,7 +4,12 @@ setup_backoffice()
 {
     cd $BACKOFFICE_LOCAL
     docker run --rm -v $BACKOFFICE_LOCAL/:/app kaioidealinvest/composer:php7.1 install
-    cp sample.env .env
+    if [ -f ".env" ]
+    then
+        echo "\nArquivo $(pwd)/.env já existe."
+    else
+        cp sample.env .env
+    fi
     OLD_DB=$(grep -E "db.default.host=(.*)" .env | sed -n 's/^db.default.host=*//p' .env)
     sed -i -e "s/$OLD_DB/$DATABASE/g" .env
     OLD_PORT=$(grep -E "db.default.port=(.*)" .env | sed -n 's/^db.default.port=*//p' .env)
@@ -16,14 +21,39 @@ setup_backoffice()
     OLD_HOSTPORTAL=$(grep -E "portal.domain=(.*)" .env | sed -n 's/^portal.domain=*//p' .env)
     sed -i -E "s/portal.domain=(.*)/portal.domain=$PORTALPRAVALER_URL/g" .env
     cd html/portal/pravaler/
-    mkdir log
+    if [ -d "log" ]
+    then
+        echo "\nDiretório $(pwd)/log já existe."
+    else
+        mkdir log
+    fi
     cd backoffice/
-    mkdir cnab
+     if [ -d "cnab" ]
+    then
+        echo "\nDiretório $(pwd)/cnab já existe."
+    else
+        mkdir cnab
+    fi
     cd cnab
-    mkdir bancos
+    if [ -d "bancos" ]
+    then
+        echo "\nDiretório $(pwd)/bancos já existe."
+    else
+        mkdir bancos
+    fi
     cd bancos
-    mkdir db
+    if [ -d "db" ]
+    then
+        echo "\nDiretório $(pwd)/db já existe."
+    else
+        mkdir db
+    fi
     cd $BACKOFFICE_LOCAL
-    mkdir xdebug-profile-logs
+    if [ -d "xdebug-profile-logs" ]
+    then
+        echo "\nDiretório $(pwd)/xdebug-profile-logs já existe."
+    else
+        mkdir xdebug-profile-logs
+    fi
     chmod 777 -R .
 }

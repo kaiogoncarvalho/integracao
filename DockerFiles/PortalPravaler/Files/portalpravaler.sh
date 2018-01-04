@@ -13,7 +13,12 @@ setup_portal_pravaler()
     chmod -R 777 app/storage
     chmod -R 777 vendor
     chmod 777 composer.lock
-    mkdir xdebug-profile-logs
+    if [ -d "xdebug-profile-logs" ]
+    then
+        echo "Diretório $(pwd)/xdebug-profile-logs já existe."
+    else
+        mkdir xdebug-profile-logs
+    fi
     chmod 777 -R xdebug-profile-logs/
 }
 

@@ -5,8 +5,18 @@ setup_api_apartada()
     cd $APIAPARTADA_LOCAL
     chmod 777 -R html
     cd html/portal/pravaler_v2/api/app
-    mkdir log
+    if [ -d "log" ]
+    then
+        echo "\nDiretório $(pwd)/log já existe."
+    else
+        mkdir log
+    fi
     cd $APIAPARTADA_LOCAL
-    mkdir xdebug-profile-logs
+    if [ -d "xdebug-profile-logs" ]
+    then
+        echo "\nDiretório $(pwd)/xdebug-profile-logs já existe."
+    else
+        mkdir xdebug-profile-logs
+    fi
     chmod 777 -R $APIAPARTADA_LOCAL
 }

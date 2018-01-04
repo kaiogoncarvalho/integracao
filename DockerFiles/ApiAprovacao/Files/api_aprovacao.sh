@@ -13,6 +13,11 @@ setup_api_aprovacao()
     cp serasa.example.php serasa.php
     chmod 777 serasa.php
     cd $APIAPROVACAO_LOCAL
-    mkdir xdebug-profile-logs
+    if [ -d "xdebug-profile-logs" ]
+    then
+        echo "\nDiretório $(pwd)/xdebug-profile-logs já existe."
+    else
+        mkdir xdebug-profile-logs
+    fi
     chmod 777 -R xdebug-profile-logs/
 }

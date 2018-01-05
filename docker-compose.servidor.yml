@@ -20,6 +20,7 @@ services:
            - idealinvest.local
         ports:
             - "80:80"
+            - "9000:9000"
         depends_on:
           - backoffice
           - portal_pravaler

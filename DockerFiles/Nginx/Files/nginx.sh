@@ -23,7 +23,7 @@ server()
         \n\t listen 9000;
         \n\n\t server_name  $1;
         \n\n\t location / {
-        \n\t\t proxy_pass http://$2/;
+        \n\t\t proxy_pass http://$2:9000/;
         \n\t\t proxy_http_version 1.1;
         \n\t\t proxy_set_header Upgrade \$http_upgrade;
         \n\t\t proxy_set_header Connection 'upgrade';

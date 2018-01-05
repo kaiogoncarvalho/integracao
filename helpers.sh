@@ -3,18 +3,21 @@
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
-  [ -d $1 ]
+  DIRECTORY=$1
+  [ -d $DIRECTORY ]
 }
 
 # função isNotEmptyDirectory: verifica se o primeiro parâmetro passado na instancialização da função não é um diretório vazio
 isNotEmptyDirectory() {
-  [ "$(ls -A $1)" ]
+  DIRECTORY=$1
+  [ "$(ls -A $DIRECTORY)" ]
 }
 
 # função isValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
 isValidRepository() {
-  if isValidDirectory $1; then
-    if isNotEmptyDirectory $1; then
+  DIRECTORY=$1
+  if isValidDirectory $DIRECTORY; then
+    if isNotEmptyDirectory $DIRECTORY; then
       true
     else
       false
@@ -29,32 +32,43 @@ lineDelimiter() {
   echo "+---------------"
 }
 
-# função printHeader: imprime o header padrão das saidas aplicação
-printHeader() {
-  lineDelimiter
-  echo "| ${1}"
-  lineDelimiter
-}
-
 # função printLine: imprime uma linha na formatação padrão das saidas da aplicaçãoq
 printLine() {
-  echo "| ${1}"
+  MESSAGE=$1
+  echo "| ${MESSAGE}"
 }
 
-# função printPopup: imprime um popup
-printPopup() {
-  size=${#1}
-  i=-3
-  while [ $i -le $size ]; do
-    echo -n "#"
+# função printInBar: imprime um popup
+printInBar() {
+  MESSAGE=$1
+  MESSAGE_SIZE=${#MESSAGE}
+  i=-1
+  echo -n "+"
+  while [ $i -le $MESSAGE_SIZE ]; do
+    echo -n "-"
     i=$((i+1))
   done
+  echo -n "+"
   echo -e
-  echo "# $1 #"
-  j=-3
-  while [ $j -le $size ]; do
-    echo -n "#"
+  echo "| ${MESSAGE} |"
+  echo -n "+"
+  j=-1
+  while [ $j -le $MESSAGE_SIZE ]; do
+    echo -n "-"
     j=$((j+1))
   done
+  echo -n "+"
   echo -e
+}
+
+# função performSetup: inicia a execução do setup de um projeto
+performSetup() {
+  METHOD=$1
+  DIR=$2
+  if isValidRepository $DIR; then
+    printInBar "Configurando o ${PROJECT} em '${DIR}'"
+    $METHOD $DIR
+  else
+    printInBar "ERRO: O diretório informado não é válido!"
+  fi
 }

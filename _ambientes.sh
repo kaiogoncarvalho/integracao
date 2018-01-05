@@ -8,94 +8,118 @@ HELPERS=helpers.sh
 INTEGRACAO_DIR=$(pwd)
 
 #Variáveis do ENV
-ENV=./.env
+# ENV=./.env
+# . $ENV
+
 # Configuração da Api Apartada
 APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
+. $APIAPARTADA_SH
+
 # Configuração da Api de Aprovação
 APIAPROVACAO_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
+. $APIAPROVACAO_SH
+
 # Configuração do Backoffice
 BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
+. $BACKOFFICE_SH
+
 # Configuração do CreditScore
 CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
+. $CREDITSCORE_SH
+
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
-
-. $ENV
-. $APIAPROVACAO_SH
-. $APIAPARTADA_SH
-. $BACKOFFICE_SH
-. $CREDITSCORE_SH
 . $PORTALPRAVALER_SH
 
 # Inicializa as funções de configuração dos projetos
 main() {
   while true;
   do
-    printHeader "CONFIGURAÇÃO DE PROJETOS - IDEAL INVEST"
-    printLine "  1 - Instalar ambientes"
-    printLine "    1.1 - Backoffice"
-    printLine "    1.2 - Portal Pravaler"
-    printLine "    1.3 - Credit Score"
-    printLine "    1.4 - API Apartada"
-    printLine "    1.5 - API Aprovação"
-    printLine "  0 - Sair"
-    lineDelimiter
+    printInBar "CONFIGURAÇÃO DE PROJETOS - IDEAL INVEST"
+    printLine "1 - Instalar ambientes"
+    printLine "  1.1 - Backoffice"
+    printLine "  1.2 - Portal Pravaler"
+    printLine "  1.3 - Credit Score"
+    printLine "  1.4 - API Apartada"
+    printLine "  1.5 - API Aprovação"
+    printInBar "0 - Sair"
     read -p "| Informe a opção desejada >_ " OPTION
     lineDelimiter
     case $OPTION in
       0) clear
-        printPopup "Execução finalizada!"
+        printInBar "Execução finalizada!"
         exit
       ;;
       1) clear
-        printPopup "Instalando TODOS os projetos"
+        printInBar "Instalando TODOS os projetos"
+        # performSetup "func" "TESTE"
       ;;
       "1.1") clear
-        if isValidRepository $BACKOFFICE_LOCAL; then
-          printPopup "Configurando o Backoffice"
-          setup_backoffice
-        else
-          printPopup "ERRO: O diretório informado não é válido!"
-        fi
+        lineDelimiter
+        read -p "| Informe o diretório de instalação do Backoffice >_ " BACKOFFICE_LOCAL
+        lineDelimiter
+        # if isValidRepository $BACKOFFICE_LOCAL; then
+        #   printInBar "Configurando o Backoffice em '${BACKOFFICE_LOCAL}'"
+        #   # setup_backoffice
+        # else
+        #   printInBar "ERRO: O diretório informado não é válido!"
+        # fi
+        performSetup "setup_backoffice" BACKOFFICE_LOCAL
       ;;
       "1.2") clear
-        if isValidRepository $PORTALPRAVALER_LOCAL; then
-          printPopup "Instalando o Portal Pravaler"
-          setup_portal_pravaler
-        else
-          printPopup "ERRO: O diretório informado não é válido!"
-        fi
+        lineDelimiter
+        read -p "| Informe o diretório de instalação do Portal Pravaler >_ " PORTALPRAVALER_LOCAL
+        lineDelimiter
+        # if isValidRepository $PORTALPRAVALER_LOCAL; then
+        #   printInBar "Instalando o Portal Pravaler em '${PORTALPRAVALER_LOCAL}'"
+        #   # setup_portal_pravaler
+        # else
+        #   printInBar "ERRO: O diretório informado não é válido!"
+        # fi
+        performSetup "setup_portal_pravaler" PORTALPRAVALER_LOCAL
       ;;
       "1.3") clear
-        if isValidRepository $CREDITSCORE_LOCAL; then
-          printPopup "Instalando o Credit Score"
-          setup_credit_score
-        else
-          printPopup "ERRO: O diretório informado não é válido!"
-        fi
+        lineDelimiter
+        read -p "| Informe o diretório de instalação do Credit Score >_ " CREDITSCORE_LOCAL
+        lineDelimiter
+        # if isValidRepository $CREDITSCORE_LOCAL; then
+        #   printInBar "Instalando o Credit Score em '${CREDITSCORE_LOCAL}'"
+        #   # setup_credit_score
+        # else
+        #   printInBar "ERRO: O diretório informado não é válido!"
+        # fi
+        performSetup "setup_credit_score" CREDITSCORE_LOCAL
       ;;
       "1.4") clear
-        if isValidRepository $APIAPARTADA_LOCAL; then
-          printPopup "Instalando a API Apartada"
-          setup_api_apartada
-        else
-          printPopup "ERRO: O diretório informado não é válido!"
-        fi
+        lineDelimiter
+        read -p "| Informe o diretório de instalação do API Apartada >_ " APIAPARTADA_LOCAL
+        lineDelimiter
+        # if isValidRepository $APIAPARTADA_LOCAL; then
+        #   printInBar "Instalando a API Apartada em '${APIAPARTADA_LOCAL}'"
+        #   # setup_api_apartada
+        # else
+        #   printInBar "ERRO: O diretório informado não é válido!"
+        # fi
+        performSetup "setup_api_apartada" APIAPARTADA_LOCAL
       ;;
       "1.5") clear
-        if isValidRepository $APIAPROVACAO_LOCAL; then
-          printPopup "Instalando a API Aprovação"
-          setup_api_aprovacao
-        else
-          printPopup "ERRO: O diretório informado não é válido!"
-        fi
+        lineDelimiter
+        read -p "| Informe o diretório de instalação do API Aprovação >_ " APIAPROVACAO_LOCAL
+        lineDelimiter
+        # if isValidRepository $APIAPROVACAO_LOCAL; then
+        #   printInBar "Instalando a API Aprovação em '${APIAPROVACAO_LOCAL}'"
+        #   # setup_api_aprovacao
+        # else
+        #   printInBar "ERRO: O diretório informado não é válido!"
+        # fi
+        performSetup "setup_api_aprovacao" APIAPROVACAO_LOCAL
       ;;
       *) clear
-        printPopup "Opção inválida!"
+        printInBar "Opção inválida!"
       ;;
     esac
     clear
-    printPopup "Fim da operação."
+    printInBar "Fim da operação."
     echo -e
   done
 }

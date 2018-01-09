@@ -54,7 +54,21 @@ Criar o ambiente de todos os Sistemas de uma vez
     * Acessar o .env do Repositório de Integração
     * Altera a propriedade **BACKOFFICE_LOCAL** para o **caminho completo do repositório do Backoffice**
 
-        
+## CDN
+1. Fazer o clone do repositório do CDN:
+    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
+    usar o seguinte comando:
+         * `git clone http://[usuario]:[senha]@10.10.100.75/CDN/CDN.git`
+         * Se a senha ou usuario tiver caracteres especiais, 
+         procurar o código do caractere, 
+         por exemplo para o caractere **@** usa-se **%40**
+    * Caso não queira, usar esse comando:     
+        * `git clone http://10.10.100.75/CDN/CDN.git`
+2. Alterar o caminho do CDN dentro do .env do Repositório de Integração
+    * Acessar o .env do repositório de Integração
+    * Altera a propriedade **CDN_LOCAL** para o **caminho completo do repositório do CDN**        
+  
+            
         
 ## Portal Pravaler
 1. Fazer o clone do repositório do Portal Pravaler:

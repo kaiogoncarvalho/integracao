@@ -3,21 +3,18 @@
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
-  DIRECTORY=$1
-  [ -d $DIRECTORY ]
+  [ -d $1 ]
 }
 
 # função isNotEmptyDirectory: verifica se o primeiro parâmetro passado na instancialização da função não é um diretório vazio
 isNotEmptyDirectory() {
-  DIRECTORY=$1
-  [ "$(ls -A $DIRECTORY)" ]
+  [ "$(ls -A $1)" ]
 }
 
 # função isValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
 isValidRepository() {
-  DIRECTORY=$1
-  if isValidDirectory $DIRECTORY; then
-    if isNotEmptyDirectory $DIRECTORY; then
+  if isValidDirectory $1; then
+    if isNotEmptyDirectory $1; then
       true
     else
       false
@@ -32,43 +29,32 @@ lineDelimiter() {
   echo "+---------------"
 }
 
-# função printLine: imprime uma linha na formatação padrão das saidas da aplicaçãoq
-printLine() {
-  MESSAGE=$1
-  echo "| ${MESSAGE}"
+# função printHeader: imprime o header padrão das saidas aplicação
+printHeader() {
+  lineDelimiter
+  echo "| ${1}"
+  lineDelimiter
 }
 
-# função printInBar: imprime um popup
-printInBar() {
-  MESSAGE=$1
-  MESSAGE_SIZE=${#MESSAGE}
-  i=-1
-  echo -n "+"
-  while [ $i -le $MESSAGE_SIZE ]; do
-    echo -n "-"
+# função printLine: imprime uma linha na formatação padrão das saidas da aplicação
+printLine() {
+  echo "| ${1}"
+}
+
+# função printPopup: imprime um popup
+printPopup() {
+  size=${#1}
+  i=-3
+  while [ $i -le $size ]; do
+    echo -n "#"
     i=$((i+1))
   done
-  echo -n "+"
   echo -e
-  echo "| ${MESSAGE} |"
-  echo -n "+"
-  j=-1
-  while [ $j -le $MESSAGE_SIZE ]; do
-    echo -n "-"
+  echo "# $1 #"
+  j=-3
+  while [ $j -le $size ]; do
+    echo -n "#"
     j=$((j+1))
   done
-  echo -n "+"
   echo -e
-}
-
-# função performSetup: inicia a execução do setup de um projeto
-performSetup() {
-  METHOD=$1
-  DIR=$2
-  if isValidRepository $DIR; then
-    printInBar "Configurando o ${PROJECT} em '${DIR}'"
-    $METHOD $DIR
-  else
-    printInBar "ERRO: O diretório informado não é válido!"
-  fi
 }

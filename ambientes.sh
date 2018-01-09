@@ -15,7 +15,7 @@ CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
 # Configuração do CDN
-CDN_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
+CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 
 
 . $ENV

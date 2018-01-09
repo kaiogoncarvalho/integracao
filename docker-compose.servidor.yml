@@ -38,6 +38,7 @@ services:
     backoffice:
         volumes:
             - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
+            - $CDN_LOCAL:$CDN_DOCKER
         build:
             dockerfile: ./DockerFiles/Backoffice/Dockerfile
             context: .
@@ -56,6 +57,7 @@ services:
             - SITE_HOST=$BACKOFFICE_URL
             - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
             - VOLUME=$BACKOFFICE_DOCKER
+            - CDN=$CDN_DOCKER
             - API_HOST=$BACKOFFICE_API_URL
             - API_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
         networks:

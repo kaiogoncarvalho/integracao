@@ -14,6 +14,8 @@ BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
 CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
+# Configuração do CDN
+CDN_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
 
 
 . $ENV
@@ -22,6 +24,7 @@ PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
 . $BACKOFFICE_SH
 . $CREDITSCORE_SH
 . $PORTALPRAVALER_SH
+. $CDN_SH
 
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
@@ -69,6 +72,13 @@ main() {
     setup_backoffice
   else
     echo "\nRepositório do Backoffice não foi encontrado.\n"
+  fi
+
+  if isValidRepository $CDN_LOCAL; then
+    echo "\nComeçando configuração do CDN:\n"
+    setup_credit_score
+  else
+    echo "\nRepositório do CDN não foi encontrado.\n"
   fi
 
   if isValidRepository $CREDITSCORE_LOCAL; then

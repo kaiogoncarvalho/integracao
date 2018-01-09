@@ -76,7 +76,7 @@ main() {
 
   if isValidRepository $CDN_LOCAL; then
     echo "\nComeçando configuração do CDN:\n"
-    setup_credit_score
+    setup_cdn
   else
     echo "\nRepositório do CDN não foi encontrado.\n"
   fi

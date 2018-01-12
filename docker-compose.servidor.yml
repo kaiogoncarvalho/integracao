@@ -73,6 +73,7 @@ services:
             - "$BACKOFFICE_URL:172.18.1.2"
             - "$BACKOFFICE_API_URL:172.18.1.2"
             - "$APIAPARTADA_URL:172.18.1.5"
+            - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
         dns:
             - 10.10.100.72
         dns_search:
@@ -94,6 +95,7 @@ services:
         extra_hosts:
             - "$APIAPROVACAO_URL:127.0.0.1"
         environment:
+            - VOLUME=$APIAPROVACAO_DOCKER
             - SITE_HOST=$APIAPROVACAO_URL
             - SITE_DOCUMENT_ROOT=$APIAPROVACAO_DOCUMENT_ROOT
         dns:

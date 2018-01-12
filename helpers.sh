@@ -11,11 +11,21 @@ isNotEmptyDirectory() {
   [ "$(ls -A $1)" ]
 }
 
+# função isEmptyVariable: verifica se a váriavel existe
+isEmptyVariable() {
+  [ -z $1 ]
+}
+
+
 # função isValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
 isValidRepository() {
   if isValidDirectory $1; then
     if isNotEmptyDirectory $1; then
-      true
+        if isEmptyVariable $1; then
+         false
+        else
+         true
+        fi
     else
       false
     fi

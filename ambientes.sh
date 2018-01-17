@@ -14,6 +14,8 @@ BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
 CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
+# Configuração da Nova Proposta - Backend
+NOVAPROPOSTABACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
 # Configuração do CDN
 CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 

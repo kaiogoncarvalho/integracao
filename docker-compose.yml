@@ -22,10 +22,6 @@ services:
            - "$BACKOFFICE_API_URL:127.0.0.1"
            - "$APIAPROVACAO_URL:172.18.1.4"
            - "$APIAPARTADA_URL:172.18.1.5"
-       dns:
-           - 10.10.100.72
-       dns_search:
-          - idealinvest.local
        environment:
            - SITE_HOST=$BACKOFFICE_URL
            - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
@@ -47,10 +43,6 @@ services:
            - "$BACKOFFICE_API_URL:172.18.1.2"
            - "$APIAPARTADA_URL:172.18.1.5"
            - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
-       dns:
-           - 10.10.100.72
-       dns_search:
-          - idealinvest.local
        depends_on:
          - backoffice
        networks:
@@ -71,10 +63,6 @@ services:
            - VOLUME=$APIAPROVACAO_DOCKER
            - SITE_HOST=$APIAPROVACAO_URL
            - SITE_DOCUMENT_ROOT=$APIAPROVACAO_DOCUMENT_ROOT
-       dns:
-           - 10.10.100.72
-       dns_search:
-          - idealinvest.local
        networks:
            idealinvest-network:
                ipv4_address: 172.18.1.4
@@ -89,10 +77,6 @@ services:
            - VOLUME=$APIAPARTADA_DOCKER
            - SITE_HOST=$APIAPARTADA_URL
            - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
-       dns:
-           - 10.10.100.72
-       dns_search:
-          - idealinvest.local
        networks:
            idealinvest-network:
                ipv4_address: 172.18.1.5
@@ -106,27 +90,22 @@ services:
        image: kaioidealinvest/php7.1
        extra_hosts:
            - "$CREDITSCORE_URL:127.0.0.1"
-       dns:
-           - 10.10.100.72
        environment:
            - VOLUME=$CREDITSCORE_DOCKER
            - SITE_HOST=$CREDITSCORE_URL
            - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
-       dns_search:
-          - idealinvest.local
        networks:
            idealinvest-network:
                    ipv4_address: 172.18.1.6
    mongo_db:
-       build:
-           dockerfile: ./DockerFiles/MongoDB/Dockerfile
-           context: .
-       container_name: mongo_db
-       image: idealinvest/mongo_db
-       dns:
-          - 10.10.100.72
-       dns_search:
-         - idealinvest.local
-       networks:
+      image: mongo:latest
+      container_name: "mongo_db"
+      environment:
+          - MONGO_DATA_DIR=/data/db
+          - MONGO_LOG_DIR=/dev/null
+      volumes:
+           - ./data/db:/data/db
+      command: mongod --smallfiles --logpath=/dev/null # --quiet
+      networks:
           idealinvest-network:
               ipv4_address: 172.18.1.7

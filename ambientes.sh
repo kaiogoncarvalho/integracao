@@ -15,7 +15,7 @@ CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
 # Configuração da Nova Proposta - Backend
-NOVAPROPOSTABACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
+NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
 # Configuração do CDN
 CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 
@@ -27,6 +27,7 @@ CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 . $CREDITSCORE_SH
 . $PORTALPRAVALER_SH
 . $CDN_SH
+. $NOVAPROPOSTA_BACKEND_SH
 
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
@@ -66,44 +67,51 @@ main() {
 
   if isValidRepository $APIAPROVACAO_LOCAL; then
     echo "\nComeçando configuração da Api de Aprovação:\n"
-    setup_api_aprovacao
+    #setup_api_aprovacao
   else
     echo "\nRepositório da Api de Aprovação não foi encontrado.\n"
   fi
 
   if isValidRepository $APIAPARTADA_LOCAL; then
     echo "\nComeçando configuração da Api Apartada:\n"
-    setup_api_apartada
+    #setup_api_apartada
   else
     echo "\nRepositório da Api Apartada não foi encontrado.\n"
   fi
 
   if isValidRepository $BACKOFFICE_LOCAL; then
     echo "\nComeçando configuração do Backoffice:\n"
-   setup_backoffice
+   #setup_backoffice
   else
     echo "\nRepositório do Backoffice não foi encontrado.\n"
   fi
 
   if isValidRepository $CDN_LOCAL; then
     echo "\nComeçando configuração do CDN:\n"
-    setup_cdn
+    #setup_cdn
   else
     echo "\nRepositório do CDN não foi encontrado.\n"
   fi
 
   if isValidRepository $CREDITSCORE_LOCAL; then
     echo "\nComeçando configuração do CreditScore:\n"
-    setup_credit_score
+    #setup_credit_score
   else
     echo "\nRepositório do CreditScore não foi encontrado.\n"
   fi
 
   if isValidRepository $PORTALPRAVALER_LOCAL; then
     echo "\nComeçando configuração do Portal Pravaler:\n"
-    setup_portal_pravaler
+    #setup_portal_pravaler
   else
     echo "\nRepositório do Portal Pravaler não foi encontrado.\n"
+  fi
+
+  if isValidRepository $NOVAPROPOSTA_BACKEND_LOCAL; then
+    echo "\nComeçando configuração da Nova Proposta Backend:\n"
+    setup_nova_proposta_backend
+  else
+    echo "\nRepositório do Nova Proposta Backend não foi encontrado.\n"
   fi
 
 }

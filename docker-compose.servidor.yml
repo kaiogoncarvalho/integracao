@@ -164,11 +164,16 @@ services:
             idealinvest-network:
                 ipv4_address: 172.18.1.9
     mongo_db:
-        build: 
-            dockerfile: ./DockerFiles/MongoDB/Dockerfile
-            context: .
-        container_name: mongo_db
-        image: idealinvest/mongo_db
+        image: mongo:latest
+        container_name: "mongo_db"
+        environment:
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
+        volumes:
+            - ./data/db:/data/db
+        ports:
+            - 27017:27017
+        command: mongod --smallfiles --logpath=/dev/null # --quiet
         dns:
             - 10.10.100.72
         dns_search:

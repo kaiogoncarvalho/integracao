@@ -146,7 +146,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * `docker-compose up -d`
 4. Agora somente é necessário subir os containers quando necessário:
     * Acessar a pasta do repositório da Integração;
-    * Subir os containers:
+    * Subir os containers de todos os projetos:
         * `docker-compose up -d`
     * Parar os containers:
         * `docker-compose stop`
@@ -154,7 +154,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * Caso Queira subir somente o Backoffice:
             * `docker-compose up -d backoffice`
         * Caso Queira subir somente o Portal Pravaler + Backoffice:
-            * `docker-compose up -d portalpravaler`
+            * `docker-compose up -d portal_pravaler`
         * Caso Queira subir somente o API de Aprovação:
             * `docker-compose up -d api_aprovacao`    
         * Caso Queira subir somente o API Apartada:

@@ -14,14 +14,14 @@ setup_nova_proposta_backend()
     docker run --rm -v $NOVAPROPOSTA_BACKEND_LOCAL/:/app kaioidealinvest/node_modules:4 npm install
 
     sed -i -E "s/APP_URL=(.*)/APP_URL=$NOVAPROPOSTA_BACKEND_URL/g" .env
-    sed -i -E "s/DB_HOST=(.*)/DB_HOST=mongo_db/g" .env
+    sed -i -E "s/DB_HOST=(.*)/DB_HOST=mongo_de/g" .env
     sed -i -E "s/RABBITMQ_HOST=(.*)/RABBITMQ_HOST=rabbit_mq/g" .env
     sed -i -E "s/DB_BO_HOST=(.*)/DB_BO_HOST=$DB_HOST/g" .env
     sed -i -E "s/DB_BO_PORT=(.*)/DB_BO_PORT=$DB_PORT/g" .env
     sed -i -E "s/DB_BO_DATABASE=(.*)/DB_BO_DATABASE=$DB_DATABASE/g" .env
     sed -i -E "s/DB_BO_USERNAME=(.*)/DB_BO_USERNAME=$DB_USER/g" .env
     sed -i -E "s/DB_BO_PASSWORD=(.*)/DB_BO_PASSWORD=$DB_PASSWORD/g" .env
-    sed -i -E "s/API_URL=(.*)/API_URL=$BACKOFFICE_API_URL/g" .env
+    sed -i -E "s/API_URL=(.*)/API_URL=$APIAPARTADA_URL/g" .env
     sed -i -E "s/BO_URL=(.*)/BO_URL=$BACKOFFICE_URL/g" .env
 
     if [ -d "xdebug-profile-logs" ]

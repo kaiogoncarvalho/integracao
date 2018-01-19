@@ -8,5 +8,4 @@
 out
 gen
 .env
-docker-compose.local.yml
 DockerFiles/Nginx/Files/default.conf

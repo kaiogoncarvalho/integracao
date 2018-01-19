@@ -70,7 +70,7 @@ services:
        volumes:
            - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
        container_name: api_apartada
-       image: kaioidealinvest/php5.3
+       image: kaioidealinvest/php5.6
        extra_hosts:
            - "$APIAPARTADA_URL:127.0.0.1"
        environment:

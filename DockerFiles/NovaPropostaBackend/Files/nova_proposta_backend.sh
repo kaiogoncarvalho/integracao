@@ -14,7 +14,7 @@ setup_nova_proposta_backend()
     docker run --rm -v $NOVAPROPOSTA_BACKEND_LOCAL/:/app kaioidealinvest/node_modules:4 npm install
 
     sed -i -E "s/APP_URL=(.*)/APP_URL=$NOVAPROPOSTA_BACKEND_URL/g" .env
-    sed -i -E "s/DB_HOST=(.*)/DB_HOST=mongo_de/g" .env
+    sed -i -E "s/DB_HOST=(.*)/DB_HOST=mongo_db/g" .env
     sed -i -E "s/RABBITMQ_HOST=(.*)/RABBITMQ_HOST=rabbit_mq/g" .env
     sed -i -E "s/DB_BO_HOST=(.*)/DB_BO_HOST=$DB_HOST/g" .env
     sed -i -E "s/DB_BO_PORT=(.*)/DB_BO_PORT=$DB_PORT/g" .env
@@ -31,4 +31,9 @@ setup_nova_proposta_backend()
         mkdir xdebug-profile-logs
     fi
     chmod 777 -R .
+
+    cd $INTEGRACAO_DIR
+
+    docker-compose up -d nova_proposta_backend
+
 }

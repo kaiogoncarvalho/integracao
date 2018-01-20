@@ -7,7 +7,7 @@ ENV=./.env
 # Configuração da Api Apartada
 APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
 # Configuração da Api de Aprovação
-APIAPROVACAO_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
+APIPRAVALER_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
 # Configuração do Backoffice
 BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
 # Configuração do CreditScore
@@ -21,7 +21,7 @@ CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 
 
 . $ENV
-. $APIAPROVACAO_SH
+. $APIPRAVALER_SH
 . $APIAPARTADA_SH
 . $BACKOFFICE_SH
 . $CREDITSCORE_SH
@@ -65,23 +65,23 @@ isValidRepository() {
 # Inicializa as funções de configuração dos projetos
 main() {
 
-  if isValidRepository $APIAPROVACAO_LOCAL; then
-    echo "\nComeçando configuração da Api de Aprovação:\n"
-    #setup_api_aprovacao
+  if isValidRepository $APIPRAVALER_LOCAL; then
+    echo "\nComeçando configuração da Api Pravaler:\n"
+    setup_api_aprovacao
   else
-    echo "\nRepositório da Api de Aprovação não foi encontrado.\n"
+    echo "\nRepositório da Api Pravaler não foi encontrado.\n"
   fi
 
   if isValidRepository $APIAPARTADA_LOCAL; then
     echo "\nComeçando configuração da Api Apartada:\n"
-    #setup_api_apartada
+    setup_api_apartada
   else
     echo "\nRepositório da Api Apartada não foi encontrado.\n"
   fi
 
   if isValidRepository $BACKOFFICE_LOCAL; then
     echo "\nComeçando configuração do Backoffice:\n"
-   #setup_backoffice
+   setup_backoffice
   else
     echo "\nRepositório do Backoffice não foi encontrado.\n"
   fi
@@ -95,14 +95,14 @@ main() {
 
   if isValidRepository $CREDITSCORE_LOCAL; then
     echo "\nComeçando configuração do CreditScore:\n"
-    #setup_credit_score
+    setup_credit_score
   else
     echo "\nRepositório do CreditScore não foi encontrado.\n"
   fi
 
   if isValidRepository $PORTALPRAVALER_LOCAL; then
     echo "\nComeçando configuração do Portal Pravaler:\n"
-    #setup_portal_pravaler
+    setup_portal_pravaler
   else
     echo "\nRepositório do Portal Pravaler não foi encontrado.\n"
   fi

@@ -48,7 +48,7 @@ setup_nginx()
     server $BACKOFFICE_LOCAL $BACKOFFICE_URL backoffice
     server $BACKOFFICE_LOCAL $BACKOFFICE_API_URL backoffice
     server $PORTALPRAVALER_LOCAL $PORTALPRAVALER_URL portal_pravaler
-    server $APIAPROVACAO_LOCAL $APIAPROVACAO_URL api_aprovacao
+    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_aprovacao
     server $APIAPARTADA_LOCAL $APIAPARTADA_URL api_apartada
     server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore
     server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento

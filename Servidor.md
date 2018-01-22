@@ -89,7 +89,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * `git clone http://10.10.100.75/pravaler/api-pravaler.git`
 2. Alterar o caminho da Api de Aprovação dentro do ENV
     * Acessar o .env do repositório do Servidor
-    * Altera a propriedade APIAPROVACAO_LOCAL para o caminho do repositório da Api da Aprovação         
+    * Altera a propriedade APIPRAVALER_LOCAL para o caminho do repositório da Api da Aprovação         
 3. Executar script de configuração da Api de Aprovação:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiAprovacao/Files`;
     * Executar o script de configuração da Api de Aprovação:

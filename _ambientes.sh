@@ -16,8 +16,8 @@ APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
 . $APIAPARTADA_SH
 
 # Configuração da Api de Aprovação
-APIAPROVACAO_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
-. $APIAPROVACAO_SH
+APIPRAVALER_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
+. $APIPRAVALER_SH
 
 # Configuração do Backoffice
 BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
@@ -104,15 +104,15 @@ main() {
       ;;
       "1.5") clear
         lineDelimiter
-        read -p "| Informe o diretório de instalação do API Aprovação >_ " APIAPROVACAO_LOCAL
+        read -p "| Informe o diretório de instalação do API Aprovação >_ " APIPRAVALER_LOCAL
         lineDelimiter
-        # if isValidRepository $APIAPROVACAO_LOCAL; then
-        #   printInBar "Instalando a API Aprovação em '${APIAPROVACAO_LOCAL}'"
+        # if isValidRepository $APIPRAVALER_LOCAL; then
+        #   printInBar "Instalando a API Aprovação em '${APIPRAVALER_LOCAL}'"
         #   # setup_api_aprovacao
         # else
         #   printInBar "ERRO: O diretório informado não é válido!"
         # fi
-        performSetup "setup_api_aprovacao" APIAPROVACAO_LOCAL
+        performSetup "setup_api_aprovacao" APIPRAVALER_LOCAL
       ;;
       *) clear
         printInBar "Opção inválida!"

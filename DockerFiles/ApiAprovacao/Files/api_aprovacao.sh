@@ -2,8 +2,8 @@
 
 setup_api_aprovacao()
 {
-    docker run --rm -v $APIAPROVACAO_LOCAL/:/app kaioidealinvest/composer:php7.1 install
-    cd $APIAPROVACAO_LOCAL
+    docker run --rm -v $APIPRAVALER_LOCAL/:/app kaioidealinvest/composer:php7.1 install
+    cd $APIPRAVALER_LOCAL
     chmod 777 -R vendor/
     cd config/
     cp database.example.php database.php
@@ -12,7 +12,7 @@ setup_api_aprovacao()
     sed -i -E "s/''/'123456'/g" database.php
     cp serasa.example.php serasa.php
     chmod 777 serasa.php
-    cd $APIAPROVACAO_LOCAL
+    cd $APIPRAVALER_LOCAL
     if [ -d "xdebug-profile-logs" ]
     then
         echo "\nDiretório $(pwd)/xdebug-profile-logs já existe."

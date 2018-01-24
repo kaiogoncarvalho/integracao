@@ -20,11 +20,15 @@ server()
             \n\t }
             \n }
 
+            \n upstream $3_xdebug{
+            \n\t server http://$4:9000
+            }
+
             \n server {
             \n\t listen 9000;
             \n\n\t server_name  $2;
             \n\n\t location / {
-            \n\t\t proxy_pass http://$4:9000/;
+            \n\t\t proxy_pass http://$3_xdebug/;
             \n\t\t proxy_http_version 1.1;
             \n\t\t proxy_set_header Upgrade \$http_upgrade;
             \n\t\t proxy_set_header Connection 'upgrade';

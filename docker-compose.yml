@@ -35,6 +35,8 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $BACKOFFICE_IP
+    expose:
+      - "9000"
   portal_pravaler:
     restart: always
     stdin_open: true

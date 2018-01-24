@@ -20,15 +20,11 @@ server()
             \n\t }
             \n }
 
-            \n\n upstream $3_xdebug {
-            \n\t server http://$4:9000;
-            \n}\n\n
-
             \n server {
             \n\t listen 9000;
             \n\n\t server_name  $2;
             \n\n\t location / {
-            \n\t\t proxy_pass http://$3_xdebug/;
+            \n\t\t proxy_pass http://$3:9000/;
             \n\t\t proxy_http_version 1.1;
             \n\t\t proxy_set_header Upgrade \$http_upgrade;
             \n\t\t proxy_set_header Connection 'upgrade';
@@ -40,7 +36,7 @@ server()
             \n }
 
             ";
-        echo -e $SERVER >> default.conf
+        echo $SERVER >> default.conf
     fi
 }
 
@@ -51,13 +47,13 @@ setup_nginx()
     cd $INTEGRACAO_DIR/$NGINX_DIR
     cp default.example.conf default.conf
     chmod 777 default.conf
-    server $BACKOFFICE_LOCAL $BACKOFFICE_URL backoffice $BACKOFFICE_IP
-    server $BACKOFFICE_LOCAL $BACKOFFICE_API_URL backoffice $BACKOFFICE_IP
-    server $PORTALPRAVALER_LOCAL $PORTALPRAVALER_URL portal_pravaler $BACKOFFICE_IP
-    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_pravaler $BACKOFFICE_IP
-    server $APIAPARTADA_LOCAL $APIAPARTADA_URL api_apartada $BACKOFFICE_IP
-    server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore $BACKOFFICE_IP
-    server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento $BACKOFFICE_IP
+    server $BACKOFFICE_LOCAL $BACKOFFICE_URL backoffice
+    server $BACKOFFICE_LOCAL $BACKOFFICE_API_URL backoffice
+    server $PORTALPRAVALER_LOCAL $PORTALPRAVALER_URL portal_pravaler
+    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_pravaler
+    server $APIAPARTADA_LOCAL $APIAPARTADA_URL api_apartada
+    server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore
+    server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
 
     dockerComposeUp 'nginx'
 }

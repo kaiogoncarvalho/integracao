@@ -160,6 +160,7 @@ services:
     image: idealinvest/nginx
     ports:
       - "80:80"
+      - "9000:9000"
     networks:
       idealinvest-network:
         ipv4_address: $NGINX_IP

@@ -58,6 +58,7 @@ main() {
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then
+        echo -e "\nConfigurando Nginx:\n"
         reloadEnv
         setup_nginx
     fi

@@ -2,58 +2,55 @@
 
 setup_cdn()
 {
-    echo -e "npm install na Raiz do Projeto:\n"
-    docker run --rm -v $CDN_LOCAL:/app kaioidealinvest/node_modules:4 npm install
+    echo -e "\n\tnpm install na Raiz do Projeto:\n"
+    docker run --rm -v $1:/app kaioidealinvest/node_modules:4 npm install
 
-    echo -e "npm install bo-messenger:\n"
-    docker run --rm -v $CDN_LOCAL/bo-messenger:/app kaioidealinvest/node_modules:4 \
-    npm install
-
-    echo -e "bower install bo-messenger:\n"
-    docker run --rm -v $CDN_LOCAL/bo-messenger:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install bo-messenger:\n"
+    docker run --rm -v $1/bo-messenger:/app kaioidealinvest/node_modules:4 \
     bower --allow-root install
 
-    echo -e "npm install no investment-fund:\n"
-    docker run --rm -v $CDN_LOCAL/investment-fund:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tnpm install bo-messenger:\n"
+    docker run --rm -v $1/bo-messenger:/app kaioidealinvest/node_modules:4 \
     npm install
 
-    echo -e "bower install no investment-fund:\n"
-    docker run --rm -v $CDN_LOCAL/investment-fund:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install no investment-fund:\n"
+    docker run --rm -v $1/investment-fund:/app kaioidealinvest/node_modules:4 \
     bower --allow-root install
 
-    echo -e "npm install no negativation:\n"
-    docker run --rm -v $CDN_LOCAL/negativation:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tnpm install no investment-fund:\n"
+    docker run --rm -v $1/investment-fund:/app kaioidealinvest/node_modules:4 \
     npm install
 
-    echo -e "bower install no negativation:\n"
-    docker run --rm -v $CDN_LOCAL/negativation:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install no negativation:\n"
+    docker run --rm -v $1/negativation:/app kaioidealinvest/node_modules:4 \
     bower --allow-root install
 
-    echo -e "npm install no originator-cg:\n"
-    docker run --rm -v $CDN_LOCAL/originator-cg:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tnpm install no negativation:\n"
+    docker run --rm -v $1/negativation:/app kaioidealinvest/node_modules:4 \
     npm install
 
-    echo -e "bower install no originator-cg:\n"
-    docker run --rm -v $CDN_LOCAL/originator-cg:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install no originator-cg:\n"
+    docker run --rm -v $1/originator-cg:/app kaioidealinvest/node_modules:4 \
     bower --allow-root install
 
-    echo -e "npm install no portal:\n"
-    docker run --rm -v $CDN_LOCAL/portal:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tnpm install no originator-cg:\n"
+    docker run --rm -v $1/originator-cg:/app kaioidealinvest/node_modules:4 \
     npm install
 
-    echo -e "bower install no portal:\n"
-    docker run --rm -v $CDN_LOCAL/portal:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install no portal:\n"
+    docker run --rm -v $1/portal:/app kaioidealinvest/node_modules:4 \
     bower --allow-root install
 
-    echo -e "npm install no votorantim:\n"
-    docker run --rm -v $CDN_LOCAL/votorantim:/app kaioidealinvest/node_modules:4 \
+    echo -e "\n\tbower install no votorantim:\n"
+    docker run --rm -v $1/votorantim:/app kaioidealinvest/node_modules:4 \
+    bower --allow-root install
+
+
+    echo -e "\n\tnpm install no votorantim:\n"
+    docker run --rm -v $1/votorantim:/app kaioidealinvest/node_modules:4 \
     npm install
 
-    echo -e "bower install no votorantim:\n"
-    docker run --rm -v $CDN_LOCAL/votorantim:/app kaioidealinvest/node_modules:4 \
-    bower --allow-root install
-
-    chmod 777 -R $CDN_LOCAL
+    chmod 777 -R $1
 
 
 }

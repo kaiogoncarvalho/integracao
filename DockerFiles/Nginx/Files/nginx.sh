@@ -36,7 +36,7 @@ server()
             \n }
 
             ";
-        echo $SERVER >> default.conf
+        echo -e $SERVER >> default.conf
     fi
 }
 

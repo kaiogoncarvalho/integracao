@@ -20,9 +20,9 @@ server()
             \n\t }
             \n }
 
-            \n upstream $3_xdebug{
-            \n\t server http://$4:9000
-            }
+            \n\n upstream $3_xdebug {
+            \n\t server http://$4:9000;
+            \n}\n\n
 
             \n server {
             \n\t listen 9000;

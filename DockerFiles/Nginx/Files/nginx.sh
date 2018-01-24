@@ -42,16 +42,20 @@ server()
 
 setup_nginx()
 {
+
+    echo -e "\n\tCriando o arquivo de configução do nginx:\n"
     cd $INTEGRACAO_DIR/$NGINX_DIR
     cp default.example.conf default.conf
     chmod 777 default.conf
     server $BACKOFFICE_LOCAL $BACKOFFICE_URL backoffice
     server $BACKOFFICE_LOCAL $BACKOFFICE_API_URL backoffice
     server $PORTALPRAVALER_LOCAL $PORTALPRAVALER_URL portal_pravaler
-    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_aprovacao
+    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_pravaler
     server $APIAPARTADA_LOCAL $APIAPARTADA_URL api_apartada
     server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore
     server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
+
+    dockerComposeUp 'nginx'
 }
 
 

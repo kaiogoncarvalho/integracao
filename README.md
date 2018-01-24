@@ -32,148 +32,39 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Criar o ENV
     * Acessar a pasta deste repositório 
     * Copiar example.env para .env
-        * `sudo cp example.env .env`
-3. Incluir os novos hosts no arquivo hosts:
-    * Abrir o hosts com algum editor (no exemplo é o vi):
-        * `sudo vi /etc/hosts`
-    * Incluir as seguintes linhas:
-        * `172.18.1.2 backoffice.desenv api.backoffice.desenv`
-        * `172.18.1.3 portalpravaler.dev`
-        * `172.18.1.4 api.aprovacao.dev`
-        * `172.18.1.5 api.apartada.dev`
-        * `172.18.1.6 creditscore.dev`
+        * `sudo cp example.env .env`   
 
-## Backoffice
-1. Fazer o clone do repositório do Backoffice:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/ideal-invest/BO-PRV.git`
-2. Alterar o caminho do Backoffice dentro do .env do Repositório de Integração
-    * Acessar o .env do Repositório de Integração
-    * Altera a propriedade **BACKOFFICE_LOCAL** para o **caminho completo do repositório do Backoffice**
-
-## CDN
-1. Fazer o clone do repositório do CDN:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/CDN/CDN.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/CDN/CDN.git`
-2. Alterar o caminho do CDN dentro do .env do Repositório de Integração
-    * Acessar o .env do repositório de Integração
-    * Altera a propriedade **CDN_LOCAL** para o **caminho completo do repositório do CDN**        
-  
-            
-        
-## Portal Pravaler
-1. Fazer o clone do repositório do Portal Pravaler:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/portalpravaler/portalpravaler.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/portalpravaler/portalpravaler.git`
-2. Alterar o caminho do Portal Pravaler dentro do .env do Repositório de Integração
-    * Acessar o .env do repositório de Integração
-    * Altera a propriedade **PORTALPRAVALER_LOCAL** para o **caminho completo do repositório do Portal Pravaler**        
-  
-        
-        
-## API de Aprovação
-1. Fazer o clone do repositório da Api de Aprovação:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/pravaler/api-pravaler.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/pravaler/api-pravaler.git`
-2. Alterar o caminho da Api de Aprovação dentro do .env do Repositório de Integração
-    * Acessar o .env do repositório do Servidor
-    * Altera a propriedade **APIPRAVALER_LOCAL** para o **caminho completo do repositório da Api da Aprovação**       
-
-        
-        
-## Api Apartada
-1. Fazer o clone do repositório da API Apartada:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/ideal-invest/BO-PRV-API.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/ideal-invest/BO-PRV-API.git`
-2. Alterar o caminho da Api Apartada dentro do .env do Repositório de Integração
-    * Acessar o .env do repositório de Integração
-    * Altera a propriedade **APIAPARTADA_LOCAL** para o **caminho completo do repositório da Api Apartada**            
-      
-
-## CreditScore
-1. Fazer o clone do repositório do CreditScore:
-    * **Observação:** Caso queira deixar usuario e senha pré-definido, 
-    usar o seguinte comando:
-         * `git clone http://[usuario]:[senha]@10.10.100.75/bsy.jhones/credit-score.git`
-         * Se a senha ou usuario tiver caracteres especiais, 
-         procurar o código do caractere, 
-         por exemplo para o caractere **@** usa-se **%40**
-    * Caso não queira, usar esse comando:     
-        * `git clone http://10.10.100.75/bsy.jhones/credit-score.git`
-2. Alterar o caminho do CreditScore dentro do .env do Repositório de Integração
-    * Acessar o .env do repositório de Integração
-    * Altera a propriedade **CREDITSCORE_LOCAL** para o **caminho completo do repositório do CreditScore**           
-
-        
+       
 ## Integração
 1. Acessar a pasta do repositório da Integração:
 2. Configurar os ambientes:
-    * `sh ambientes.sh`
-3. Executar o docker-compose:
-    * Criar as imagens e serviços
-        * `docker-compose build`
-    * Subir os containers:
-        * `docker-compose up -d`
-4. Agora somente é necessário subir os containers quando necessário:
-    * Acessar a pasta do repositório da Integração;
-    * Subir os containers de todos os projetos:
-        * `docker-compose up -d`
-    * Parar os containers:
-        * `docker-compose stop`
-    * **Opcional**:
-        * Caso Queira subir somente o Backoffice:
-            * `docker-compose up -d backoffice`
-        * Caso Queira subir somente o Portal Pravaler + Backoffice:
-            * `docker-compose up -d portal_pravaler`
-        * Caso Queira subir somente o API de Aprovação:
-            * `docker-compose up -d api_aprovacao`    
-        * Caso Queira subir somente o API Apartada:
-            * `docker-compose up -d api_apartada`
-        * Caso Queira subir somente o CreditScore:
-            * `docker-compose up -d creditscore` 
-        * Caso Queira subir somente o CreditScore e Api de Aprovação:
-            * `docker-compose up -d creditscore api_aprovacao`
-        * Caso Queira parar somente o CreditScore e Api de Aprovação:
-            * `docker-compose stop creditscore api_aprovacao` 
-        
+    * `sudo bash ambientes.sh` 
+    * **Importante: Ser executado em sudo**    
+3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
+4. Agora somente é necessário iniciar os containers quando necessário:
+    * Iniciar container Backoffice:
+        * `docker start backoffice`
+    * Iniciar container Portal Pravaler:
+        * `docker start portal_pravaler`
+    * Iniciar container API Pravaler:
+        * `docker start api_pravaler`    
+    * Iniciar container API Apartada:
+        * `docker start api_apartada`
+    * Iniciar container CreditScore:
+        * `docker start creditscore` 
+    * Iniciar container Agendamento de Homologação:
+        * `docker start agendamento`     
+
+    
         
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
     * **Backoffice:** http://backoffice.desenv
     * **Portal Pravaler:** http://portalpravaler.dev
-    * **API de Aprovação:** http://api.aprovacao.dev
-    * **API Apartada:** http://api.apartada.dev
-    * **CreditScore:** http://creditscore.dev
+    * **API Pravaler:** http://api.pravaler.desenv
+    * **API Apartada:** http://api.apartada.desenv
+    * **CreditScore:** http://creditscore.desenv
+    * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
     
 # Opcional: Instalar o Xdebug
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:

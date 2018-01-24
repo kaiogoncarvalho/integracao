@@ -93,7 +93,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 3. Executar script de configuração da Api de Aprovação:
     * Acessar a pasta do script `[Diretório do Repositório da Integração]/DockerFiles/ApiAprovacao/Files`;
     * Executar o script de configuração da Api de Aprovação:
-        * `sudo sh api_aprovacao.sh`  
+        * `sudo sh api_pravaler.sh`  
         
         
 ## Api Apartada
@@ -150,7 +150,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * Caso Queira subir somente o Portal Pravaler + Backoffice:
             * `docker-compose up -d portalpravaler`
         * Caso Queira subir somente o API de Aprovação:
-            * `docker-compose up -d api_aprovacao    
+            * `docker-compose up -d api_pravaler    
         * Caso Queira subir somente o API Apartada:
             * `docker-compose up -d api_apartada`
         * Caso Queira subir somente o CreditScore:

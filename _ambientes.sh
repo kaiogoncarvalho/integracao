@@ -15,8 +15,8 @@ INTEGRACAO_DIR=$(pwd)
 APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
 . $APIAPARTADA_SH
 
-# Configuração da Api de Aprovação
-APIPRAVALER_SH=./DockerFiles/ApiAprovacao/Files/api_aprovacao.sh
+# Configuração da Api Pravaler
+APIPRAVALER_SH=./DockerFiles/ApiAprovacao/Files/api_pravaler.sh
 . $APIPRAVALER_SH
 
 # Configuração do Backoffice
@@ -108,11 +108,11 @@ main() {
         lineDelimiter
         # if isValidRepository $APIPRAVALER_LOCAL; then
         #   printInBar "Instalando a API Aprovação em '${APIPRAVALER_LOCAL}'"
-        #   # setup_api_aprovacao
+        #   # setup_api_pravaler
         # else
         #   printInBar "ERRO: O diretório informado não é válido!"
         # fi
-        performSetup "setup_api_aprovacao" APIPRAVALER_LOCAL
+        performSetup "setup_api_pravaler" APIPRAVALER_LOCAL
       ;;
       *) clear
         printInBar "Opção inválida!"

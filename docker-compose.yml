@@ -64,7 +64,7 @@ services:
     tty: true
     volumes:
       - $APIPRAVALER_LOCAL:$APIPRAVALER_DOCKER
-    container_name: api_aprovacao
+    container_name: api_pravaler
     image: kaioidealinvest/php7.1
     extra_hosts:
       - "$APIPRAVALER_URL:127.0.0.1"

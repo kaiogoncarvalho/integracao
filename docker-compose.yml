@@ -166,7 +166,7 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $NGINX_IP
-    links:
+    depends_on:
       - backoffice
   mongo_db:
     restart: always

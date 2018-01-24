@@ -58,7 +58,8 @@ main() {
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then
-       configRepository "Nginx" "NGINX" "setup_nginx"
+        reloadEnv
+        setup_nginx
     fi
 
 }

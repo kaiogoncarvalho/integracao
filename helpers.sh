@@ -184,7 +184,7 @@ configHost() {
     then
         HOST_PRINCIPAL="127.0.0.1"
     fi
-
+    sed -E -i "s/(.*)($2)//g" /etc/hosts
     sed -E -i "s/($HOST_PRINCIPAL)(.*)($2)//g" /etc/hosts
     echo -e "$HOST_PRINCIPAL $2" >> /etc/hosts
     echo -e "\n- Host Configurado."

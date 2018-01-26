@@ -22,6 +22,7 @@ services:
     image: idealinvest/backoffice
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
+      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
       - "$BACKOFFICE_API_URL:127.0.0.1"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"

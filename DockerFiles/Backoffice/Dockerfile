@@ -8,3 +8,6 @@ RUN a2ensite site.conf
 RUN a2ensite api.backoffice.conf
 
 RUN a2enmod headers
+RUN a2enmod proxy_ajp
+RUN a2enmod proxy_balancer
+RUN a2enmod proxy_connect

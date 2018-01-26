@@ -6,3 +6,5 @@ COPY DockerFiles/Backoffice/Files/site.conf /etc/apache2/sites-available/site.co
 
 RUN a2ensite site.conf
 RUN a2ensite api.backoffice.conf
+
+RUN a2enmod headers

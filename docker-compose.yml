@@ -22,7 +22,6 @@ services:
     image: idealinvest/backoffice
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
       - "$BACKOFFICE_API_URL:127.0.0.1"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
@@ -36,8 +35,6 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $BACKOFFICE_IP
-    ports:
-      - "9000:9002"
   portal_pravaler:
     restart: always
     stdin_open: true

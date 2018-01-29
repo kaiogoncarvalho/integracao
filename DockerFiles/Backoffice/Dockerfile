@@ -1,4 +1,4 @@
-FROM kaioidealinvest/php5.3.3.7
+FROM kaioidealinvest/php5.3
 MAINTAINER Kaio Gonçalves Carvalho
 
 COPY DockerFiles/Backoffice/Files/api.backoffice.conf /etc/apache2/sites-available/

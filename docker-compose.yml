@@ -42,7 +42,7 @@ services:
     volumes:
       - $PORTALPRAVALER_LOCAL:$PORTALPRAVALER_DOCKER
     container_name: portal_pravaler
-    image: kaioidealinvest/php5.6
+    image: kaioidealinvest/php:5.6
     extra_hosts:
       - "$PORTALPRAVALER_URL:127.0.0.1"
       - "$BACKOFFICE_URL:$BACKOFFICE_IP"
@@ -65,9 +65,10 @@ services:
     volumes:
       - $APIPRAVALER_LOCAL:$APIPRAVALER_DOCKER
     container_name: api_pravaler
-    image: kaioidealinvest/php7.1
+    image: kaioidealinvest/php:7.1
     extra_hosts:
       - "$APIPRAVALER_URL:127.0.0.1"
+      - "$APIPRAVALER_URL:$APIPRAVALER_IP"
     environment:
       - VOLUME=$APIPRAVALER_DOCKER
       - SITE_HOST=$APIPRAVALER_URL
@@ -82,7 +83,7 @@ services:
     volumes:
       - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
     container_name: api_apartada
-    image: kaioidealinvest/php5.6
+    image: kaioidealinvest/php:5.6
     extra_hosts:
       - "$APIAPARTADA_URL:127.0.0.1"
       - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
@@ -100,7 +101,7 @@ services:
       dockerfile: ./DockerFiles/CreditScore/Dockerfile
       context: .
     container_name: creditscore
-    image: kaioidealinvest/php7.1
+    image: kaioidealinvest/php:7.1
     extra_hosts:
       - "$CREDITSCORE_URL:127.0.0.1"
     environment:
@@ -118,7 +119,7 @@ services:
       - $AGENDAMENTO_LOCAL:$AGENDAMENTO_DOCKER
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
     container_name: agendamento
-    image: kaioidealinvest/php7.1
+    image: kaioidealinvest/php:7.1
     extra_hosts:
       - "$AGENDAMENTO_URL:127.0.0.1"
     environment:
@@ -132,7 +133,7 @@ services:
     volumes:
       - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
     container_name: nova_proposta_backend
-    image: kaioidealinvest/php7.1
+    image: kaioidealinvest/php:7.1
     extra_hosts:
       - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
       - "$BACKOFFICE_URL:$BACKOFFICE_IP"

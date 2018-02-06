@@ -22,7 +22,8 @@ setup_backoffice()
     sed -i  "s/$OLD_HOST/$BACKOFFICE_URL/g" .env
     OLD_HOSTPORTAL=$(grep -E "portal.domain=(.*)" .env | sed -n 's/^portal.domain=*//p' .env)
     sed -i  "s/$OLD_HOSTPORTAL/$PORTALPRAVALER_URL/g" .env
-    sed -E -i "s/(api.aprovacaoIes.path=)(.*)/\1$APIPRAVALER_URL\\/v.1.1/g" .env
+    updateEnv 'api.aprovacaoIes.path' "$APIPRAVALER_URL\\/v.1.1"
+    updateEnv 'api.url' "$BACKOFFICE_API_URL\\/"
     echo -e "\n- Arquivo $(pwd)/.env configurado."
 
     echo -e "\n\tCriando pastas necessárias: \n"

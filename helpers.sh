@@ -226,3 +226,8 @@ printPopup() {
   done
   echo -e
 }
+
+# funçõa updateEnv: Atualiza uma propriedade do env
+updateEnv() {
+    sed -E -i "s/($1=)(.*)/\1$2/g" .env
+}

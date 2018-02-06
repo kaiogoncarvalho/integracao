@@ -31,7 +31,7 @@ services:
       - VOLUME=$BACKOFFICE_DOCKER
       - CDN=$CDN_DOCKER
       - API_HOST=$BACKOFFICE_API_URL
-      - API_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
+      - API_DOCUMENT_ROOT=$BACKOFFICE_API_DOCUMENT_ROOT
     networks:
       idealinvest-network:
         ipv4_address: $BACKOFFICE_IP

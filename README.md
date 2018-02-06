@@ -14,7 +14,7 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
     * Backoffice: http://10.10.100.75/ideal-invest/BO-PRV
     * Portal Pravaler **(Portal Pravaler necessita do Backoffice)**: http://10.10.100.75/portalpravaler/portalpravaler.git 
-    * API de Aprovação: http://10.10.100.75/pravaler/api-pravaler.git
+    * API Pravaler: http://10.10.100.75/pravaler/api-pravaler.git
     * API Apartada: http://10.10.100.75/ideal-invest/BO-PRV-API.git
     * CreditScore: http://10.10.100.75/bsy.jhones/credit-score.git
 
@@ -60,7 +60,7 @@ Criar o ambiente de todos os Sistemas de uma vez
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
     * **Backoffice:** http://backoffice.desenv
-    * **Portal Pravaler:** http://portalpravaler.dev
+    * **Portal Pravaler:** http://portalpravaler.desenv
     * **API Pravaler:** http://api.pravaler.desenv
     * **API Apartada:** http://api.apartada.desenv
     * **CreditScore:** http://creditscore.desenv

@@ -24,6 +24,8 @@ AGENDAMENTO_SH=./DockerFiles/Agendamento/Files/agendamento.sh
 HELPERS=./helpers.sh
 # Configuração do Nginx
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
+# Configuração do frontend da proposta nova
+NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
 
 . $ENV
 . $APIPRAVALER_SH
@@ -36,6 +38,7 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 . $AGENDAMENTO_SH
 . $HELPERS
 . $NGINX_SH
+. $NOVA_PROPOSTA_FRONTEND_SH
 
 
 
@@ -55,6 +58,8 @@ main() {
     configRepository "CreditScore" "CREDITSCORE" "setup_credit_score"
 
     configRepository "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
+
+    configRepository "Nova Proposta Frontend" "NOVAPROPOSTAFRONTEND" "setup_nova_proposta_frontend"
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then

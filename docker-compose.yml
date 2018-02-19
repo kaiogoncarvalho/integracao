@@ -150,19 +150,22 @@ services:
       - mongo_db
       - rabbitmq
   nova_proposta_frontend:
+    stdin_open: true
+    tty: true
     volumes:
-      - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
+      - $NOVAPROPOSTAFRONTEND_LOCAL:$NOVAPROPOSTAFRONTEND_DOCKER
     build:
       dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
       context: .
     container_name: nova_proposta_frontend
     extra_hosts:
-      - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
+      - "$NOVAPROPOSTAFRONTEND_URL:127.0.0.1"
     environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
+      - NOVAPROPOSTABACKEND_URL=$NOVAPROPOSTABACKEND_URL
+      - APIPRAVALER_URL=$APIPRAVALER_URL
     networks:
       idealinvest-network:
-        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
+        ipv4_address: $NOVAPROPOSTAFRONTEND_IP
   nginx:
     restart: always
     stdin_open: true

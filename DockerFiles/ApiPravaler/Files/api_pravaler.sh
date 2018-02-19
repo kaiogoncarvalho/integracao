@@ -7,7 +7,6 @@ setup_api_pravaler()
 
     cd $1
 
-
     echo -e "\n\tGerando arquivos de configuração:\n"
     cd config/
     cp database.example.php database.php
@@ -24,8 +23,14 @@ setup_api_pravaler()
         echo -e "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
+        echo -e "\n- Diretório $(pwd)/xdebug-profile-logs foi criado."
     fi
     chmod 777 -R xdebug-profile-logs/
+
+    echo -e "\n\tDando Permissão no Projeto\n"
+    chmod 777 -R $1
+    echo -e "\n- Permissão no diretório $(pwd) concedida."
+
 
     dockerComposeUp 'api_pravaler'
 

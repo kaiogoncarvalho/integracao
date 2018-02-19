@@ -109,14 +109,14 @@ composerConfig() {
     then
         rm composer.lock.json
     fi
-    docker run --rm -v $1:/app kaioidealinvest/composer:php7.1 install
+    docker run --rm -v $1:/app composer install --ignore-platform-reqs --no-scripts
+    chmod 777 -R vendor/
 
     echo -e "\n\tRealizando o composer update no diretório $1: \n"
-    docker run --rm -v $1:/app kaioidealinvest/composer:php7.1 update
 
-    cd $1
-
+    docker run --rm -v $1:/app composer update --ignore-platform-reqs --no-scripts
     chmod 777 -R vendor/
+
 
 }
 

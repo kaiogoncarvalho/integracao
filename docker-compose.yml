@@ -128,41 +128,6 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $AGENDAMENTO_IP
-  nova_proposta_backend:
-    volumes:
-      - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
-    container_name: nova_proposta_backend
-    image: kaioidealinvest/php:7.1
-    extra_hosts:
-      - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
-      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
-      - "$CREDITSCORE_URL:$CREDITSCORE_IP"
-    environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-      - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
-      - SITE_DOCUMENT_ROOT=$NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT
-    networks:
-      idealinvest-network:
-        ipv4_address: $NOVAPROPOSTA_BACKEND_IP
-    depends_on:
-      - mongo_db
-      - rabbitmq
-  nova_proposta_frontend:
-    volumes:
-      - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
-    build:
-      dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
-      context: .
-    container_name: nova_proposta_frontend
-    extra_hosts:
-      - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
-    environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-    networks:
-      idealinvest-network:
-        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
   nginx:
     restart: always
     stdin_open: true
@@ -180,45 +145,3 @@ services:
         ipv4_address: $NGINX_IP
     depends_on:
       - backoffice
-  mongo_db:
-    restart: always
-    stdin_open: true
-    tty: true
-    image: mongo:latest
-    container_name: mongo_db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=novaproposta
-      - MONGO_INITDB_ROOT_PASSWORD=novaproposta
-      - MONGO_INITDB_DATABASE=proposta
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - /data/db
-    networks:
-      idealinvest-network:
-        ipv4_address: $MONGO_IP
-  rabbitmq:
-    stdin_open: true
-    tty: true
-    image: rabbitmq:3
-    restart: always
-    networks:
-      idealinvest-network:
-        ipv4_address: $RABBITMQ_IP
-    environment:
-      - RABBITMQ_ERLANG_COOKIE=9143a224982c82ae6985f3735bc95407
-      - RABBITMQ_NODENAME=proposta-nova-node-1
-  rabbitmq_management:
-    stdin_open: true
-    tty: true
-    image: rabbitmq:3-management
-    restart: always
-    networks:
-      idealinvest-network:
-        ipv4_address: $RABBITMQ_MANAGEMENT_IP
-    environment:
-      - RABBITMQ_DEFAULT_VHOST=rabbitmq
-      - RABBITMQ_DEFAULT_USER=propostanova
-      - RABBITMQ_DEFAULT_PASS=propostanova
-    depends_on:
-      - rabbitmq

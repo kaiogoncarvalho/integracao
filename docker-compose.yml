@@ -150,6 +150,7 @@ services:
       - mongo_db
       - rabbitmq
   nova_proposta_frontend:
+    restart: always
     stdin_open: true
     tty: true
     volumes:

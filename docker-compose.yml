@@ -181,8 +181,9 @@ services:
     extra_hosts:
       - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
       - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
+      - "$APIPRAVALER_URL:$APIPRAVALER_IP"
+      - "$CREDITSCORE_URL:$CREDITSCORE_IP"
     networks:
        idealinvest-network:
           ipv4_address: $NOVAPROPOSTA_BACKEND_IP

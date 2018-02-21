@@ -128,43 +128,6 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $AGENDAMENTO_IP
-  nova_proposta_backend:
-    restart: always
-    container_name: nova_proposta_backend
-    image: kaioidealinvest/php:7.0
-    stdin_open: true
-    tty: true
-    environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-      - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
-      - SITE_DOCUMENT_ROOT=$NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT
-    volumes:
-      - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
-    extra_hosts:
-      - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
-      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
-    networks:
-       idealinvest-network:
-          ipv4_address: $NOVAPROPOSTA_BACKEND_IP
-    depends_on:
-      - "mongo-temp"
-      - "rabbitmq"
-  nova_proposta_frontend:
-    volumes:
-      - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
-    build:
-      dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
-      context: .
-    container_name: nova_proposta_frontend
-    extra_hosts:
-      - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
-    environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-    networks:
-      idealinvest-network:
-        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
   nginx:
     restart: always
     stdin_open: true
@@ -203,24 +166,48 @@ services:
     command: mongo "mongodb://$MONGO_IP" /data/db/script.js
     depends_on:
       - mongodb
+  nova_proposta_backend:
+    restart: always
+    container_name: nova_proposta_backend
+    image: kaioidealinvest/php:7.0
+    stdin_open: true
+    tty: true
+    environment:
+      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
+      - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
+      - SITE_DOCUMENT_ROOT=$NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT
+    volumes:
+      - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
+    extra_hosts:
+      - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
+      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
+      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
+      - "$APIPRAVALER_URL:$APIPRAVALER_IP"
+      - "$CREDITSCORE_URL:$CREDITSCORE_IP"
+    networks:
+       idealinvest-network:
+          ipv4_address: $NOVAPROPOSTA_BACKEND_IP
+    depends_on:
+      - "mongo-temp"
+      - "rabbitmq"
   rabbitmq:
     image: rabbitmq:3
     restart: always
     networks:
-     idealinvest-network:
-       ipv4_address: $RABBITMQ_IP
+      idealinvest-network:
+        ipv4_address: $RABBITMQ_IP
     environment:
-     RABBITMQ_ERLANG_COOKIE: 9143a224982c82ae6985f3735bc95407
-     RABBITMQ_NODENAME: proposta-nova-node-1
+      RABBITMQ_ERLANG_COOKIE: 9143a224982c82ae6985f3735bc95407
+      RABBITMQ_NODENAME: proposta-nova-node-1
   rabbitmq-management:
     image: rabbitmq:3-management
     restart: always
     networks:
-     idealinvest-network:
-       ipv4_address: $RABBITMQ_MANAGEMENT_IP
+      idealinvest-network:
+        ipv4_address: $RABBITMQ_MANAGEMENT_IP
     environment:
-     RABBITMQ_DEFAULT_VHOST: cadastro.rabbitmq.dev
-     RABBITMQ_DEFAULT_USER: propostanova
-     RABBITMQ_DEFAULT_PASS: propostanova
+      RABBITMQ_DEFAULT_VHOST: cadastro.rabbitmq.dev
+      RABBITMQ_DEFAULT_USER: propostanova
+      RABBITMQ_DEFAULT_PASS: propostanova
     depends_on:
-    - "rabbitmq"
+     - "rabbitmq"

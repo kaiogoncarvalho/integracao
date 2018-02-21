@@ -17,10 +17,10 @@ setup_nova_proposta_backend()
     regexFile 'APP_URL=' $NOVAPROPOSTA_BACKEND_URL
     regexFile 'API_URL=' $APIAPARTADA_URL
     regexFile 'BO_URL=' $BACKOFFICE_URL
-    regexFile 'DB_HOST=' $MONGO_IP
+    regexFile 'DB_HOST=' 'mongodb'
     regexFile 'DB_USERNAME=' 'propostanova'
     regexFile 'DB_PASSWORD=' 'propostanova'
-    regexFile 'RABBITMQ_HOST=' 'rabbit_mq'
+    regexFile 'RABBITMQ_HOST=' 'rabbitmq'
     regexFile 'DB_BO_HOST=' $DB_HOST
     regexFile 'DB_BO_PORT=' $DB_PORT
     regexFile 'DB_BO_DATABASE=' $DB_DATABASE
@@ -39,19 +39,6 @@ setup_nova_proposta_backend()
 
     configHost $NOVAPROPOSTA_BACKEND_IP $NOVAPROPOSTA_BACKEND_URL
 
-    #cd $INTEGRACAO_DIR/DockerFiles/NovaPropostaBackend/Files
-
-    #echo -e "\n\tConfigurando arquivo $(pwd)/proposta.conf: \n"
-
-    #cp example.proposta.conf proposta.conf
-
-    #chmod 777 proposta.conf
-
-    #regexFile 'root ' "$NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT;" proposta.conf
-    #regexFile 'server_name ' "$NOVAPROPOSTA_BACKEND_URL;" proposta.conf
-
-    echo -e "\n- Arquivo $(pwd)/proposta.conf configurado."
-
     dockerComposeUp "nova_proposta_backend"
 
     docker rm -f mongo-temp
@@ -65,8 +52,13 @@ setup_nova_proposta_backend()
     echo -e "\n\tExecutando php artisan db:seed: \n"
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" db:seed
 
+    echo -e "\n\tAtualizando Instituições: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/instituicoes"
+    echo -e "\n\n\tAtualizando Campis: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/campi"
+    echo -e "\n\n\tAtualizando Cursos: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/cursos"
+
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
+    echo -e "\n"
 }

@@ -54,8 +54,10 @@ setup_nova_proposta_backend()
 
     echo -e "\n\tAtualizando Instituições: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/instituicoes"
+
     echo -e "\n\n\tAtualizando Campis: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/campi"
+
     echo -e "\n\n\tAtualizando Cursos: \n"
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/cursos"
 

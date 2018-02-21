@@ -105,19 +105,8 @@ installRepository() {
 #função composerConfig: Executa o composer install em um diretório passado por parâmetro
 composerConfig() {
     echo -e "\n\tRealizando o composer install no diretório $1: \n"
-    if [ -f "composer.lock.json" ]
-    then
-        rm composer.lock.json
-    fi
     docker run --rm -v $1:/app composer install --ignore-platform-reqs --no-scripts
     chmod 777 -R vendor/
-
-    echo -e "\n\tRealizando o composer update no diretório $1: \n"
-
-    docker run --rm -v $1:/app composer update --ignore-platform-reqs --no-scripts
-    chmod 777 -R vendor/
-
-
 }
 
 #função dockerComposeUp: Para os containers e cria os containers novamente

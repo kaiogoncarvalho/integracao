@@ -115,8 +115,7 @@ dockerComposeUp() {
     cd $INTEGRACAO_DIR
     docker-compose stop $1
     docker rm $1
-    docker-compose build $1
-    docker-compose up -d $1
+    docker-compose up --build -d $1
 
 }
 

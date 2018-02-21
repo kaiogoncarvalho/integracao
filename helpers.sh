@@ -115,8 +115,7 @@ dockerComposeUp() {
     cd $INTEGRACAO_DIR
     docker-compose stop $1
     docker rm $1
-    docker-compose build $1
-    docker-compose up -d $1
+    docker-compose up --build -d $1
 
 }
 
@@ -219,4 +218,14 @@ printPopup() {
 # funçõa updateEnv: Atualiza uma propriedade do env
 updateEnv() {
     sed -E -i "s/($1=)(.*)/\1$2/g" .env
+}
+
+# função regexFile: Altera um arquivo com regex
+regexFile(){
+    FILE=$3
+    if isEmptyVariable $FILE; then
+        FILE=".env"
+    fi
+    VARIABLE=$(echo $2 | sed -e "s/\//\\\\\//g")
+    sed -E -i "s/($1)(.*)/\1$VARIABLE/g" $FILE
 }

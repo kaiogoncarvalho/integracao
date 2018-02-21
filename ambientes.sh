@@ -18,6 +18,8 @@ PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
 CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 # Configuração do Agendamento de homologação
 AGENDAMENTO_SH=./DockerFiles/Agendamento/Files/agendamento.sh
+# Configuração do Agendamento de homologação
+NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 # Configuração do Nginx
@@ -33,6 +35,7 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 . $AGENDAMENTO_SH
 . $HELPERS
 . $NGINX_SH
+. $NOVAPROPOSTA_BACKEND_SH
 
 
 
@@ -52,6 +55,8 @@ main() {
     configRepository "CreditScore" "CREDITSCORE" "setup_credit_score"
 
     configRepository "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
+
+    configRepository "Nova Proposta Backend" "NOVAPROPOSTA_BACKEND" "setup_nova_proposta_backend"
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then

@@ -220,3 +220,13 @@ printPopup() {
 updateEnv() {
     sed -E -i "s/($1=)(.*)/\1$2/g" .env
 }
+
+# função regexFile: Altera um arquivo com regex
+regexFile(){
+    FILE=$3
+    if isEmptyVariable $FILE; then
+        FILE=".env"
+    fi
+    VARIABLE=$(echo $2 | sed -e "s/\//\\\\\//g")
+    sed -E -i "s/($1)(.*)/\1$VARIABLE/g" $FILE
+}

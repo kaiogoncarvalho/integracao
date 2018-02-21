@@ -145,3 +145,59 @@ services:
         ipv4_address: $NGINX_IP
     depends_on:
       - backoffice
+  mongo:
+    image: mongo:3.4
+    restart: always
+    networks:
+       idealinvest-network:
+          ipv4_address: $MONGO_IP
+    volumes:
+      - /data/db
+  mongo-temp:
+    build:
+      dockerfile: ./DockerFiles/MongoDB/Dockerfile
+      context: .
+    restart: always
+    networks:
+      idealinvest-network:
+        ipv4_address: $MONGO_TEMP_IP
+    command: mongo "mongodb://$MONGO_IP" /data/db/script.js
+    depends_on:
+      - mongo
+  nova_proposta_backend:
+    restart: always
+    container_name: nova_proposta_backend
+    build:
+      dockerfile: ./DockerFiles/NovaPropostaBackend/Dockerfile
+      context: .
+    stdin_open: true
+    tty: true
+    networks:
+       idealinvest-network:
+          ipv4_address: $NOVAPROPOSTA_BACKEND_IP
+    volumes:
+      - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
+    depends_on:
+      - "mongo-temp"
+      - "rabbitmq"
+  rabbitmq:
+    image: rabbitmq:3
+    restart: always
+    networks:
+      idealinvest-network:
+        ipv4_address: $RABBITMQ_IP
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 9143a224982c82ae6985f3735bc95407
+      RABBITMQ_NODENAME: proposta-nova-node-1
+  rabbitmq-management:
+    image: rabbitmq:3-management
+    restart: always
+    networks:
+      idealinvest-network:
+        ipv4_address: $RABBITMQ_MANAGEMENT_IP
+    environment:
+      RABBITMQ_DEFAULT_VHOST: cadastro.rabbitmq.dev
+      RABBITMQ_DEFAULT_USER: propostanova
+      RABBITMQ_DEFAULT_PASS: propostanova
+    depends_on:
+     - "rabbitmq"

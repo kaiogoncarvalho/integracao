@@ -23,11 +23,14 @@ then
 fi
 
 # Substitui os links do backend da proposta nova e api pravaler
-sed -i "s#\$NOVAPROPOSTA_BACKEND_URL#'$NOVAPROPOSTA_BACKEND_URL'#" src/environments/environment.ts
-sed -i "s#\$APIPRAVALER_URL#'$APIPRAVALER_URL'#" src/environments/environment.ts
+sed -i "s#\$NOVAPROPOSTA_BACKEND_URL#'http://$NOVAPROPOSTA_BACKEND_URL/v1'#" src/environments/environment.ts
+sed -i "s#\$APIPRAVALER_URL#'http://$APIPRAVALER_URL/v1'#" src/environments/environment.ts
+
 
 #Efetua o processo de build da proposta
-npm run ng build
+npm start
+
+chmod 777 -R $PROJECT_FOLDER
 
 # Inicia o nginx e retorna um terminal
 nginx && /bin/bash

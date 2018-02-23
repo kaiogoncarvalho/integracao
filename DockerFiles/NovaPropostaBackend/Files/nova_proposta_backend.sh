@@ -39,7 +39,7 @@ setup_nova_proposta_backend()
 
     configHost $NOVAPROPOSTA_BACKEND_IP $NOVAPROPOSTA_BACKEND_URL
 
-    dockerComposeUp "mongodb"
+    dockerComposeUp "mongo-temp"
 
     dockerComposeUp "nova_proposta_backend"
 

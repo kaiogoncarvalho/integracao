@@ -28,7 +28,7 @@ sed -i "s#\$APIPRAVALER_URL#'http://$APIPRAVALER_URL/v1'#" src/environments/envi
 
 
 #Efetua o processo de build da proposta
-npm start
+npm run build --watch
 
 chmod 777 -R $PROJECT_FOLDER
 

@@ -14,16 +14,18 @@ BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
 CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
 # Configuração do Portal Pravaler
 PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
+# Configuração da Nova Proposta - Backend
+NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
 # Configuração do CDN
 CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 # Configuração do Agendamento de homologação
 AGENDAMENTO_SH=./DockerFiles/Agendamento/Files/agendamento.sh
-# Configuração do Agendamento de homologação
-NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 # Configuração do Nginx
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
+# Configuração do frontend da proposta nova
+NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
 
 . $ENV
 . $APIPRAVALER_SH
@@ -32,10 +34,11 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 . $CREDITSCORE_SH
 . $PORTALPRAVALER_SH
 . $CDN_SH
+. $NOVAPROPOSTA_BACKEND_SH
+. $NOVA_PROPOSTA_FRONTEND_SH
 . $AGENDAMENTO_SH
 . $HELPERS
 . $NGINX_SH
-. $NOVAPROPOSTA_BACKEND_SH
 
 
 
@@ -57,6 +60,9 @@ main() {
     configRepository "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
 
     configRepository "Nova Proposta Backend" "NOVAPROPOSTA_BACKEND" "setup_nova_proposta_backend"
+
+    configRepository "Nova Proposta Frontend" "NOVAPROPOSTA_FRONTEND" "setup_nova_proposta_frontend"
+
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then

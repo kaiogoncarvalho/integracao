@@ -26,7 +26,7 @@ setup_nova_proposta_backend()
     regexFile 'DB_BO_DATABASE=' $DB_DATABASE
     regexFile 'DB_BO_USERNAME=' $DB_USER
     regexFile 'DB_BO_PASSWORD=' $DB_PASSWORD
-    #regexFile 'NOVA_PROPOSTA_URL=' $NOVAPROPOSTA_FRONTEND_URL
+    regexFile 'NOVA_PROPOSTA_URL=' "http:\\$NOVAPROPOSTA_FRONTEND_URL"
     regexFile 'API_TOKEN=' "539a6c1ee350a8c21d56b68719a01caf"
 
     if [ -d "xdebug-profile-logs" ]
@@ -38,6 +38,8 @@ setup_nova_proposta_backend()
     chmod 777 -R .
 
     configHost $NOVAPROPOSTA_BACKEND_IP $NOVAPROPOSTA_BACKEND_URL
+
+    dockerComposeUp "mongo-temp"
 
     dockerComposeUp "nova_proposta_backend"
 

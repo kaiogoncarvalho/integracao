@@ -166,6 +166,26 @@ services:
     command: mongo "mongodb://$MONGO_IP" /data/db/script.js
     depends_on:
       - mongodb
+  nova_proposta_frontend:
+    stdin_open: true
+    tty: true
+    container_name: nova_proposta_frontend
+    volumes:
+      - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
+    build:
+      dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
+      context: .
+    container_name: nova_proposta_frontend
+    extra_hosts:
+      - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
+      - "$NOVAPROPOSTA_BACKEND_URL:$NOVAPROPOSTA_BACKEND_IP"
+    environment:
+      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
+      - NOVAPROPOSTA_BACKEND_URL=$NOVAPROPOSTA_BACKEND_URL
+      - APIPRAVALER_URL=$APIPRAVALER_URL
+    networks:
+      idealinvest-network:
+        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
   nova_proposta_backend:
     restart: always
     container_name: nova_proposta_backend
@@ -184,6 +204,7 @@ services:
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$CREDITSCORE_URL:$CREDITSCORE_IP"
+      - "$NOVAPROPOSTA_FRONTEND_URL:$NOVAPROPOSTA_FRONTEND_IP"
     networks:
        idealinvest-network:
           ipv4_address: $NOVAPROPOSTA_BACKEND_IP
@@ -192,22 +213,24 @@ services:
       - "rabbitmq"
   rabbitmq:
     image: rabbitmq:3
+    container_name: rabbitmq
     restart: always
     networks:
       idealinvest-network:
         ipv4_address: $RABBITMQ_IP
     environment:
-      RABBITMQ_ERLANG_COOKIE: 9143a224982c82ae6985f3735bc95407
-      RABBITMQ_NODENAME: proposta-nova-node-1
+      - RABBITMQ_ERLANG_COOKIE=9143a224982c82ae6985f3735bc95407
+      - RABBITMQ_NODENAME=proposta-nova-node-1
   rabbitmq-management:
     image: rabbitmq:3-management
     restart: always
+    container_name: rabbitmq-management
     networks:
       idealinvest-network:
         ipv4_address: $RABBITMQ_MANAGEMENT_IP
     environment:
-      RABBITMQ_DEFAULT_VHOST: cadastro.rabbitmq.dev
-      RABBITMQ_DEFAULT_USER: propostanova
-      RABBITMQ_DEFAULT_PASS: propostanova
+      - RABBITMQ_DEFAULT_VHOST=cadastro.rabbitmq.desenv
+      - RABBITMQ_DEFAULT_USER=propostanova
+      - RABBITMQ_DEFAULT_PASS=propostanova
     depends_on:
      - "rabbitmq"

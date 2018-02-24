@@ -6,10 +6,10 @@ setup_nova_proposta_backend()
 
     composerConfig $1
 
-    echo -e "\n\tConfigurando arquivo .env: \n"
+    msgConfig "Configurando arquivo .env: "
     if [ -f ".env" ]
     then
-        echo -e "\n- Arquivo $(pwd)/.env já existe."
+       msgConfigItem "Arquivo $(pwd)/.env já existe."
     else
         cp .env.example .env
     fi
@@ -31,7 +31,7 @@ setup_nova_proposta_backend()
 
     if [ -d "xdebug-profile-logs" ]
     then
-        echo -e "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfig "- Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
     fi
@@ -45,24 +45,23 @@ setup_nova_proposta_backend()
 
     docker rm -f mongo-temp
 
-    echo -e "\n\tExecutando php artisan key:generate: \n"
+    msgConfig "Executando php artisan key:generate: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" key:generate
 
-    echo -e "\n\tExecutando php artisan migrate: \n"
+    msgConfig "Executando php artisan migrate: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" migrate
 
-    echo -e "\n\tExecutando php artisan db:seed: \n"
+    msgConfig "Executando php artisan db:seed: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" db:seed
 
-    echo -e "\n\tAtualizando Instituições: \n"
+    msgConfig "Atualizando Instituições: "
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/instituicoes"
 
-    echo -e "\n\n\tAtualizando Campis: \n"
+    msgConfig "Atualizando Campis: "
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/campi"
 
-    echo -e "\n\n\tAtualizando Cursos: \n"
+    msgConfig "Atualizando Cursos: "
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/cursos"
 
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
-    echo -e "\n"
 }

@@ -6,7 +6,8 @@ Criar o ambiente de todos os Sistemas de uma vez
 
 1. Ter o Docker instalado:
     * `sudo apt-get install docker.io`
-
+    * `sudo groupadd docker`
+    * `sudo gpasswd -a $(whoami) docker`
 2. Ter Docker-Compose instalado;
     * sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-\`uname -s\`-\`uname -m` -o /usr/bin/docker-compose
     * sudo chmod +x /usr/bin/docker-compose
@@ -41,8 +42,9 @@ Criar o ambiente de todos os Sistemas de uma vez
     * `sudo bash ambientes.sh` 
     * **Importante: Ser executado em sudo**    
 3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
-4. Agora somente é necessário iniciar os containers quando necessário:
-    * Iniciar container Backoffice:
+4. Todos os containers criados serão iniciados automaticamente;
+4. Quando necessário iniciar ou parar os containers:
+    * Iniciar/Parar container Backoffice:
         * `docker start backoffice`
     * Iniciar container Portal Pravaler:
         * `docker start portal_pravaler`
@@ -65,6 +67,8 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **API Apartada:** http://api.apartada.desenv
     * **CreditScore:** http://creditscore.desenv
     * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
+    * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
+    * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv
     
 # Opcional: Instalar o Xdebug
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:

@@ -143,8 +143,6 @@ services:
     networks:
       idealinvest-network:
         ipv4_address: $NGINX_IP
-    depends_on:
-      - backoffice
   mongodb:
     container_name: mongodb
     image: mongo:3.4

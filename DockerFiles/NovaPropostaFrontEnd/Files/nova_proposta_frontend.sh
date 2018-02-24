@@ -6,6 +6,7 @@ setup_nova_proposta_frontend() {
 
     configHost $NOVAPROPOSTA_FRONTEND_IP $NOVAPROPOSTA_FRONTEND_URL
 
+    chmod 777 -R $1
 
 }
 

@@ -7,29 +7,38 @@ setup_api_pravaler()
 
     cd $1
 
-    echo -e "\n\tGerando arquivos de configuração:\n"
+    msgConfig "Gerando arquivos de configuração: "
     cd config/
     cp database.example.php database.php
     chmod 777  database.php
-    sed -i -E "s/10.10.100.110/$DB_HOST/g" database.php
-    sed -i -E "s/''/'123456'/g" database.php
+
+    sed -E -i "s/('host'[[:print:]]*)'(.*)'/\1'$DB_HOST'/g" 'database.php'
+    sed -E -i "s/('port'[[:print:]]*)'(.*)'/\1'$DB_PORT'/g" 'database.php'
+    sed -E -i "s/('dbname'[[:print:]]*)'(.*)'/\1'$DB_DATABASE'/g" 'database.php'
+    sed -E -i "s/('user'[[:print:]]*')'(.*)'/\1'$DB_USER'/g" 'database.php'
+    sed -E -i "s/('password'[[:print:]]*)'(.*)'/\1'$DB_PASSWORD'/g" 'database.php'
+
+    msgConfigItem "Arquivos database.php gerado."
+
     cp serasa.example.php serasa.php
     chmod 777 serasa.php
 
-    echo -e "\n\tCriando diretórios\n"
+    msgConfigItem "Arquivos serasa.php gerado."
+
+    msgConfig "Criando diretórios: "
     cd $1
     if [ -d "xdebug-profile-logs" ]
     then
-        echo -e "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
-        echo -e "\n- Diretório $(pwd)/xdebug-profile-logs foi criado."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs foi criado."
     fi
     chmod 777 -R xdebug-profile-logs/
 
-    echo -e "\n\tDando Permissão no Projeto\n"
+    msgConfig "Dando Permissão no Projeto: "
     chmod 777 -R $1
-    echo -e "\n- Permissão no diretório $(pwd) concedida."
+    msgConfigItem "Permissão no diretório $(pwd) concedida."
 
 
     dockerComposeUp 'api_pravaler'

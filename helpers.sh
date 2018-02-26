@@ -241,7 +241,7 @@ msgAlert(){
 
 #função msgConfig: Retorna texto no formato configuração
 msgConfig(){
-    msgGeneral "\n\t$1\n" 'branco' 'reverso'
+    msgGeneral "\n\t$1" 'branco' 'reverso'
 }
 
 #função msgConfigItem:  Retorna texto no formato item configuração
@@ -296,15 +296,13 @@ msgGeneral(){
 
 #função configInitialEnv:  Função para copiar o env caso ele não exista
 configInitialEnv(){
-    EXAMPLE_ENV = $1
-
-    msgConfig "Configurando arquivo .env: "
+    msgConfig "Configurando arquivo $(pwd)/.env: "
 
     if [ -f ".env" ]
     then
-        msgConfigItemWarning "Arquivo $(pwd)/.env já existe."
+        msgConfigItemWarning "Arquivo $(pwd)/.env já existe.\n"
     else
-        cp $EXAMPLE_ENV .env
-        msgConfigItem "Arquivo $(pwd)/.env criado."
+        cp $1 .env
+        msgConfigItem "Arquivo $(pwd)/.env criado.\n"
     fi
 }

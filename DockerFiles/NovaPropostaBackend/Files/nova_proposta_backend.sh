@@ -6,13 +6,7 @@ setup_nova_proposta_backend()
 
     composerConfig $1
 
-    msgConfig "Configurando arquivo .env: "
-    if [ -f ".env" ]
-    then
-       msgConfigItem "Arquivo $(pwd)/.env já existe."
-    else
-        cp .env.example .env
-    fi
+    configInitialEnv '.env.example'
 
     regexFile 'APP_URL=' $NOVAPROPOSTA_BACKEND_URL
     regexFile 'API_URL=' $APIAPARTADA_URL

@@ -8,12 +8,8 @@ setup_credit_score()
     msgConfig "Definindo configurações do .env:"
     cd $1
     chmod 777 -R vendor/
-    if [ -f ".env" ]
-    then
-        msgConfigItem "Arquivo $(pwd)/.env já existe."
-    else
-        cp .env-example .env
-    fi
+
+    configInitialEnv '.env-example'
 
     regexFile "bo.api.host=" $BACKOFFICE_API_URL
     regexFile "db.bo.user=" $DB_USER

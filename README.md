@@ -30,10 +30,6 @@ Criar o ambiente de todos os Sistemas de uma vez
          por exemplo para o caractere **@** usa-se **%40**
     * Caso não queira, usar esse comando:     
         * `git clone http://10.10.100.75/ambientes/integracao.git`
-2. Criar o ENV
-    * Acessar a pasta deste repositório 
-    * Copiar example.env para .env
-        * `sudo cp example.env .env`   
 
        
 ## Integração

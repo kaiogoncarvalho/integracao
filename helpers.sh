@@ -56,10 +56,10 @@ isVerifyConfig() {
     echo -e -n "\033[01;37mDeseja Instalar o Sistema $1 ? (s/n) >_ \033[00;37m"
     read verify
 
-    if [ $verify == "s" ];
+    if [ $verify == "s" ] | [ $verify == "S" ] ;
     then
         true
-    elif [ $verify == "n" ];
+    elif [ $verify == "n" ] | [ $verify == "N" ];
     then
         false
     else
@@ -74,7 +74,7 @@ isVerifyConfig() {
 installRepository() {
     read -p "Repositório Existe? (s/n) >_ " verify
 
-    if [ $verify != "s" ] && [ $verify != "n" ];
+    if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
     then
         msgAlert "Opção Inválida" >&2
         return 0
@@ -249,6 +249,11 @@ msgConfigItem(){
     echo -e "\n- $1"
 }
 
+#função msgConfigItemWarning:  Retorna texto no formato item configuração
+msgConfigItemWarning(){
+     msgGeneral "\n- $1" 'amarelo'
+}
+
 #função msgGeneral:  Função generalizada para escolha de cor e estilo
 msgGeneral(){
     COR='37m'
@@ -287,4 +292,19 @@ msgGeneral(){
          ;;
     esac
     echo -e "\033[$ESTILO;$COR$1\033[00;37m"
+}
+
+#função configInitialEnv:  Função para copiar o env caso ele não exista
+configInitialEnv(){
+    EXAMPLE_ENV = $1
+
+    msgConfig "Configurando arquivo .env: "
+
+    if [ -f ".env" ]
+    then
+        msgConfigItemWarning "Arquivo $(pwd)/.env já existe."
+    else
+        cp $EXAMPLE_ENV .env
+        msgConfigItem "Arquivo $(pwd)/.env criado."
+    fi
 }

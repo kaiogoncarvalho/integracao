@@ -7,14 +7,7 @@ setup_backoffice()
 
     cd $1
 
-    msgConfig "Configurando arquivo .env: "
-
-    if [ -f ".env" ]
-    then
-        msgConfigItem "Arquivo $(pwd)/.env já existe."
-    else
-        cp sample.env .env
-    fi
+    configInitialEnv 'sample.env'
 
     regexFile 'db.(?!portal)[[:alpha:]]+.host=' "$DB_HOST"
     regexFile 'db.(?!portal)[[:alpha:]]+.port=' "$DB_PORT"

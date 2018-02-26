@@ -45,6 +45,8 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 # Inicializa as funções de configuração dos projetos
 main() {
 
+    configInitialEnv 'example.env'
+
     configRepository "CDN" "CDN" "setup_cdn"
 
     configRepository "Backoffice" "BACKOFFICE" "setup_backoffice"

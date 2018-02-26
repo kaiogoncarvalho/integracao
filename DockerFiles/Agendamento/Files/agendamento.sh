@@ -3,16 +3,10 @@
 setup_agendamento()
 {
     composerConfig $1
-
-    msgConfig "Configurando .env:"
     cd $1
-    if [ -f ".env" ]
-    then
-        msgConfigItem "Arquivo $(pwd)/.env já existe."
-    else
-        cp .env.example .env
-         msgConfigItem "Arquivo $(pwd)/.env foi criado."
-    fi
+
+    configInitialEnv '.env.example'
+
     regexFile 'BACKOFFICE_REPOSITORY=' $BACKOFFICE_DOCKER
     cp $BACKOFFICE_LOCAL/.env $1/helpers/backoffice.env.bkp
 

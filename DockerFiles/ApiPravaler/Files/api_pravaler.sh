@@ -18,12 +18,12 @@ setup_api_pravaler()
     sed -E -i "s/('user'[[:print:]]*')'(.*)'/\1'$DB_USER'/g" 'database.php'
     sed -E -i "s/('password'[[:print:]]*)'(.*)'/\1'$DB_PASSWORD'/g" 'database.php'
 
-    msgConfigItem "Arquivos database.php gerado."
+    msgConfigItem "Arquivo database.php gerado."
 
     cp serasa.example.php serasa.php
     chmod 777 serasa.php
 
-    msgConfigItem "Arquivos serasa.php gerado."
+    msgConfigItem "Arquivo serasa.php gerado."
 
     msgConfig "Criando diretórios: "
     cd $1

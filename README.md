@@ -39,24 +39,16 @@ Criar o ambiente de todos os Sistemas de uma vez
     * **Importante: Ser executado em sudo**    
 3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
 4. Todos os containers criados serão iniciados automaticamente;
-4. Quando necessário iniciar ou parar os containers:
-    * Iniciar/Parar container Backoffice:
-        * `docker start backoffice`
-    * Iniciar container Portal Pravaler:
-        * `docker start portal_pravaler`
-    * Iniciar container API Pravaler:
-        * `docker start api_pravaler`    
-    * Iniciar container API Apartada:
-        * `docker start api_apartada`
-    * Iniciar container CreditScore:
-        * `docker start creditscore` 
-    * Iniciar container Agendamento de Homologação:
-        * `docker start agendamento`     
-
+5. Quando necessário iniciar ou parar os containers:
+    * Iniciar container:
+        * `docker start <container name>`
+    * Parar container:
+        * `docker stop <container name>`    
     
         
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
+    * **CDN:** http://cdn.portalpravaler.desenv
     * **Backoffice:** http://backoffice.desenv
     * **Portal Pravaler:** http://portalpravaler.desenv
     * **API Pravaler:** http://api.pravaler.desenv

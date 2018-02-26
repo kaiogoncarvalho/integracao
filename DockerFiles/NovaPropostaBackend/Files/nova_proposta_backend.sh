@@ -57,5 +57,7 @@ setup_nova_proposta_backend()
     msgConfig "Atualizando Cursos: "
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/cursos"
 
+    echo -e "\n"
+
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
 }

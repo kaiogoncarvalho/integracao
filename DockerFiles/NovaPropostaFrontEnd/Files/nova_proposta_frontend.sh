@@ -8,5 +8,8 @@ setup_nova_proposta_frontend() {
 
     chmod 777 -R $1
 
+    msgGeneral "\nAguarde cerca de 15 segundos para que o Frontend da Nova Proposta funcione..." "verde" "reverso"
+    msgGeneral "\nnpm build sendo executado..." "verde" "reverso"
+
 }
 

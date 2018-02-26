@@ -72,7 +72,7 @@ isVerifyConfig() {
 
 #função installRepository: Verifica se o repositório existe, se não existir clona o repositório
 installRepository() {
-    read -p "Repositório Existe? (s/n) >_ " verify
+    read -p "Já fez o clone do repositório? (s/n) >_ " verify
 
     if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
     then

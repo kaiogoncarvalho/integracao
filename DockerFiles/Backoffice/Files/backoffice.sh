@@ -9,11 +9,11 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.host=)(.*)/\1$DB_HOST/g" .env
-    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.port=)(.*)/\1$DB_PORT/g" .env
-    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.database=)(.*)/\1$DB_DATABASE/g" .env
-    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.user=)(.*)/\1$DB_USER/g" .env
-    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.pass=)(.*)/\1$DB_PASSWORD/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)(.*)/\1$DB_HOST/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)(.*)/\1$DB_PORT/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)(.*)/\1$DB_DATABASE/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)(.*)/\1$DB_USER/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)(.*)/\1$DB_PASSWORD/g" .env
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
     regexFile 'portal.domain=' "$PORTALPRAVALER_URL"

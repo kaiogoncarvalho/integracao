@@ -27,7 +27,6 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração do frontend da proposta nova
 NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
 
-. $ENV
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
 . $BACKOFFICE_SH
@@ -46,6 +45,8 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 main() {
 
     configInitialEnv 'example.env'
+
+    . $ENV
 
     configRepository "CDN" "CDN" "setup_cdn"
 

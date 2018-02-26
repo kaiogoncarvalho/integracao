@@ -9,11 +9,11 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    regexFile 'db.(?!portal)[[:alpha:]]+.host=' "$DB_HOST"
-    regexFile 'db.(?!portal)[[:alpha:]]+.port=' "$DB_PORT"
-    regexFile 'db.(?!portal)[[:alpha:]]+..database=' "$DB_DATABASE"
-    regexFile 'db.(?!portal)[[:alpha:]]+.user=' "$DB_USER"
-    regexFile 'db.(?!portal)[[:alpha:]]+.pass=' "$DB_PASSWORD"
+    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.host=)(.*)/\1$DB_HOST/g" .env
+    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.port=)(.*)/\1$DB_PORT/g" .env
+    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.database=)(.*)/\1$DB_DATABASE/g" .env
+    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.user=)(.*)/\1$DB_USER/g" .env
+    sed -i -E "/portal/!s/(db\.[[:alpha:]]+\.pass=)(.*)/\1$DB_PASSWORD/g" .env
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
     regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
@@ -28,7 +28,7 @@ setup_backoffice()
     regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/#/finalize"
 
     regexFile 'api.url=' "$BACKOFFICE_API_URL/"
-    regexFile 'http://api.aprovacaoIes.path=' "$APIPRAVALER_URL/v.1.1"
+    regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
 
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 

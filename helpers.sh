@@ -219,11 +219,6 @@ printPopup() {
   echo -e
 }
 
-# funçõa updateEnv: Atualiza uma propriedade do env
-updateEnv() {
-    sed -E -i "s/($1=)(.*)/\1$2/g" .env
-}
-
 # função regexFile: Altera um arquivo com regex
 regexFile(){
     FILE=$3
@@ -305,4 +300,6 @@ configInitialEnv(){
         cp $1 .env
         msgConfigItem "Arquivo $(pwd)/.env criado.\n"
     fi
+
+    chmod 777 .env
 }

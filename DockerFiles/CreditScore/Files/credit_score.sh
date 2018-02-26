@@ -5,26 +5,29 @@ setup_credit_score()
 
     composerConfig $1
 
-    echo -e "\n\tDefinindo configurações do .env:\n"
+    msgConfig "Definindo configurações do .env:"
     cd $1
     chmod 777 -R vendor/
-    if [ -f ".env" ]
-    then
-        echo "Arquivo $(pwd)/.env já existe."
-    else
-        cp sample.env .env
-    fi
-    sed -i -E "s/db.bo.host=(.*)/db.bo.host=$DB_HOST/g" .env
-    sed -i -E "s/bo.api.host=(.*)/bo.api.host=$BACKOFFICE_API_URL\/portal\/pravaler_v2/g" .env
 
-    echo -e "\n\tCriando diretórios e definindo configurações:\n"
+    configInitialEnv '.env-example'
+
+    regexFile "bo.api.host=" $BACKOFFICE_API_URL
+    regexFile "db.bo.user=" $DB_USER
+    regexFile "db.bo.pass=" $DB_PASSWORD
+    regexFile "db.bo.dbname=" $DB_DATABASE
+    regexFile "db.bo.port=" $DB_PORT
+    regexFile "db.bo.host=" $DB_HOST
+    regexFile "bo.api.host=" "$BACKOFFICE_API_URL/portal/pravaler_v2"
+
+    msgConfig "Criando diretórios e definindo configurações:"
     if [ -d "xdebug-profile-logs" ]
     then
-        echo "\nDiretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "\nDiretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
+        msgConfigItem "\nDiretório $(pwd)/xdebug-profile-logs criado."
     fi
-    chmod 777 -R xdebug-profile-logs/
+    chmod 777 -R $1
 
     dockerComposeUp 'creditscore'
 

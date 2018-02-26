@@ -2,6 +2,8 @@
 
 # Substitui a diretiva root pelo diretório onde o projeto será publicado
 sed -i "s:\$PROJECT_PUBLIC_FOLDER:$(echo $PROJECT_PUBLIC_FOLDER):" /usr/local/${NGINX_VERSION}/conf/apps/proposta.conf
+sed -i "s:\localhost:$(echo $SITE_HOST):" /usr/local/${NGINX_VERSION}/conf/apps/proposta.conf
+
 
 #Instalação dos pacotes npm
 cd $PROJECT_FOLDER
@@ -26,11 +28,13 @@ fi
 sed -i "s#\$NOVAPROPOSTA_BACKEND_URL#'http://$NOVAPROPOSTA_BACKEND_URL/v1'#" src/environments/environment.ts
 sed -i "s#\$APIPRAVALER_URL#'http://$APIPRAVALER_URL/v1'#" src/environments/environment.ts
 
+# Inicia o nginx
+nginx
 
 #Efetua o processo de build da proposta
 npm run build --watch
 
-chmod 777 -R $PROJECT_FOLDER
+#Retorna um terminal
+/bin/bash
 
-# Inicia o nginx e retorna um terminal
-nginx && /bin/bash
+

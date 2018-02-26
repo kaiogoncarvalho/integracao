@@ -56,10 +56,10 @@ isVerifyConfig() {
     echo -e -n "\033[01;37mDeseja Instalar o Sistema $1 ? (s/n) >_ \033[00;37m"
     read verify
 
-    if [ $verify == "s" ] | [ $verify == "S" ] ;
+    if [ $verify == "s" ] || [ $verify == "S" ];
     then
         true
-    elif [ $verify == "n" ] | [ $verify == "N" ];
+    elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         false
     else
@@ -84,10 +84,10 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
-    if [ $verify == "s" ];
+    if [ $verify == "s" ] || [ $verify == "S" ];
     then
         echo $repository
-    elif [ $verify == "n" ];
+    elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         msgConfig "Clonando Repositório" >&2
 
@@ -148,7 +148,7 @@ configRepository() {
     REPOSITORY=$(getEnv "$2_REPOSITORY")
 
   if isVerifyConfig "$1"; then
-    msgGeneral "\nComeçando configuração:\n" 'amarelo'
+    msgGeneral "\nComeçando configuração:\n" 'verde' 'negrito'
     if isNotValidRepository $DIR; then
         DIR=$(installRepository $REPOSITORY)
         if [ $DIR ];

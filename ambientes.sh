@@ -26,6 +26,8 @@ HELPERS=./helpers.sh
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração do frontend da proposta nova
 NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
+# Configuração do ftp risco cobranca
+FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
@@ -35,6 +37,7 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 . $CDN_SH
 . $NOVAPROPOSTA_BACKEND_SH
 . $NOVA_PROPOSTA_FRONTEND_SH
+. $FTP_RISCO_COBRANCA_SH
 . $AGENDAMENTO_SH
 . $HELPERS
 . $NGINX_SH
@@ -67,6 +70,11 @@ main() {
     configRepository "Nova Proposta Backend" "NOVAPROPOSTA_BACKEND" "setup_nova_proposta_backend"
 
     configRepository "Nova Proposta Frontend" "NOVAPROPOSTA_FRONTEND" "setup_nova_proposta_frontend"
+
+    if isVerifyConfig "Ftp Risco Cobrança"
+    then
+        setup_ftp_risco_cobranca
+    fi
 
 
     if [ $TIPO_INSTALACAO == "servidor" ];

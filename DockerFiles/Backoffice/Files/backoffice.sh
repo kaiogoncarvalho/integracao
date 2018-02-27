@@ -49,6 +49,23 @@ setup_backoffice()
         mkdir cnab
         msgConfigItem "Diretório $(pwd)/cnab criado."
     fi
+
+    if [ -d "riscoCobranca/planilhas" ]
+    then
+        echo -e "\n- Diretório $(pwd)/riscoCobranca/planilhas já existe."
+    else
+        mkdir -p riscoCobranca/planilhas
+        echo -e "\n- Diretório $(pwd)/riscoCobranca/planilhas criado."
+    fi
+
+    if [ -d "boletosAcordoAvulso/boletosAvulsosSimples" ]
+    then
+        echo -e "\n- Diretório $(pwd)/boletosAcordoAvulso/boletosAvulsosSimples já existe."
+    else
+        mkdir -p boletosAcordoAvulso/boletosAvulsosSimples
+        echo -e "\n- Diretório $(pwd)/boletosAcordoAvulso/boletosAvulsosSimples criado."
+    fi
+
     cd cnab
     if [ -d "bancos" ]
     then

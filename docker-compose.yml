@@ -14,7 +14,6 @@ services:
     tty: true
     volumes:
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-      - $CDN_LOCAL:$CDN_DOCKER
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
@@ -25,6 +24,7 @@ services:
       - "$BACKOFFICE_API_URL:127.0.0.1"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
+      - "$FTPRISCOCOBRANCA_URL: $FTPRISCOCOBRANCA_IP"
       - "$CDN_URL:$CDN_IP"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
@@ -253,3 +253,26 @@ services:
       - RABBITMQ_DEFAULT_PASS=propostanova
     depends_on:
      - "rabbitmq"
+  ftp-risco-cobranca:
+    restart: always
+    build:
+      dockerfile: ./DockerFiles/FtpRiscoCobranca/Dockerfile
+      context: .
+    container_name: ftp-risco-cobranca
+    stdin_open: true
+    volumes:
+      - "/home/ftpusers/"
+      - "/etc/pure-ftpd/passwd"
+    environment:
+      - PUBLICHOST=localhost
+      - FTPRISCOCOBRANCA_BOLETOAVULSO_USER=$FTPRISCOCOBRANCA_BOLETOAVULSO_USER
+      - FTPRISCOCOBRANCA_BOLETOAVULSO_PASSWORD=$FTPRISCOCOBRANCA_BOLETOAVULSO_PASSWORD
+      - FTPRISCOCOBRANCA_IMPORTACAO_USER=$FTPRISCOCOBRANCA_IMPORTACAO_USER
+      - FTPRISCOCOBRANCA_IMPORTACAO_PASSWORD=$FTPRISCOCOBRANCA_IMPORTACAO_PASSWORD
+    tty: true
+    networks:
+      idealinvest-network:
+        ipv4_address: $FTPRISCOCOBRANCA_IP
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"

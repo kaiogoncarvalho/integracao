@@ -14,7 +14,6 @@ services:
     tty: true
     volumes:
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-      - $CDN_LOCAL:$CDN_DOCKER
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .

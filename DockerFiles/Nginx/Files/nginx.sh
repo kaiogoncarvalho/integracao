@@ -43,7 +43,7 @@ server()
 setup_nginx()
 {
 
-    echo -e "\n\tCriando o arquivo de configução do nginx:\n"
+    msgConfig "Criando o arquivo de configução do nginx: "
     cd $INTEGRACAO_DIR/$NGINX_DIR
     cp default.example.conf default.conf
     chmod 777 default.conf

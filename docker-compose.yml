@@ -18,24 +18,42 @@ services:
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
+    image: kaioidealinvest/backoffice
     container_name: backoffice
-    image: idealinvest/backoffice
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
       - "$BACKOFFICE_API_URL:127.0.0.1"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
       - "$FTPRISCOCOBRANCA_URL: $FTPRISCOCOBRANCA_IP"
+ 	  - "$CDN_URL:$CDN_IP"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
       - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
       - VOLUME=$BACKOFFICE_DOCKER
-      - CDN=$CDN_DOCKER
+      - CDN_URL=$CDN_URL
       - API_HOST=$BACKOFFICE_API_URL
       - API_DOCUMENT_ROOT=$BACKOFFICE_API_DOCUMENT_ROOT
     networks:
       idealinvest-network:
         ipv4_address: $BACKOFFICE_IP
+  cdn:
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - $CDN_LOCAL:$CDN_DOCKER
+    image: kaioidealinvest/apache:ubuntu16.04
+    container_name: cdn
+    extra_hosts:
+      - "$CDN_URL:127.0.0.1"
+    environment:
+      - SITE_HOST=$CDN_URL
+      - SITE_DOCUMENT_ROOT=$CDN_DOCUMENT_ROOT
+      - VOLUME=$CDN_DOCKER
+    networks:
+      idealinvest-network:
+        ipv4_address: $CDN_IP
   portal_pravaler:
     restart: always
     stdin_open: true
@@ -137,15 +155,13 @@ services:
       dockerfile: ./DockerFiles/Nginx/Dockerfile
       context: .
     container_name: nginx
-    image: idealinvest/nginx
+    image: kaioidealinvest/nginx
     ports:
       - "80:80"
       - "9000:9000"
     networks:
       idealinvest-network:
         ipv4_address: $NGINX_IP
-    depends_on:
-      - backoffice
   mongodb:
     container_name: mongodb
     image: mongo:3.4
@@ -161,6 +177,7 @@ services:
       dockerfile: ./DockerFiles/MongoDB/Dockerfile
       context: .
     restart: always
+    image: kaioidealinvest/mongo-temp
     networks:
       idealinvest-network:
         ipv4_address: $MONGO_TEMP_IP
@@ -177,6 +194,7 @@ services:
       dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
       context: .
     container_name: nova_proposta_frontend
+    image: kaioidealinvest/nova_proposta_frontend
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
       - "$NOVAPROPOSTA_BACKEND_URL:$NOVAPROPOSTA_BACKEND_IP"
@@ -184,6 +202,7 @@ services:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
       - NOVAPROPOSTA_BACKEND_URL=$NOVAPROPOSTA_BACKEND_URL
       - APIPRAVALER_URL=$APIPRAVALER_URL
+      - SITE_HOST=$NOVAPROPOSTA_FRONTEND_URL
     networks:
       idealinvest-network:
         ipv4_address: $NOVAPROPOSTA_FRONTEND_IP

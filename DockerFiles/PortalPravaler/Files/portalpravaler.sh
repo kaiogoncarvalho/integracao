@@ -9,21 +9,21 @@ setup_portal_pravaler()
     composerConfig "$1/workbench/portal/proposal"
     composerConfig "$1/workbench/portal/marketplace"
 
-    echo -e "\n\tConfigurando permissões de diretórios:\n"
+    msgConfig "Configurando permissões de diretórios: "
     cd $1
     chmod -R 777 app/storage
     chmod -R 777 vendor
     chmod 777 composer.lock
 
-    echo -e "\n\tCriando diretórios necessários:\n"
+    echo -e "Criando diretórios necessários: "
     if [ -d "xdebug-profile-logs" ]
     then
-        echo "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
     else
-        echo "\n- Diretório $(pwd)/xdebug-profile-logs foi criado."
+        msgConfigItem "\n- Diretório $(pwd)/xdebug-profile-logs foi criado."
         mkdir xdebug-profile-logs
     fi
-    chmod 777 -R xdebug-profile-logs/
+    chmod 777 -R $1
 
     dockerComposeUp 'portal_pravaler'
 

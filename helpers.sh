@@ -53,17 +53,17 @@ isNotValidRepository() {
 
 #função isVerifyConfig: Verifica se o Sistema será instalado
 isVerifyConfig() {
-    read -p  "Deseja Instalar o Sistema $1 ? (s/n) >_ " verify
+    echo -e -n "\033[01;37mDeseja Instalar o Sistema $1 ? (s/n) >_ \033[00;37m"
+    read verify
 
-
-    if [ $verify == "s" ];
+    if [ $verify == "s" ] || [ $verify == "S" ];
     then
         true
-    elif [ $verify == "n" ];
+    elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         false
     else
-        echo -e "Opção Inválida"
+        msgAlert "Opção Inválida"
         false
     fi
 
@@ -72,22 +72,24 @@ isVerifyConfig() {
 
 #função installRepository: Verifica se o repositório existe, se não existir clona o repositório
 installRepository() {
-    read -p "Repositório Existe? (s/n) >_ " verify
+    read -p "Já fez o clone do repositório? (s/n) >_ " verify
 
-    if [ $verify != "s" ] && [ $verify != "n" ];
+    if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
     then
-        echo -e "\nOpção Inválida" >&2
+        msgAlert "Opção Inválida" >&2
         return 0
     fi
 
-    read -p  "Informe o caminho do repositório: >_ " repository
+    CAMINHO=$(cd ~/ && pwd)
 
-    if [ $verify == "s" ];
+    read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
+
+    if [ $verify == "s" ] || [ $verify == "S" ];
     then
         echo $repository
-    elif [ $verify == "n" ];
+    elif [ $verify == "n" ] || [ $verify == "N" ];
     then
-        echo -e "\n\tClonando Repositório\n" >&2
+        msgConfig "Clonando Repositório" >&2
 
         git clone $1 $repository
 
@@ -97,21 +99,21 @@ installRepository() {
             false
         fi
     else
-        echo -e "Opção Inválida"
+        msgAlert "Opção Inválida"
         false
     fi
 }
 
 #função composerConfig: Executa o composer install em um diretório passado por parâmetro
 composerConfig() {
-    echo -e "\n\tRealizando o composer install no diretório $1: \n"
+    msgConfig "Realizando o composer install no diretório $1: "
     docker run --rm -v $1:/app composer install --ignore-platform-reqs --no-scripts
-    chmod 777 -R vendor/
+    chmod 777 -R "$1/vendor/"
 }
 
 #função dockerComposeUp: Para os containers e cria os containers novamente
 dockerComposeUp() {
-    echo -e "\n\tCriando e subindo containers:\n"
+    msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
     docker-compose stop $1
     docker rm $1
@@ -146,7 +148,7 @@ configRepository() {
     REPOSITORY=$(getEnv "$2_REPOSITORY")
 
   if isVerifyConfig "$1"; then
-    echo -e "\nComeçando configuração:\n"
+    msgGeneral "\nComeçando configuração:\n" 'verde' 'negrito'
     if isNotValidRepository $DIR; then
         DIR=$(installRepository $REPOSITORY)
         if [ $DIR ];
@@ -155,19 +157,21 @@ configRepository() {
                 includeEnv $NAME_DIR $DIR
                 $3 $DIR
             else
-                echo -e '\nRepositório Inválido.\n'
+                msgAlert 'Repositório Inválido.'
             fi
         else
-            echo -e '\nErro ao instalar Sistema.\n'
+            msgAlert 'Erro ao instalar Sistema.'
         fi
     else
         $3 $DIR
+        echo -e "\n"
     fi
   fi
 }
 
 #função configHost: Configura o arquivo hosts
 configHost() {
+    msgConfig "Configurando Hosts:"
     HOST_PRINCIPAL=$1
     if [ $TIPO_INSTALACAO == "servidor" ];
     then
@@ -176,7 +180,7 @@ configHost() {
     sed -E -i "s/(.*)($2)//g" /etc/hosts
     sed -E -i "s/($HOST_PRINCIPAL)(.*)($2)//g" /etc/hosts
     echo -e "$HOST_PRINCIPAL $2" >> /etc/hosts
-    echo -e "\n- Host Configurado."
+    msgConfigItem "Host '$HOST_PRINCIPAL $2' foi configurado."
 
 }
 
@@ -215,11 +219,6 @@ printPopup() {
   echo -e
 }
 
-# funçõa updateEnv: Atualiza uma propriedade do env
-updateEnv() {
-    sed -E -i "s/($1=)(.*)/\1$2/g" .env
-}
-
 # função regexFile: Altera um arquivo com regex
 regexFile(){
     FILE=$3
@@ -228,4 +227,79 @@ regexFile(){
     fi
     VARIABLE=$(echo $2 | sed -e "s/\//\\\\\//g")
     sed -E -i "s/($1)(.*)/\1$VARIABLE/g" $FILE
+}
+
+#função msgAlert: Retonar um texto no formato de alerta
+msgAlert(){
+    msgGeneral "\n$1\n" 'vermelho' 'reverso'
+}
+
+#função msgConfig: Retorna texto no formato configuração
+msgConfig(){
+    msgGeneral "\n\t$1" 'branco' 'reverso'
+}
+
+#função msgConfigItem:  Retorna texto no formato item configuração
+msgConfigItem(){
+    echo -e "\n- $1"
+}
+
+#função msgConfigItemWarning:  Retorna texto no formato item configuração
+msgConfigItemWarning(){
+     msgGeneral "\n- $1" 'amarelo'
+}
+
+#função msgGeneral:  Função generalizada para escolha de cor e estilo
+msgGeneral(){
+    COR='37m'
+    ESTILO=00
+    case $2 in
+        'preto')
+            COR='30m'
+         ;;
+         'vermelho')
+            COR='31m'
+         ;;
+         'verde')
+            COR='32m'
+         ;;
+         'amarelo')
+            COR='33m'
+         ;;
+         'rosa')
+            COR='35m'
+         ;;
+         'ciano')
+            COR='36m'
+         ;;
+         'branco')
+            COR='37m'
+    esac
+    case $3 in
+        'negrito')
+            ESTILO=01
+         ;;
+         'sublinhado')
+            ESTILO=04
+         ;;
+         'reverso')
+            ESTILO=07
+         ;;
+    esac
+    echo -e "\033[$ESTILO;$COR$1\033[00;37m"
+}
+
+#função configInitialEnv:  Função para copiar o env caso ele não exista
+configInitialEnv(){
+    msgConfig "Configurando arquivo $(pwd)/.env: "
+
+    if [ -f ".env" ]
+    then
+        msgConfigItemWarning "Arquivo $(pwd)/.env já existe.\n"
+    else
+        cp $1 .env
+        msgConfigItem "Arquivo $(pwd)/.env criado.\n"
+    fi
+
+    chmod 777 .env
 }

@@ -29,7 +29,6 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 # Configuração do ftp risco cobranca
 FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 
-. $ENV
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
 . $BACKOFFICE_SH
@@ -47,6 +46,12 @@ FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 
 # Inicializa as funções de configuração dos projetos
 main() {
+
+    msgGeneral '\n\t\tIniciando configuração dos ambientes: \n' 'verde' 'negrito'
+
+    configInitialEnv 'example.env'
+
+    . $ENV
 
     configRepository "CDN" "CDN" "setup_cdn"
 

@@ -14,7 +14,6 @@ services:
     tty: true
     volumes:
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-      - $CDN_LOCAL:$CDN_DOCKER
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
@@ -26,7 +25,7 @@ services:
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
       - "$FTPRISCOCOBRANCA_URL: $FTPRISCOCOBRANCA_IP"
- 	  - "$CDN_URL:$CDN_IP"
+      - "$CDN_URL:$CDN_IP"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
       - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT

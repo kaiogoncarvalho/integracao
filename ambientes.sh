@@ -49,9 +49,7 @@ main() {
 
     msgGeneral '\n\t\tIniciando configuração dos ambientes: \n' 'verde' 'negrito'
 
-    configInitialEnv 'example.env'
-
-    . $ENV
+    configEnvIntegracao 'example.env'
 
     configRepository "CDN" "CDN" "setup_cdn"
 

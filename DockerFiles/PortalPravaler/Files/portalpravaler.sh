@@ -15,12 +15,12 @@ setup_portal_pravaler()
     chmod -R 777 vendor
     chmod 777 composer.lock
 
-    echo -e "Criando diretórios necessários: "
+    msgConfig "Criando diretórios necessários: "
     if [ -d "xdebug-profile-logs" ]
     then
-        msgConfigItem "\n- Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
     else
-        msgConfigItem "\n- Diretório $(pwd)/xdebug-profile-logs foi criado."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs foi criado."
         mkdir xdebug-profile-logs
     fi
     chmod 777 -R $1

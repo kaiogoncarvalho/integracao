@@ -30,6 +30,13 @@ setup_backoffice()
     regexFile 'api.url=' "$BACKOFFICE_API_URL/"
     regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
 
+    regexFile 'neo.oauth=' "http://st.oauth.idealinvest.srv.br"
+    regexFile 'neo.subscription_fee=' "http://st.fee.idealinvest.srv.br"
+    regexFile 'neo.userToAccess=' "backoffice.contrato"
+    regexFile 'neo.passwordToAccess=' "123456"
+    regexFile 'neo.orig=' "https://bpm.desenv"
+    regexFile 'neo.log=' "http://st.log.idealinvest.srv.br"
+
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 
     msgConfig "Criando pastas necessárias: "

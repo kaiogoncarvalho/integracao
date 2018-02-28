@@ -117,7 +117,8 @@ dockerComposeUp() {
     cd $INTEGRACAO_DIR
     docker-compose stop $1
     docker rm $1
-    docker-compose up --build -d $1
+    docker-compose build --pull $1
+    docker-compose up -d $1
 
 }
 
@@ -249,6 +250,11 @@ msgConfigItemWarning(){
      msgGeneral "\n- $1" 'amarelo'
 }
 
+#função msgConfigItemWarning:  Retorna texto no formato item configuração
+msgConfigItemSucess(){
+     msgGeneral "\n- $1" 'verde'
+}
+
 #função msgGeneral:  Função generalizada para escolha de cor e estilo
 msgGeneral(){
     COR='37m'
@@ -302,4 +308,51 @@ configInitialEnv(){
     fi
 
     chmod 777 .env
+}
+
+#função configEnvIntegracao:  Função para copiar o env do projeto de integração
+configEnvIntegracao(){
+    msgConfig "Configurando arquivo $(pwd)/.env: "
+
+    if [ -f ".env" ]
+    then
+        . $ENV
+        # Verifica se o arquivo .env está na versão certa
+        if [ -z $VERSAO ] || [ $VERSAO != '1.5.0' ]
+        then
+            #Atualiza o arquivo .env com os diretórios do antigo arquivo .env
+
+            msgConfigItemWarning "Necessário atualizar arquivo $(pwd)/.env, sua versão está desatualizada.\n"
+            cp $1 .env
+
+            updateEnv "BACKOFFICE_LOCAL=" $BACKOFFICE_LOCAL
+            updateEnv "PORTALPRAVALER_LOCAL=" $PORTALPRAVALER_LOCAL
+            updateEnv "APIPRAVALER_LOCAL=" $APIPRAVALER_LOCAL
+            updateEnv "APIAPARTADA_LOCAL=" $APIAPARTADA_LOCAL
+            updateEnv "CREDITSCORE_LOCAL=" $CREDITSCORE_LOCAL
+            updateEnv "AGENDAMENTO_LOCAL=" $BACKOFFICE_LOCAL
+            updateEnv "CDN_LOCAL=" $CDN_LOCAL
+            updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
+            updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
+
+            . $ENV
+            msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"
+
+        else
+            msgConfigItemWarning "Arquivo $(pwd)/.env já existe.\n"
+        fi
+    else
+        cp $1 .env
+        msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
+    fi
+
+    chmod 777 .env
+}
+
+#função updateEnv: Atualiza o ENV se a variavel existir
+updateEnv(){
+    if [ -n $2 ]
+    then
+        regexFile $1 $2
+    fi
 }

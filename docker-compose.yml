@@ -24,8 +24,9 @@ services:
       - "$BACKOFFICE_API_URL:127.0.0.1"
       - "$APIPRAVALER_URL:$APIPRAVALER_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
-      - "$FTPRISCOCOBRANCA_URL: $FTPRISCOCOBRANCA_IP"
+      - "$FTPRISCOCOBRANCA_URL:$FTPRISCOCOBRANCA_IP"
       - "$CDN_URL:$CDN_IP"
+      - "retornomec.idealinvest.srv.br:10.104.110.143"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
       - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
@@ -259,6 +260,7 @@ services:
       dockerfile: ./DockerFiles/FtpRiscoCobranca/Dockerfile
       context: .
     container_name: ftp-risco-cobranca
+    image: kaioidealinvest/ftp-risco-cobranca
     stdin_open: true
     volumes:
       - "/home/ftpusers/"

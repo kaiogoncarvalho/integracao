@@ -334,6 +334,16 @@ configEnvIntegracao(){
             updateEnv "CDN_LOCAL=" $CDN_LOCAL
             updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
             updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
+            
+            updateEnv "BACKOFFICE_URL=" $BACKOFFICE_URL
+            updateEnv "PORTALPRAVALER_URL=" $PORTALPRAVALER_URL
+            updateEnv "APIPRAVALER_URL=" $APIPRAVALER_URL
+            updateEnv "APIAPARTADA_URL=" $APIAPARTADA_URL
+            updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
+            updateEnv "AGENDAMENTO_URL=" $BACKOFFICE_URL
+            updateEnv "CDN_URL=" $CDN_URL
+            updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
+            updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
 
             . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"

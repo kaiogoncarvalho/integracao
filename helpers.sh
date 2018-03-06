@@ -80,7 +80,7 @@ installRepository() {
         return 0
     fi
 
-    CAMINHO=$(cd ~/ && pwd)
+    CAMINHO=$(cd $INTEGRACAO_DIR/.. && pwd)
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
@@ -344,6 +344,8 @@ configEnvIntegracao(){
             updateEnv "CDN_URL=" $CDN_URL
             updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
             updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
+
+            updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
 
             . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"

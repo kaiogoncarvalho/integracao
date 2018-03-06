@@ -33,11 +33,14 @@ setup_nova_proposta_backend()
 
     configHost $NOVAPROPOSTA_BACKEND_IP $NOVAPROPOSTA_BACKEND_URL
 
+    docker rm -f mongodb
+
     dockerComposeUp "mongo-temp"
 
     dockerComposeUp "nova_proposta_backend"
 
     docker rm -f mongo-temp
+
 
     msgConfig "Executando php artisan key:generate: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" key:generate

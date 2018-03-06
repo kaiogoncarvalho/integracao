@@ -55,7 +55,8 @@ setup_nginx()
     server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore
     server $CDN_LOCAL $CDN_URL cdn
     server $NOVAPROPOSTA_BACKEND_LOCAL $NOVAPROPOSTA_BACKEND_URL nova_proposta_backend
-    server $NOVAPROPOSTA_FRONTEND_LOCAL $NOVAPROPOSTA_FRONTEND_LOCAL nova_proposta_frontend
+    server $NOVAPROPOSTA_FRONTEND_LOCAL $NOVAPROPOSTA_FRONTEND_URL nova_proposta_frontend
+    server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
     dockerComposeUp 'nginx'
 }
 

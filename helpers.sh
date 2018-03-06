@@ -330,7 +330,7 @@ configEnvIntegracao(){
             updateEnv "APIPRAVALER_LOCAL=" $APIPRAVALER_LOCAL
             updateEnv "APIAPARTADA_LOCAL=" $APIAPARTADA_LOCAL
             updateEnv "CREDITSCORE_LOCAL=" $CREDITSCORE_LOCAL
-            updateEnv "AGENDAMENTO_LOCAL=" $BACKOFFICE_LOCAL
+            updateEnv "AGENDAMENTO_LOCAL=" $AGENDAMENTO_LOCAL
             updateEnv "CDN_LOCAL=" $CDN_LOCAL
             updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
             updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
@@ -340,7 +340,7 @@ configEnvIntegracao(){
             updateEnv "APIPRAVALER_URL=" $APIPRAVALER_URL
             updateEnv "APIAPARTADA_URL=" $APIAPARTADA_URL
             updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
-            updateEnv "AGENDAMENTO_URL=" $BACKOFFICE_URL
+            updateEnv "AGENDAMENTO_URL=" $AGENDAMENTO_URL
             updateEnv "CDN_URL=" $CDN_URL
             updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
             updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
@@ -361,7 +361,7 @@ configEnvIntegracao(){
 
 #função updateEnv: Atualiza o ENV se a variavel existir
 updateEnv(){
-    if [ -n $2 ]
+    if [[  $2 ]]
     then
         regexFile $1 $2
     fi

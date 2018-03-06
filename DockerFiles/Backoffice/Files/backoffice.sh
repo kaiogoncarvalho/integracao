@@ -41,6 +41,15 @@ setup_backoffice()
 
     msgConfig "Criando pastas necessárias: "
     cd html/portal/pravaler/
+    
+    if [ -d "csv" ]
+    then
+        msgConfigItem "Diretório $(pwd)/csv já existe."
+    else
+        mkdir csv
+        msgConfigItem "Diretório $(pwd)/csv criado."
+    fi
+
     if [ -d "log" ]
     then
         msgConfigItem "Diretório $(pwd)/log já existe."

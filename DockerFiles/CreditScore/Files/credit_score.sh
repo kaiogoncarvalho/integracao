@@ -22,10 +22,10 @@ setup_credit_score()
     msgConfig "Criando diretórios e definindo configurações:"
     if [ -d "xdebug-profile-logs" ]
     then
-        msgConfigItem "\nDiretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
-        msgConfigItem "\nDiretório $(pwd)/xdebug-profile-logs criado."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs criado."
     fi
     chmod 777 -R $1
 

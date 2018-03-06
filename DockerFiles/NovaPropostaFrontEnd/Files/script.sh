@@ -32,7 +32,7 @@ sed -i "s#\$APIPRAVALER_URL#'http://$APIPRAVALER_URL/v1'#" src/environments/envi
 nginx
 
 #Efetua o processo de build da proposta
-npm run build --watch
+npm run-script build
 
 #Retorna um terminal
 /bin/bash

@@ -226,8 +226,7 @@ regexFile(){
     if isEmptyVariable $FILE; then
         FILE=".env"
     fi
-    VARIABLE=$(echo $2 | sed -e "s/\//\\\\\//g")
-    sed -E -i "s/($1)(.*)/\1$VARIABLE/g" $FILE
+    sed -E -i "s#($1)(.*)#\1$2#g" $FILE
 }
 
 #função msgAlert: Retonar um texto no formato de alerta

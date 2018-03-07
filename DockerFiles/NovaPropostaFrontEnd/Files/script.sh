@@ -12,7 +12,7 @@ npm install
 #Renomeando o angular-cli.json, caso o mesmo exista
 if [ -e "angular-cli.json~" ]
 then
-    mv angular-cli.json~ angular-cli.json
+    cp angular-cli.json~ angular-cli.json
 fi
 
 # Substitui o nome da pasta de publicação do projeto pela varíavel $PROJECT_PUBLIC_FOLDER

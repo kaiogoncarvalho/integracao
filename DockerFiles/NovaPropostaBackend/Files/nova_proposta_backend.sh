@@ -8,6 +8,7 @@ setup_nova_proposta_backend()
 
     configInitialEnv '.env.example'
 
+    regexFile 'APP_ENV=' "homolog"
     regexFile 'APP_URL=' $NOVAPROPOSTA_BACKEND_URL
     regexFile 'API_URL=' "$APIAPARTADA_URL/"
     regexFile 'BO_URL=' "$BACKOFFICE_URL/"
@@ -22,10 +23,11 @@ setup_nova_proposta_backend()
     regexFile 'DB_BO_PASSWORD=' $DB_PASSWORD
     regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
     regexFile 'API_TOKEN=' "539a6c1ee350a8c21d56b68719a01caf"
+    regexFile 'PROXY=' ""
 
     if [ -d "xdebug-profile-logs" ]
     then
-        msgConfig "- Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
     fi

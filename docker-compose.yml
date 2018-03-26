@@ -84,7 +84,7 @@ services:
     volumes:
       - $APIPRAVALER_LOCAL:$APIPRAVALER_DOCKER
     container_name: api_pravaler
-    image: kaioidealinvest/php:7.1
+    image: kaioidealinvest/php:7.0
     extra_hosts:
       - "$APIPRAVALER_URL:127.0.0.1"
     environment:

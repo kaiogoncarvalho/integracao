@@ -317,7 +317,7 @@ configEnvIntegracao(){
     then
         . $ENV
         # Verifica se o arquivo .env está na versão certa
-        if [ -z $VERSAO ] || [ $VERSAO != '1.5.0' ]
+        if [ -z $VERSAO ] || [ $VERSAO != '1.6.0' ]
         then
             #Atualiza o arquivo .env com os diretórios do antigo arquivo .env
 

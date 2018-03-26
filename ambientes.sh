@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+VERSAO_ATUAL='1.6.0'
+
 INTEGRACAO_DIR=$(pwd)
 
 #Variáveis do ENV

@@ -28,6 +28,8 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
 # Configuração do ftp risco cobranca
 FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
+# Configuração do Seguros
+SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
@@ -41,6 +43,7 @@ FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 . $AGENDAMENTO_SH
 . $HELPERS
 . $NGINX_SH
+. $SEGUROS_SH
 
 
 
@@ -74,6 +77,7 @@ main() {
         setup_ftp_risco_cobranca
     fi
 
+    configRepository "Seguros" "SEGUROS" "setup_seguros"
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then

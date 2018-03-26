@@ -276,3 +276,22 @@ services:
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
+  seguros:
+    restart: always
+    container_name: seguros
+    image: kaioidealinvest/php:7.0
+    stdin_open: true
+    tty: true
+    environment:
+      - VOLUME=$SEGUROS_DOCKER
+      - SITE_HOST=$SEGUROS_URL
+      - SITE_DOCUMENT_ROOT=$SEGUROS_DOCUMENT_ROOT
+    volumes:
+      - $SEGUROS_LOCAL:$SEGUROS_DOCKER
+    extra_hosts:
+      - "$SEGUROS_URL:127.0.0.1"
+      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
+      - "$PORTALPRAVALER_URL:$PORTALPRAVALER_IP"
+    networks:
+       idealinvest-network:
+          ipv4_address: $SEGUROS_IP

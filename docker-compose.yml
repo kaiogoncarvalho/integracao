@@ -69,6 +69,7 @@ services:
       - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
       - "$APIAPARTADA_URL:$APIAPARTADA_IP"
       - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
+      - "$SEGUROS_URL:$SEGUROS_IP"
     depends_on:
       - backoffice
     networks:

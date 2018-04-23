@@ -27,6 +27,7 @@ services:
       - "$FTPRISCOCOBRANCA_URL:$FTPRISCOCOBRANCA_IP"
       - "$CDN_URL:$CDN_IP"
       - "retornomec.idealinvest.srv.br:10.104.110.143"
+      - "$SEGUROS_URL:$SEGUROS_IP"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
       - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT

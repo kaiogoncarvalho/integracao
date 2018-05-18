@@ -1,9 +1,19 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
+
+VERSAO_ATUAL='1.7.0'
+
+INTEGRACAO_DIR=$(pwd)
+
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
   [ -d $1 ]
+}
+
+# função isValidFile: verifica se o primeiro parâmetro passado na instancialização da função é um arquivo válido
+isValidFile() {
+  [ -f $1 ]
 }
 
 # função isNotEmptyDirectory: verifica se o primeiro parâmetro passado na instancialização da função não é um diretório vazio
@@ -33,6 +43,19 @@ isValidRepository() {
   fi
 }
 
+# função validFile: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
+validFile() {
+  if isValidFile $1; then
+    if isEmptyVariable $1; then
+     false
+    else
+     true
+    fi
+  else
+    false
+  fi
+}
+
 # função isNotValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro
 # parâmetro passado na instancialização da função é um repositório inválido
 isNotValidRepository() {
@@ -45,6 +68,20 @@ isNotValidRepository() {
         fi
     else
       true
+    fi
+  else
+    true
+  fi
+}
+
+# função isNotValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro
+# parâmetro passado na instancialização da função é um repositório inválido
+isNotValidFile() {
+  if isValidFile $1; then
+    if isEmptyVariable $1; then
+     true
+    else
+     false
     fi
   else
     true
@@ -115,10 +152,20 @@ composerConfig() {
 dockerComposeUp() {
     msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
-    docker-compose stop $1
-    docker rm $1
-    docker-compose build --pull $1
-    docker-compose up -d $1
+
+    if [ $2 == "neo" ];
+    then
+        docker-compose -p neo -f neo.yml stop $1
+        docker rm -f $1
+        docker-compose -p neo -f neo.yml  build --pull $1
+        docker-compose -p neo -f neo.yml  up -d $1
+    else
+        docker-compose stop $1
+        docker rm -f $1
+        docker-compose build --pull $1
+        docker-compose up -d $1
+    fi
+
 
 }
 
@@ -157,6 +204,8 @@ configRepository() {
             if isValidRepository $DIR; then
                 includeEnv $NAME_DIR $DIR
                 $3 $DIR
+                cd $DIR
+                git config core.filemode false
             else
                 msgAlert 'Repositório Inválido.'
             fi
@@ -366,4 +415,31 @@ updateEnv(){
     then
         regexFile $1 $2
     fi
+}
+
+#função testSystem: Abre o navegador com o novo sistema
+testSystem(){
+   google-chrome $1 --no-sandbox
+}
+
+#função configNeo: instala o config do neo
+configNeo(){
+
+    if isNotValidFile $NEO_CONFIG; then
+
+        CAMINHO=$(cd $INTEGRACAO_DIR/.. && pwd)
+
+        read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
+        if isValidFile $config; then
+            msgConfigItemSucess "Arquivo $config foi configurado.\n"
+            includeEnv "NEO_CONFIG" $config
+        else
+            msgAlert 'Arquivo não encontrado.'
+            false
+        fi
+    else
+        msgConfigItemWarning "Arquivo $NEO_CONFIG já existe.\n"
+        true
+    fi
+
 }

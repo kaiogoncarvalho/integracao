@@ -281,7 +281,7 @@ services:
   seguros:
     restart: always
     container_name: seguros
-    image: kaioidealinvest/php:7.0
+    image: kaioidealinvest/php:7.1
     stdin_open: true
     tty: true
     environment:

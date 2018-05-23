@@ -7,6 +7,8 @@ NEGOTIATION_SH=./DockerFiles/Neo/Negotiation/negotiation.sh
 PROPOSAL_SH=./DockerFiles/Neo/Proposal/proposal.sh
 # Configuração do Serviço de Integração
 INTEGRATION_SH=./DockerFiles/Neo/Integration/integration.sh
+# Configuração da lib do Neo
+LIB_SH=./DockerFiles/Neo/Lib/lib.sh
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 
@@ -15,6 +17,7 @@ HELPERS=./helpers.sh
 . $NEGOTIATION_SH
 . $PROPOSAL_SH
 . $INTEGRATION_SH
+. $LIB_SH
 
 
 

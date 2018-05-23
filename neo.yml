@@ -19,6 +19,8 @@ services:
     container_name: negotiation
     extra_hosts:
           - "$NEO_NEGOTIATION_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+          - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
     environment:
       - PROJECT=negotiation
       - ROOT=$NEO_NEGOTIATION_ROOT

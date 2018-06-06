@@ -18,6 +18,4 @@ negotiation(){
 
     configHost $NEO_NEGOTIATION_IP $NEO_NEGOTIATION_URL
 
-    testSystem $NEO_NEGOTIATION_URL
-
 }

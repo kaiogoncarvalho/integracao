@@ -18,6 +18,4 @@ proposal(){
 
     configHost $NEO_PROPOSAL_IP $NEO_PROPOSAL_URL
 
-    testSystem $NEO_PROPOSAL_URL
-
 }

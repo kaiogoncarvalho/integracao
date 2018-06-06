@@ -18,6 +18,4 @@ integration(){
 
     configHost $NEO_INTEGRATION_IP $NEO_INTEGRATION_URL
 
-    testSystem $NEO_INTEGRATION_URL
-
 }

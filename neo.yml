@@ -25,6 +25,7 @@ services:
       - PROJECT=negotiation
       - ROOT=$NEO_NEGOTIATION_ROOT
       - URL=$NEO_NEGOTIATION_URL
+      - VOLUME=$NEO_NEGOTIATION_DOCKER
     networks:
       neo-network:
         ipv4_address: $NEO_NEGOTIATION_IP
@@ -43,6 +44,7 @@ services:
       - PROJECT=proposal
       - ROOT=$NEO_PROPOSAL_ROOT
       - URL=$NEO_PROPOSAL_URL
+      - VOLUME=$NEO_INTEGRATION_DOCKER
     networks:
       neo-network:
         ipv4_address: $NEO_PROPOSAL_IP

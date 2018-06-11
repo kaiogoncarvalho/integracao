@@ -404,7 +404,7 @@ configEnvIntegracao(){
             updateEnv "NEO_NEGOTIATION_URL=" $NEO_NEGOTIATION_URL
             updateEnv "NEO_PROPOSAL_URL=" $NEO_PROPOSAL_URL
             updateEnv "NEO_INTEGRATION_URL=" $NEO_INTEGRATION_URL
-            updateEnv "NEO_STUDENT_URL=" $NEO_INTEGRATION_URL
+            updateEnv "NEO_STUDENT_URL=" $NEO_STUDENT_URL
 
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO

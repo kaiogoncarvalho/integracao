@@ -379,9 +379,15 @@ configEnvIntegracao(){
             updateEnv "APIAPARTADA_LOCAL=" $APIAPARTADA_LOCAL
             updateEnv "CREDITSCORE_LOCAL=" $CREDITSCORE_LOCAL
             updateEnv "AGENDAMENTO_LOCAL=" $AGENDAMENTO_LOCAL
+
             updateEnv "CDN_LOCAL=" $CDN_LOCAL
+
             updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
             updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
+
+            updateEnv "NEO_NEGOTIATION_LOCAL=" $NEO_NEGOTIATION_LOCAL
+            updateEnv "NEO_PROPOSAL_LOCAL=" $NEO_PROPOSAL_LOCAL
+            updateEnv "NEO_INTEGRATION_LOCAL=" $NEO_INTEGRATION_LOCAL
             
             updateEnv "BACKOFFICE_URL=" $BACKOFFICE_URL
             updateEnv "PORTALPRAVALER_URL=" $PORTALPRAVALER_URL
@@ -390,8 +396,14 @@ configEnvIntegracao(){
             updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
             updateEnv "AGENDAMENTO_URL=" $AGENDAMENTO_URL
             updateEnv "CDN_URL=" $CDN_URL
+            
             updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
             updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
+
+            updateEnv "NEO_NEGOTIATION_URL=" $NEO_NEGOTIATION_URL
+            updateEnv "NEO_PROPOSAL_URL=" $NEO_PROPOSAL_URL
+            updateEnv "NEO_INTEGRATION_URL=" $NEO_INTEGRATION_URL
+
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
 

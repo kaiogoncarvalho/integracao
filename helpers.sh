@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 
 
-VERSAO_ATUAL='1.7.0'
+VERSAO_ATUAL='1.7.1'
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -396,7 +396,7 @@ configEnvIntegracao(){
             updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
             updateEnv "AGENDAMENTO_URL=" $AGENDAMENTO_URL
             updateEnv "CDN_URL=" $CDN_URL
-            
+
             updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
             updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
 
@@ -406,6 +406,7 @@ configEnvIntegracao(){
 
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
+            updateEnv "NEO_CONFIG=" $NEO_CONFIG
 
             . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"

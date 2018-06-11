@@ -66,3 +66,21 @@ services:
     networks:
       neo-network:
         ipv4_address: $NEO_INTEGRATION_IP
+  student:
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - $NEO_STUDENT_LOCAL:$NEO_STUDENT_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: student
+    extra_hosts:
+          - "$NEO_STUDENT_URL:127.0.0.1"
+    environment:
+      - PROJECT=student
+      - ROOT=$NEO_STUDENT_ROOT
+      - URL=$NEO_STUDENT_URL
+    networks:
+      neo-network:
+        ipv4_address: $NEO_STUDENT_IP

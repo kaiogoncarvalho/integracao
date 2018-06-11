@@ -7,6 +7,8 @@ NEGOTIATION_SH=./DockerFiles/Neo/Negotiation/negotiation.sh
 PROPOSAL_SH=./DockerFiles/Neo/Proposal/proposal.sh
 # Configuração do Serviço de Integração
 INTEGRATION_SH=./DockerFiles/Neo/Integration/integration.sh
+# Configuração do Serviço de Integração
+STUDENT_SH=./DockerFiles/Neo/Student/student.sh
 # Configuração da lib do Neo
 LIB_SH=./DockerFiles/Neo/Lib/lib.sh
 # Funções Helpers do instalador de ambientes
@@ -17,6 +19,7 @@ HELPERS=./helpers.sh
 . $NEGOTIATION_SH
 . $PROPOSAL_SH
 . $INTEGRATION_SH
+. $STUDENT_SH
 . $LIB_SH
 
 
@@ -32,9 +35,10 @@ main() {
 
     if configNeo;
     then
-        configRepository "Negociação de Acordos" "NEO_NEGOTIATION" "negotiation"
-        configRepository "Propostas" "NEO_PROPOSAL" "proposal"
+        configRepository "Negotiation" "NEO_NEGOTIATION" "negotiation"
+        configRepository "Proposal" "NEO_PROPOSAL" "proposal"
         configRepository "Integration" "NEO_INTEGRATION" "integration"
+        configRepository "Student" "NEO_STUDENT" "student"
     fi
 
 

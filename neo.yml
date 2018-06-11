@@ -40,7 +40,7 @@ services:
     container_name: proposal
     extra_hosts:
           - "$NEO_PROPOSAL_URL:127.0.0.1"
-          - "$NEO_INTEGRATION_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
     environment:
       - PROJECT=proposal
       - ROOT=$NEO_PROPOSAL_ROOT
@@ -78,7 +78,7 @@ services:
     container_name: student
     extra_hosts:
           - "$NEO_STUDENT_URL:127.0.0.1"
-          - "$NEO_INTEGRATION_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
     environment:
       - PROJECT=student
       - ROOT=$NEO_STUDENT_ROOT

@@ -1,9 +1,6 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
-
-VERSAO_ATUAL='1.8.0'
-
 INTEGRACAO_DIR=$(pwd)
 
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
@@ -203,7 +200,7 @@ configRepository() {
         then
             if isValidRepository $DIR; then
                 includeEnv $NAME_DIR $DIR
-                $3 $DIR
+                $3 $DIR $2
                 cd $DIR
                 git config core.filemode false
             else
@@ -213,7 +210,7 @@ configRepository() {
             msgAlert 'Erro ao instalar Sistema.'
         fi
     else
-        $3 $DIR
+        $3 $DIR $2
         echo -e "\n"
     fi
   fi
@@ -364,7 +361,10 @@ configEnvIntegracao(){
 
     if [ -f ".env" ]
     then
+        . $ENV_EXAMPLE
+        VERSAO_ATUAL=$VERSAO
         . $ENV
+
         # Verifica se o arquivo .env está na versão certa
         if [ -z $VERSAO ] || [ $VERSAO != $VERSAO_ATUAL ]
         then
@@ -373,39 +373,22 @@ configEnvIntegracao(){
             msgConfigItemWarning "Necessário atualizar arquivo $(pwd)/.env, sua versão está desatualizada.\n"
             cp $1 .env
 
-            updateEnv "BACKOFFICE_LOCAL=" $BACKOFFICE_LOCAL
-            updateEnv "PORTALPRAVALER_LOCAL=" $PORTALPRAVALER_LOCAL
-            updateEnv "APIPRAVALER_LOCAL=" $APIPRAVALER_LOCAL
-            updateEnv "APIAPARTADA_LOCAL=" $APIAPARTADA_LOCAL
-            updateEnv "CREDITSCORE_LOCAL=" $CREDITSCORE_LOCAL
-            updateEnv "AGENDAMENTO_LOCAL=" $AGENDAMENTO_LOCAL
+            keepEnv "BACKOFFICE"
+            keepEnv "PORTALPRAVALER"
+            keepEnv "APIPRAVALER"
+            keepEnv "APIAPARTADA"
+            keepEnv "CREDITSCORE"
+            keepEnv "AGENDAMENTO"
+            keepEnv "CDN"
 
-            updateEnv "CDN_LOCAL=" $CDN_LOCAL
+            keepEnv "NOVAPROPOSTA_BACKEND"
+            keepEnv "NOVAPROPOSTA_FRONTEND"
 
-            updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
-            updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
-
-            updateEnv "NEO_NEGOTIATION_LOCAL=" $NEO_NEGOTIATION_LOCAL
-            updateEnv "NEO_PROPOSAL_LOCAL=" $NEO_PROPOSAL_LOCAL
-            updateEnv "NEO_INTEGRATION_LOCAL=" $NEO_INTEGRATION_LOCAL
-            updateEnv "NEO_STUDENT_LOCAL=" $NEO_STUDENT_LOCAL
-            
-            updateEnv "BACKOFFICE_URL=" $BACKOFFICE_URL
-            updateEnv "PORTALPRAVALER_URL=" $PORTALPRAVALER_URL
-            updateEnv "APIPRAVALER_URL=" $APIPRAVALER_URL
-            updateEnv "APIAPARTADA_URL=" $APIAPARTADA_URL
-            updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
-            updateEnv "AGENDAMENTO_URL=" $AGENDAMENTO_URL
-            updateEnv "CDN_URL=" $CDN_URL
-
-            updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
-            updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
-
-            updateEnv "NEO_NEGOTIATION_URL=" $NEO_NEGOTIATION_URL
-            updateEnv "NEO_PROPOSAL_URL=" $NEO_PROPOSAL_URL
-            updateEnv "NEO_INTEGRATION_URL=" $NEO_INTEGRATION_URL
-            updateEnv "NEO_STUDENT_URL=" $NEO_STUDENT_URL
-
+            keepEnv "NEO_NEGOTIATION"
+            keepEnv "NEO_PROPOSAL"
+            keepEnv "NEO_INTEGRATION"
+            keepEnv "NEO_STUDENT"
+            keepEnv "ALFRED_SERVER"
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG
@@ -432,11 +415,6 @@ updateEnv(){
     fi
 }
 
-#função testSystem: Abre o navegador com o novo sistema
-testSystem(){
-   google-chrome $1 --no-sandbox
-}
-
 #função configNeo: instala o config do neo
 configNeo(){
 
@@ -456,5 +434,18 @@ configNeo(){
         msgConfigItemWarning "Arquivo $NEO_CONFIG já existe.\n"
         true
     fi
+
+}
+
+#função keepEnv
+keepEnv(){
+
+    NAME_DIR="$1_LOCAL"
+    NAME_URL="$1_URL"
+    DIR=$(getEnv "$NAME_DIR")
+    URL=$(getEnv "$NAME_URL")
+
+    updateEnv "$NAME_DIR=" $DIR
+    updateEnv "$NAME_URL=" $URL
 
 }

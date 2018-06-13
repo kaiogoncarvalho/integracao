@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #Variáveis do ENV
 ENV=./.env
+#Env Example
+ENV_EXAMPLE=./example.env
 # Configuração da Api Apartada
 APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
 # Configuração da Api Pravaler

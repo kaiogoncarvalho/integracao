@@ -16,13 +16,13 @@ services:
       - $NEO_NEGOTIATION_LOCAL:$NEO_NEGOTIATION_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
     image: kaioidealinvest/neo:php7.2
-    container_name: negotiation
+    container_name: $NEO_NEGOTIATION_PROJECT
     extra_hosts:
           - "$NEO_NEGOTIATION_URL:127.0.0.1"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
     environment:
-      - PROJECT=negotiation
+      - PROJECT=$NEO_NEGOTIATION_PROJECT
       - ROOT=$NEO_NEGOTIATION_ROOT
       - URL=$NEO_NEGOTIATION_URL
       - VOLUME=$NEO_NEGOTIATION_DOCKER
@@ -37,12 +37,12 @@ services:
       - $NEO_PROPOSAL_LOCAL:$NEO_PROPOSAL_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
     image: kaioidealinvest/neo:php7.2
-    container_name: proposal
+    container_name: $NEO_PROPOSAL_PROJECT
     extra_hosts:
           - "$NEO_PROPOSAL_URL:127.0.0.1"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
     environment:
-      - PROJECT=proposal
+      - PROJECT=$NEO_PROPOSAL_PROJECT
       - ROOT=$NEO_PROPOSAL_ROOT
       - URL=$NEO_PROPOSAL_URL
       - VOLUME=$NEO_INTEGRATION_DOCKER
@@ -57,11 +57,11 @@ services:
       - $NEO_INTEGRATION_LOCAL:$NEO_INTEGRATION_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
     image: kaioidealinvest/neo:php7.2
-    container_name: integration
+    container_name: $NEO_INTEGRATION_PROJECT
     extra_hosts:
           - "$NEO_INTEGRATION_URL:127.0.0.1"
     environment:
-      - PROJECT=integration
+      - PROJECT=$NEO_INTEGRATION_PROJECT
       - ROOT=$NEO_INTEGRATION_ROOT
       - URL=$NEO_INTEGRATION_URL
     networks:
@@ -75,14 +75,36 @@ services:
       - $NEO_STUDENT_LOCAL:$NEO_STUDENT_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
     image: kaioidealinvest/neo:php7.2
-    container_name: student
+    container_name: $NEO_STUDENT_PROJECT
     extra_hosts:
           - "$NEO_STUDENT_URL:127.0.0.1"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
     environment:
-      - PROJECT=student
+      - PROJECT=$NEO_STUDENT_PROJECT
       - ROOT=$NEO_STUDENT_ROOT
       - URL=$NEO_STUDENT_URL
     networks:
       neo-network:
         ipv4_address: $NEO_STUDENT_IP
+  alfred-server:
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - $ALFRED_SERVER_LOCAL:$ALFRED_SERVER_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $ALFRED_SERVER_PROJECT
+    extra_hosts:
+          - "$ALFRED_SERVER_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+          - "$NEO_STUDENT_URL:$NEO_STUDENT_IP"
+          - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
+          - "$NEO_NEGOTIATION_URL:$NEO_INTEGRATION_IP"
+    environment:
+      - PROJECT=$ALFRED_SERVER_PROJECT
+      - ROOT=$ALFRED_SERVER_ROOT
+      - URL=$ALFRED_SERVER_URL
+    networks:
+      neo-network:
+        ipv4_address: $ALFRED_SERVER_IP

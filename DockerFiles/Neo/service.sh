@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 
-integration(){
+service(){
 
-    composerConfig $1
-    
-     cd $1
+    DIR=$1
+
+    composerConfig $DIR
+
+     cd $DIR
 
     ln -s $NEO_CONFIG config.php
-     
+
     msgConfig "Definindo Permissões:"
 
     chmod 777 -R .
 
     msgConfigItem "Permissões Definidas."
 
-    dockerComposeUp 'integration' 'neo'
+    dockerComposeUp $(getEnv "$2_PROJECT") 'neo'
 
-    configHost $NEO_INTEGRATION_IP $NEO_INTEGRATION_URL
+    configHost $(getEnv "$2_IP")  $(getEnv "$2_URL")
 
 }

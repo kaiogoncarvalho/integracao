@@ -11,13 +11,8 @@ Criar o ambiente de todos os Sistemas de uma vez
 2. Ter Docker-Compose instalado;
     * sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-\`uname -s\`-\`uname -m` -o /usr/bin/docker-compose
     * sudo chmod +x /usr/bin/docker-compose
-3. Ter Acesso a um dos repositórios abaixo:
-    * **Observação: Somente os repositórios que tem acesso irão funcionar, mas não é necessário ter acesso a todos, se tiver acesso a somente um já é o suficiente.**
-    * Backoffice: http://10.10.100.75/ideal-invest/BO-PRV
-    * Portal Pravaler **(Portal Pravaler necessita do Backoffice)**: http://10.10.100.75/portalpravaler/portalpravaler.git 
-    * API Pravaler: http://10.10.100.75/pravaler/api-pravaler.git
-    * API Apartada: http://10.10.100.75/ideal-invest/BO-PRV-API.git
-    * CreditScore: http://10.10.100.75/bsy.jhones/credit-score.git
+3. Ter Acesso o repositório do projeto que vai ser instalado;
+
 
 # Usage
 
@@ -36,10 +31,13 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Acessar a pasta do repositório da Integração:
 2. Configurar os ambientes:
     * `sudo bash ambientes.sh` 
-    * **Importante: Ser executado em sudo**    
-3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
-4. Todos os containers criados serão iniciados automaticamente;
-5. Quando necessário iniciar ou parar os containers:
+    * **Importante: Ser executado em sudo** 
+3. Configurar os ambientes do Neo:
+    * `sudo bash ambientes-neo.sh` 
+    * **Importante: Ser executado em sudo**      
+4. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
+5. Todos os containers criados serão iniciados automaticamente;
+6. Quando necessário iniciar ou parar os containers:
     * Iniciar container:
         * `docker start <container name>`
     * Parar container:
@@ -48,15 +46,22 @@ Criar o ambiente de todos os Sistemas de uma vez
         
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
-    * **CDN:** http://cdn.portalpravaler.desenv
-    * **Backoffice:** http://backoffice.desenv
-    * **Portal Pravaler:** http://portalpravaler.desenv
-    * **API Pravaler:** http://api.pravaler.desenv
-    * **API Apartada:** http://api.apartada.desenv
-    * **CreditScore:** http://creditscore.desenv
-    * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
-    * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
-    * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv
+    * **Ambientes**    
+        * **CDN:** http://cdn.portalpravaler.desenv
+        * **Backoffice:** http://backoffice.desenv
+        * **Portal Pravaler:** http://portalpravaler.desenv
+        * **API Pravaler:** http://api.pravaler.desenv
+        * **API Apartada:** http://api.apartada.desenv
+        * **CreditScore:** http://creditscore.desenv
+        * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
+        * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
+        * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv
+    * **Ambientes Neo** 
+        * **Neo Proposal:** http://lo.proposal.idealinvest.srv.br
+        * **Neo Integration:** http://lo.integration.idealinvest.srv.br
+        * **Neo Student:** http://lo.student.idealinvest.srv.br
+        * **Neo Negotiation:** http://lo.negotiation.idealinvest.srv.br
+        * **Alfred Server:** http://lo.callcenter.idealinvest.srv.br
     
 # Opcional: Instalar o Xdebug
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:

@@ -1,9 +1,16 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
+INTEGRACAO_DIR=$(pwd)
+
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
   [ -d $1 ]
+}
+
+# função isValidFile: verifica se o primeiro parâmetro passado na instancialização da função é um arquivo válido
+isValidFile() {
+  [ -f $1 ]
 }
 
 # função isNotEmptyDirectory: verifica se o primeiro parâmetro passado na instancialização da função não é um diretório vazio
@@ -33,6 +40,19 @@ isValidRepository() {
   fi
 }
 
+# função validFile: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
+validFile() {
+  if isValidFile $1; then
+    if isEmptyVariable $1; then
+     false
+    else
+     true
+    fi
+  else
+    false
+  fi
+}
+
 # função isNotValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro
 # parâmetro passado na instancialização da função é um repositório inválido
 isNotValidRepository() {
@@ -45,6 +65,20 @@ isNotValidRepository() {
         fi
     else
       true
+    fi
+  else
+    true
+  fi
+}
+
+# função isNotValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro
+# parâmetro passado na instancialização da função é um repositório inválido
+isNotValidFile() {
+  if isValidFile $1; then
+    if isEmptyVariable $1; then
+     true
+    else
+     false
     fi
   else
     true
@@ -115,10 +149,20 @@ composerConfig() {
 dockerComposeUp() {
     msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
-    docker-compose stop $1
-    docker rm $1
-    docker-compose build --pull $1
-    docker-compose up -d $1
+
+    if [ $2 == "neo" ];
+    then
+        docker-compose -p neo -f neo.yml stop $1
+        docker rm -f $1
+        docker-compose -p neo -f neo.yml  build --pull $1
+        docker-compose -p neo -f neo.yml  up -d $1
+    else
+        docker-compose stop $1
+        docker rm -f $1
+        docker-compose build --pull $1
+        docker-compose up -d $1
+    fi
+
 
 }
 
@@ -156,7 +200,9 @@ configRepository() {
         then
             if isValidRepository $DIR; then
                 includeEnv $NAME_DIR $DIR
-                $3 $DIR
+                $3 $DIR $2
+                cd $DIR
+                git config core.filemode false
             else
                 msgAlert 'Repositório Inválido.'
             fi
@@ -164,7 +210,7 @@ configRepository() {
             msgAlert 'Erro ao instalar Sistema.'
         fi
     else
-        $3 $DIR
+        $3 $DIR $2
         echo -e "\n"
     fi
   fi
@@ -315,7 +361,10 @@ configEnvIntegracao(){
 
     if [ -f ".env" ]
     then
+        . $ENV_EXAMPLE
+        VERSAO_ATUAL=$VERSAO
         . $ENV
+
         # Verifica se o arquivo .env está na versão certa
         if [ -z $VERSAO ] || [ $VERSAO != $VERSAO_ATUAL ]
         then
@@ -324,27 +373,25 @@ configEnvIntegracao(){
             msgConfigItemWarning "Necessário atualizar arquivo $(pwd)/.env, sua versão está desatualizada.\n"
             cp $1 .env
 
-            updateEnv "BACKOFFICE_LOCAL=" $BACKOFFICE_LOCAL
-            updateEnv "PORTALPRAVALER_LOCAL=" $PORTALPRAVALER_LOCAL
-            updateEnv "APIPRAVALER_LOCAL=" $APIPRAVALER_LOCAL
-            updateEnv "APIAPARTADA_LOCAL=" $APIAPARTADA_LOCAL
-            updateEnv "CREDITSCORE_LOCAL=" $CREDITSCORE_LOCAL
-            updateEnv "AGENDAMENTO_LOCAL=" $AGENDAMENTO_LOCAL
-            updateEnv "CDN_LOCAL=" $CDN_LOCAL
-            updateEnv "NOVAPROPOSTA_BACKEND_LOCAL=" $NOVAPROPOSTA_BACKEND_LOCAL
-            updateEnv "NOVAPROPOSTA_FRONTEND_LOCAL=" $NOVAPROPOSTA_FRONTEND_LOCAL
-            
-            updateEnv "BACKOFFICE_URL=" $BACKOFFICE_URL
-            updateEnv "PORTALPRAVALER_URL=" $PORTALPRAVALER_URL
-            updateEnv "APIPRAVALER_URL=" $APIPRAVALER_URL
-            updateEnv "APIAPARTADA_URL=" $APIAPARTADA_URL
-            updateEnv "CREDITSCORE_URL=" $CREDITSCORE_URL
-            updateEnv "AGENDAMENTO_URL=" $AGENDAMENTO_URL
-            updateEnv "CDN_URL=" $CDN_URL
-            updateEnv "NOVAPROPOSTA_BACKEND_URL=" $NOVAPROPOSTA_BACKEND_URL
-            updateEnv "NOVAPROPOSTA_FRONTEND_URL=" $NOVAPROPOSTA_FRONTEND_URL
+            keepEnv "BACKOFFICE"
+            keepEnv "PORTALPRAVALER"
+            keepEnv "APIPRAVALER"
+            keepEnv "APIAPARTADA"
+            keepEnv "CREDITSCORE"
+            keepEnv "AGENDAMENTO"
+            keepEnv "CDN"
+
+            keepEnv "NOVAPROPOSTA_BACKEND"
+            keepEnv "NOVAPROPOSTA_FRONTEND"
+
+            keepEnv "NEO_NEGOTIATION"
+            keepEnv "NEO_PROPOSAL"
+            keepEnv "NEO_INTEGRATION"
+            keepEnv "NEO_STUDENT"
+            keepEnv "ALFRED_SERVER"
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
+            updateEnv "NEO_CONFIG=" $NEO_CONFIG
 
             . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"
@@ -366,4 +413,39 @@ updateEnv(){
     then
         regexFile $1 $2
     fi
+}
+
+#função configNeo: instala o config do neo
+configNeo(){
+
+    if isNotValidFile $NEO_CONFIG; then
+
+        CAMINHO=$(cd $INTEGRACAO_DIR/.. && pwd)
+
+        read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
+        if isValidFile $config; then
+            msgConfigItemSucess "Arquivo $config foi configurado.\n"
+            includeEnv "NEO_CONFIG" $config
+        else
+            msgAlert 'Arquivo não encontrado.'
+            false
+        fi
+    else
+        msgConfigItemWarning "Arquivo $NEO_CONFIG já existe.\n"
+        true
+    fi
+
+}
+
+#função keepEnv
+keepEnv(){
+
+    NAME_DIR="$1_LOCAL"
+    NAME_URL="$1_URL"
+    DIR=$(getEnv "$NAME_DIR")
+    URL=$(getEnv "$NAME_URL")
+
+    updateEnv "$NAME_DIR=" $DIR
+    updateEnv "$NAME_URL=" $URL
+
 }

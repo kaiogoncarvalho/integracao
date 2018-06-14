@@ -389,6 +389,7 @@ configEnvIntegracao(){
             keepEnv "NEO_INTEGRATION"
             keepEnv "NEO_STUDENT"
             keepEnv "ALFRED_SERVER"
+            keepEnv "ALFRED_CLIENT"
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG

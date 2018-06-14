@@ -12,6 +12,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
     build:
@@ -42,6 +44,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $CDN_LOCAL:$CDN_DOCKER
     image: kaioidealinvest/apache:ubuntu16.04
@@ -83,6 +87,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $APIPRAVALER_LOCAL:$APIPRAVALER_DOCKER
     container_name: api_pravaler
@@ -100,6 +106,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
@@ -122,6 +130,8 @@ services:
       context: .
     container_name: creditscore
     image: kaioidealinvest/php:7.1
+    dns:
+      - $DNS
     extra_hosts:
       - "$CREDITSCORE_URL:127.0.0.1"
     environment:
@@ -140,6 +150,8 @@ services:
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
     container_name: agendamento
     image: kaioidealinvest/php:7.1
+    dns:
+      - $DNS
     extra_hosts:
       - "$AGENDAMENTO_URL:127.0.0.1"
     environment:
@@ -153,6 +165,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     build:
       dockerfile: ./DockerFiles/Nginx/Dockerfile
       context: .
@@ -168,11 +182,15 @@ services:
     container_name: mongodb
     image: mongo:3.4
     restart: always
+    dns:
+      - $DNS
     networks:
        idealinvest-network:
           ipv4_address: $MONGO_IP
   mongo-temp:
     container_name: mongo-temp
+    dns:
+      - $DNS
     build:
       dockerfile: ./DockerFiles/MongoDB/Dockerfile
       context: .
@@ -188,6 +206,8 @@ services:
     stdin_open: true
     tty: true
     container_name: nova_proposta_frontend
+    dns:
+      - $DNS
     volumes:
       - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
     build:
@@ -212,6 +232,8 @@ services:
     image: kaioidealinvest/php:7.0
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
       - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
@@ -235,6 +257,8 @@ services:
     image: rabbitmq:3
     container_name: rabbitmq
     restart: always
+    dns:
+      - $DNS
     networks:
       idealinvest-network:
         ipv4_address: $RABBITMQ_IP
@@ -256,6 +280,8 @@ services:
      - "rabbitmq"
   ftp-risco-cobranca:
     restart: always
+    dns:
+      - $DNS
     build:
       dockerfile: ./DockerFiles/FtpRiscoCobranca/Dockerfile
       context: .
@@ -284,6 +310,8 @@ services:
     image: kaioidealinvest/php:7.1
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     environment:
       - VOLUME=$SEGUROS_DOCKER
       - SITE_HOST=$SEGUROS_URL

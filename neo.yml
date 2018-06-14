@@ -12,6 +12,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $NEO_NEGOTIATION_LOCAL:$NEO_NEGOTIATION_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
@@ -33,6 +35,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $NEO_PROPOSAL_LOCAL:$NEO_PROPOSAL_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
@@ -53,6 +57,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $NEO_INTEGRATION_LOCAL:$NEO_INTEGRATION_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
@@ -71,6 +77,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $NEO_STUDENT_LOCAL:$NEO_STUDENT_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php
@@ -90,6 +98,8 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    dns:
+      - $DNS
     volumes:
       - $ALFRED_SERVER_LOCAL:$ALFRED_SERVER_DOCKER
       - $NEO_CONFIG:/opt/neo/config.php

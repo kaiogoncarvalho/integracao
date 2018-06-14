@@ -1,0 +1,120 @@
+version: '3'
+networks:
+  neo-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: 172.20.1.0/24
+services:
+  negotiation:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_NEGOTIATION_LOCAL:$NEO_NEGOTIATION_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_NEGOTIATION_PROJECT
+    extra_hosts:
+          - "$NEO_NEGOTIATION_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+          - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
+    environment:
+      - PROJECT=$NEO_NEGOTIATION_PROJECT
+      - ROOT=$NEO_NEGOTIATION_ROOT
+      - URL=$NEO_NEGOTIATION_URL
+      - VOLUME=$NEO_NEGOTIATION_DOCKER
+    networks:
+      neo-network:
+        ipv4_address: $NEO_NEGOTIATION_IP
+  proposal:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_PROPOSAL_LOCAL:$NEO_PROPOSAL_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_PROPOSAL_PROJECT
+    extra_hosts:
+          - "$NEO_PROPOSAL_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+    environment:
+      - PROJECT=$NEO_PROPOSAL_PROJECT
+      - ROOT=$NEO_PROPOSAL_ROOT
+      - URL=$NEO_PROPOSAL_URL
+      - VOLUME=$NEO_INTEGRATION_DOCKER
+    networks:
+      neo-network:
+        ipv4_address: $NEO_PROPOSAL_IP
+  integration:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_INTEGRATION_LOCAL:$NEO_INTEGRATION_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_INTEGRATION_PROJECT
+    extra_hosts:
+          - "$NEO_INTEGRATION_URL:127.0.0.1"
+    environment:
+      - PROJECT=$NEO_INTEGRATION_PROJECT
+      - ROOT=$NEO_INTEGRATION_ROOT
+      - URL=$NEO_INTEGRATION_URL
+    networks:
+      neo-network:
+        ipv4_address: $NEO_INTEGRATION_IP
+  student:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_STUDENT_LOCAL:$NEO_STUDENT_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_STUDENT_PROJECT
+    extra_hosts:
+          - "$NEO_STUDENT_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+    environment:
+      - PROJECT=$NEO_STUDENT_PROJECT
+      - ROOT=$NEO_STUDENT_ROOT
+      - URL=$NEO_STUDENT_URL
+    networks:
+      neo-network:
+        ipv4_address: $NEO_STUDENT_IP
+  alfred-server:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $ALFRED_SERVER_LOCAL:$ALFRED_SERVER_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $ALFRED_SERVER_PROJECT
+    extra_hosts:
+          - "$ALFRED_SERVER_URL:127.0.0.1"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+          - "$NEO_STUDENT_URL:$NEO_STUDENT_IP"
+          - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
+          - "$NEO_NEGOTIATION_URL:$NEO_INTEGRATION_IP"
+    environment:
+      - PROJECT=$ALFRED_SERVER_PROJECT
+      - ROOT=$ALFRED_SERVER_ROOT
+      - URL=$ALFRED_SERVER_URL
+    networks:
+      neo-network:
+        ipv4_address: $ALFRED_SERVER_IP

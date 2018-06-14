@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-
-VERSAO_ATUAL='1.6.0'
-
-INTEGRACAO_DIR=$(pwd)
-
 #Variáveis do ENV
 ENV=./.env
+#Env Example
+ENV_EXAMPLE=./example.env
 # Configuração da Api Apartada
 APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
 # Configuração da Api Pravaler
@@ -33,6 +30,7 @@ FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 # Configuração do Seguros
 SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 
+. $HELPERS
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
 . $BACKOFFICE_SH
@@ -43,7 +41,6 @@ SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 . $NOVA_PROPOSTA_FRONTEND_SH
 . $FTP_RISCO_COBRANCA_SH
 . $AGENDAMENTO_SH
-. $HELPERS
 . $NGINX_SH
 . $SEGUROS_SH
 

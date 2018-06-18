@@ -107,10 +107,10 @@ services:
     container_name: $ALFRED_SERVER_PROJECT
     extra_hosts:
           - "$ALFRED_SERVER_URL:127.0.0.1"
-          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_STUDENT_URL:$NEO_STUDENT_IP"
           - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
-          - "$NEO_NEGOTIATION_URL:$NEO_INTEGRATION_IP"
+          - "$NEO_NEGOTIATION_URL:$NEO_NEGOTIATION_IP"
+          - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
     environment:
       - PROJECT=$ALFRED_SERVER_PROJECT
       - ROOT=$ALFRED_SERVER_ROOT
@@ -118,3 +118,27 @@ services:
     networks:
       neo-network:
         ipv4_address: $ALFRED_SERVER_IP
+  alfred-client:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $ALFRED_CLIENT_LOCAL:$ALFRED_CLIENT_DOCKER
+    build:
+      dockerfile: ./DockerFiles/Neo/AlfredClient/Dockerfile
+      context: .
+    container_name: alfred_client
+    image: kaioidealinvest/alfred_client
+    extra_hosts:
+      - "$ALFRED_CLIENT_URL:127.0.0.1"
+      - "$ALFRED_SERVER_URL:$ALFRED_SERVER_URL"
+      - "$NEO_NEGOTIATION_URL:$NEO_NEGOTIATION_IP"
+      - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
+    environment:
+      - VOLUME=$ALFRED_CLIENT_DOCKER
+      - SITE_HOST=$ALFRED_CLIENT_URL
+    networks:
+      neo-network:
+        ipv4_address: $ALFRED_CLIENT_IP

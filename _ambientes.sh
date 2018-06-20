@@ -1,48 +1,27 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
-# Importação das funções que serão usadas na aplicação
-HELPERS=helpers.sh
-. $HELPERS
+# Funções Helpers do instalador de ambientes
+HELPERS=./helpers.sh
+#Variáveis do ENV
+ENV=./.env
+#Env Example
+ENV_EXAMPLE=./example.env
+# Configuração da Api Apartada
 
 INTEGRACAO_DIR=$(pwd)
 
-#Variáveis do ENV
-# ENV=./.env
-# . $ENV
-
-# Configuração da Api Apartada
-APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
-. $APIAPARTADA_SH
-
-# Configuração da Api Pravaler
-APIPRAVALER_SH=./DockerFiles/ApiAprovacao/Files/api_pravaler.sh
-. $APIPRAVALER_SH
-
-# Configuração do Backoffice
-BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
-. $BACKOFFICE_SH
-
-# Configuração do CreditScore
-CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
-. $CREDITSCORE_SH
-
-# Configuração do Portal Pravaler
-PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
-. $PORTALPRAVALER_SH
+. $HELPERS
 
 # Inicializa as funções de configuração dos projetos
 main() {
   while true;
   do
-    printInBar "CONFIGURAÇÃO DE PROJETOS - IDEAL INVEST"
-    printLine "1 - Instalar ambientes"
-    printLine "  1.1 - Backoffice"
-    printLine "  1.2 - Portal Pravaler"
-    printLine "  1.3 - Credit Score"
-    printLine "  1.4 - API Apartada"
-    printLine "  1.5 - API Aprovação"
-    printInBar "0 - Sair"
+    printInBar "CONFIGURAÇÃO DE PROJETOS - PRAVALER"
+    printLine "1 - Instalar Ambientes"
+    printLine "2 - Instalar Ambientes Neo"
+    printLine "3 - Alterar Banco de Dados"
+    printInBar "S - Sair"
     read -p "| Informe a opção desejada >_ " OPTION
     lineDelimiter
     case $OPTION in
@@ -51,7 +30,14 @@ main() {
         exit
       ;;
       1) clear
-        printInBar "Instalando TODOS os projetos"
+        printInBar "AMBIENTES"
+        printLine "1 - Backoffice"
+        printLine "2 - CDN"
+        printLine "3 - API Pravaler"
+        printLine "0 - Voltar"
+        printInBar "S - Sair"
+        read -p "| Informe a opção desejada >_ " OPTION
+
         # performSetup "func" "TESTE"
       ;;
       "1.1") clear

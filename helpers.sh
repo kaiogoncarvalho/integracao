@@ -233,19 +233,19 @@ configHost() {
 
 # função lineDelimiter: imprime o delimitador padrão das saidas da aplicação
 lineDelimiter() {
-  echo "+---------------"
+  echo -e "+---------------"
 }
 
 # função printHeader: imprime o header padrão das saidas aplicação
 printHeader() {
   lineDelimiter
-  echo "| ${1}"
+  echo -e "| ${1}"
   lineDelimiter
 }
 
 # função printLine: imprime uma linha na formatação padrão das saidas da aplicação
 printLine() {
-  echo "| ${1}"
+  echo -e "| ${1}"
 }
 
 # função printPopup: imprime um popup
@@ -449,4 +449,27 @@ keepEnv(){
     updateEnv "$NAME_DIR=" $DIR
     updateEnv "$NAME_URL=" $URL
 
+}
+
+# função printInBar: imprime um popup
+printInBar() {
+  MESSAGE=$1
+  MESSAGE_SIZE=${#MESSAGE}
+  i=-1
+  echo -n "+"
+  while [ $i -le $MESSAGE_SIZE ]; do
+    echo -n "-"
+    i=$((i+1))
+  done
+  echo -n "+"
+  echo -e
+  echo "| ${MESSAGE} |"
+  echo -n "+"
+  j=-1
+  while [ $j -le $MESSAGE_SIZE ]; do
+    echo -n "-"
+    j=$((j+1))
+  done
+  echo -n "+"
+  echo -e
 }

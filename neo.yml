@@ -24,6 +24,7 @@ services:
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_PROPOSAL_URL:$NEO_PROPOSAL_IP"
           - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
     environment:
       - PROJECT=$NEO_NEGOTIATION_PROJECT
       - ROOT=$NEO_NEGOTIATION_ROOT
@@ -47,6 +48,7 @@ services:
           - "$NEO_PROPOSAL_URL:127.0.0.1"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
     environment:
       - PROJECT=$NEO_PROPOSAL_PROJECT
       - ROOT=$NEO_PROPOSAL_ROOT
@@ -69,6 +71,7 @@ services:
     extra_hosts:
           - "$NEO_INTEGRATION_URL:127.0.0.1"
           - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
     environment:
       - PROJECT=$NEO_INTEGRATION_PROJECT
       - ROOT=$NEO_INTEGRATION_ROOT
@@ -91,6 +94,7 @@ services:
           - "$NEO_STUDENT_URL:127.0.0.1"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
     environment:
       - PROJECT=$NEO_STUDENT_PROJECT
       - ROOT=$NEO_STUDENT_ROOT
@@ -116,6 +120,7 @@ services:
           - "$NEO_NEGOTIATION_URL:$NEO_NEGOTIATION_IP"
           - "$NEO_INTEGRATION_URL:$NEO_INTEGRATION_IP"
           - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
     environment:
       - PROJECT=$ALFRED_SERVER_PROJECT
       - ROOT=$ALFRED_SERVER_ROOT

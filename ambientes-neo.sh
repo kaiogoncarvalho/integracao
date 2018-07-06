@@ -33,6 +33,7 @@ main() {
         configRepository "Student" "NEO_STUDENT" "service"
         configRepository "Alfred Server" "ALFRED_SERVER" "service"
         configRepository "Alfred Client" "ALFRED_CLIENT" "alfred_client"
+        configRepository "Log" "NEO_LOG" "service"
     fi
 
 

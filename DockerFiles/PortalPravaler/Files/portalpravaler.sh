@@ -27,6 +27,6 @@ setup_portal_pravaler()
 
     dockerComposeUp 'portal_pravaler'
 
-    configHost $PORTALPRAVALER_IP $PORTALPRAVALER_URL
+    configHost 'portal_pravaler' $PORTALPRAVALER_URL
 }
 

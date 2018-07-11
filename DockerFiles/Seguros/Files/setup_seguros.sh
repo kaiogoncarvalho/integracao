@@ -16,6 +16,6 @@ setup_seguros()
 
     dockerComposeUp 'seguros'
 
-    configHost $SEGUROS_IP $SEGUROS_URL
+    configHost 'seguros' $SEGUROS_URL
 
 }

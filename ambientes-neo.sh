@@ -36,6 +36,7 @@ main() {
         configRepository "Alfred Server" "ALFRED_SERVER" "service"
         configRepository "Alfred Client" "ALFRED_CLIENT" "alfred_client"
         configRepository "Log" "NEO_LOG" "service"
+        configRepository "Neo-API" "NEO_API" "service"
     fi
 
 

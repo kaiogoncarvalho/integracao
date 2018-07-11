@@ -53,6 +53,8 @@ main() {
 
     configEnvIntegracao 'example.env'
 
+    createNetwork
+
     configRepository "CDN" "CDN" "setup_cdn"
 
     configRepository "Backoffice" "BACKOFFICE" "setup_backoffice"

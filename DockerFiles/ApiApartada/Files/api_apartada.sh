@@ -26,5 +26,5 @@ setup_api_apartada()
 
     dockerComposeUp 'api_apartada'
 
-    configHost $APIAPARTADA_IP $APIAPARTADA_URL
+    configHost 'api_apartada' $APIAPARTADA_URL
 }

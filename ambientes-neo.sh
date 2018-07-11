@@ -23,6 +23,8 @@ main() {
 
     configEnvIntegracao 'example.env'
 
+    createNetwork
+
     msgGeneral "\nConfigurando o config.php do Neo:\n" 'verde' 'negrito'
 
     if configNeo;

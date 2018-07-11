@@ -1,12 +1,8 @@
 version: '3'
 networks:
-  idealinvest-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      -
-        subnet: 172.18.1.0/24
+  default:
+    external:
+      name: pravaler
 services:
   backoffice:
     restart: always
@@ -24,12 +20,7 @@ services:
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
       - "$BACKOFFICE_API_URL:127.0.0.1"
-      - "$APIPRAVALER_URL:$APIPRAVALER_IP"
-      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
-      - "$FTPRISCOCOBRANCA_URL:$FTPRISCOCOBRANCA_IP"
-      - "$CDN_URL:$CDN_IP"
       - "retornomec.idealinvest.srv.br:10.104.110.143"
-      - "$SEGUROS_URL:$SEGUROS_IP"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
       - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
@@ -38,8 +29,10 @@ services:
       - API_HOST=$BACKOFFICE_API_URL
       - API_DOCUMENT_ROOT=$BACKOFFICE_API_DOCUMENT_ROOT
     networks:
-      idealinvest-network:
-        ipv4_address: $BACKOFFICE_IP
+      default:
+        aliases:
+          - $BACKOFFICE_URL
+          - $BACKOFFICE_API_URL
   cdn:
     restart: always
     stdin_open: true
@@ -57,8 +50,9 @@ services:
       - SITE_DOCUMENT_ROOT=$CDN_DOCUMENT_ROOT
       - VOLUME=$CDN_DOCKER
     networks:
-      idealinvest-network:
-        ipv4_address: $CDN_IP
+      default:
+        aliases:
+          - $CDN_URL
   portal_pravaler:
     restart: always
     stdin_open: true
@@ -69,16 +63,11 @@ services:
     image: kaioidealinvest/php:5.6
     extra_hosts:
       - "$PORTALPRAVALER_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$BACKOFFICE_API_URL:$BACKOFFICE_IP"
-      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
       - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
-      - "$SEGUROS_URL:$SEGUROS_IP"
-    depends_on:
-      - backoffice
     networks:
-      idealinvest-network:
-        ipv4_address: $PORTALPRAVALER_IP
+      default:
+        aliases:
+          - $PORTALPRAVALER_URL
     environment:
       - VOLUME=$PORTALPRAVALER_DOCKER
       - SITE_HOST=$PORTALPRAVALER_URL
@@ -100,8 +89,9 @@ services:
       - SITE_HOST=$APIPRAVALER_URL
       - SITE_DOCUMENT_ROOT=$APIPRAVALER_DOCUMENT_ROOT
     networks:
-      idealinvest-network:
-        ipv4_address: $APIPRAVALER_IP
+      default:
+        aliases:
+          - $APIPRAVALER_URL
   api_apartada:
     restart: always
     stdin_open: true
@@ -120,8 +110,9 @@ services:
       - SITE_HOST=$APIAPARTADA_URL
       - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
     networks:
-      idealinvest-network:
-        ipv4_address: $APIAPARTADA_IP
+      default:
+        aliases:
+          - $APIAPARTADA_URL
   creditscore:
     volumes:
       - $CREDITSCORE_LOCAL:$CREDITSCORE_DOCKER
@@ -139,8 +130,9 @@ services:
       - SITE_HOST=$CREDITSCORE_URL
       - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
     networks:
-      idealinvest-network:
-        ipv4_address: $CREDITSCORE_IP
+      default:
+        aliases:
+          - $CREDITSCORE_URL
   agendamento:
     restart: always
     stdin_open: true
@@ -159,8 +151,9 @@ services:
       - SITE_HOST=$AGENDAMENTO_URL
       - SITE_DOCUMENT_ROOT=$AGENDAMENTO_DOCUMENT_ROOT
     networks:
-      idealinvest-network:
-        ipv4_address: $AGENDAMENTO_IP
+      default:
+        aliases:
+          - $AGENDAMENTO_URL
   nginx:
     restart: always
     stdin_open: true
@@ -176,8 +169,7 @@ services:
       - "80:80"
       - "9000:9000"
     networks:
-      idealinvest-network:
-        ipv4_address: $NGINX_IP
+      - default
   mongodb:
     container_name: mongodb
     image: mongo:3.4
@@ -185,8 +177,7 @@ services:
     dns:
       - $DNS
     networks:
-       idealinvest-network:
-          ipv4_address: $MONGO_IP
+       - default
   mongo-temp:
     container_name: mongo-temp
     dns:
@@ -197,9 +188,8 @@ services:
     restart: always
     image: kaioidealinvest/mongo-temp
     networks:
-      idealinvest-network:
-        ipv4_address: $MONGO_TEMP_IP
-    command: mongo "mongodb://$MONGO_IP" /data/db/script.js
+      - default
+    command: mongo "mongodb://mongodb" /data/db/script.js
     depends_on:
       - mongodb
   nova_proposta_frontend:
@@ -217,15 +207,15 @@ services:
     image: kaioidealinvest/nova_proposta_frontend
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
-      - "$NOVAPROPOSTA_BACKEND_URL:$NOVAPROPOSTA_BACKEND_IP"
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
       - NOVAPROPOSTA_BACKEND_URL=$NOVAPROPOSTA_BACKEND_URL
       - APIPRAVALER_URL=$APIPRAVALER_URL
       - SITE_HOST=$NOVAPROPOSTA_FRONTEND_URL
     networks:
-      idealinvest-network:
-        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
+      default:
+        aliases:
+          - $NOVAPROPOSTA_FRONTEND_URL
   nova_proposta_backend:
     restart: always
     container_name: nova_proposta_backend
@@ -242,14 +232,10 @@ services:
       - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
     extra_hosts:
       - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$APIAPARTADA_URL:$APIAPARTADA_IP"
-      - "$APIPRAVALER_URL:$APIPRAVALER_IP"
-      - "$CREDITSCORE_URL:$CREDITSCORE_IP"
-      - "$NOVAPROPOSTA_FRONTEND_URL:$NOVAPROPOSTA_FRONTEND_IP"
     networks:
-       idealinvest-network:
-          ipv4_address: $NOVAPROPOSTA_BACKEND_IP
+       default:
+          aliases:
+            - $NOVAPROPOSTA_BACKEND_URL
     depends_on:
       - "mongo-temp"
       - "rabbitmq"
@@ -260,8 +246,7 @@ services:
     dns:
       - $DNS
     networks:
-      idealinvest-network:
-        ipv4_address: $RABBITMQ_IP
+      - default
     environment:
       - RABBITMQ_ERLANG_COOKIE=9143a224982c82ae6985f3735bc95407
       - RABBITMQ_NODENAME=proposta-nova-node-1
@@ -270,10 +255,11 @@ services:
     restart: always
     container_name: rabbitmq-management
     networks:
-      idealinvest-network:
-        ipv4_address: $RABBITMQ_MANAGEMENT_IP
+      default:
+        aliases:
+          - $RABBITMQ_MANAGEMENT_URL
     environment:
-      - RABBITMQ_DEFAULT_VHOST=cadastro.rabbitmq.desenv
+      - RABBITMQ_DEFAULT_VHOST=$RABBITMQ_MANAGEMENT_URL
       - RABBITMQ_DEFAULT_USER=propostanova
       - RABBITMQ_DEFAULT_PASS=propostanova
     depends_on:
@@ -299,8 +285,9 @@ services:
       - FTPRISCOCOBRANCA_IMPORTACAO_PASSWORD=$FTPRISCOCOBRANCA_IMPORTACAO_PASSWORD
     tty: true
     networks:
-      idealinvest-network:
-        ipv4_address: $FTPRISCOCOBRANCA_IP
+      default:
+        aliases:
+          - $FTPRISCOCOBRANCA_URL
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
@@ -320,8 +307,7 @@ services:
       - $SEGUROS_LOCAL:$SEGUROS_DOCKER
     extra_hosts:
       - "$SEGUROS_URL:127.0.0.1"
-      - "$BACKOFFICE_URL:$BACKOFFICE_IP"
-      - "$PORTALPRAVALER_URL:$PORTALPRAVALER_IP"
     networks:
-       idealinvest-network:
-          ipv4_address: $SEGUROS_IP
+       default:
+          aliases:
+            - $SEGUROS_URL

@@ -8,7 +8,13 @@ service(){
 
      cd $DIR
 
-    ln -s $NEO_CONFIG config.php
+    msgConfig "Configurando $NEO_CONFIG:"
+    if isNotValidFile config.php; then
+        ln -s $NEO_CONFIG config.php
+        msgConfigItemSuccess "Link do $NEO_CONFIG foi criado.\n"
+    else
+        msgConfigItemWarning "Link do $NEO_CONFIG já existe.\n"
+    fi
 
     msgConfig "Definindo Permissões:"
 
@@ -18,6 +24,6 @@ service(){
 
     dockerComposeUp $(getEnv "$2_PROJECT") 'neo'
 
-    configHost $(getEnv "$2_IP")  $(getEnv "$2_URL")
+    configHost $(getEnv "$2_PROJECT")  $(getEnv "$2_URL")
 
 }

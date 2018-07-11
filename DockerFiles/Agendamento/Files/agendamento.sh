@@ -23,7 +23,7 @@ setup_agendamento()
 
    dockerComposeUp 'agendamento'
 
-   configHost $AGENDAMENTO_IP $AGENDAMENTO_URL
+   configHost 'agendamento' $AGENDAMENTO_URL
 
 
 }

@@ -9,11 +9,11 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)(.*)/\1$DB_HOST/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)(.*)/\1$DB_PORT/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)(.*)/\1$DB_DATABASE/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)(.*)/\1$DB_USER/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)(.*)/\1$DB_PASSWORD/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DB_HOST/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DB_PORT/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DB_DATABASE/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DB_USER/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DB_PASSWORD/g" .env
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
     regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
@@ -25,7 +25,7 @@ setup_backoffice()
     regexFile 'api.link.contract=' "http://$BACKOFFICE_URL/portal/pravaler/contrato/"
     regexFile 'api.link.debt=' "http://$BACKOFFICE_URL/portal/pravaler/backoffice/dividas/cmd.php?mAcordoID="
 
-    regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/#/finalize"
+    regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
 
     regexFile 'api.url=' "$BACKOFFICE_API_URL/"
     regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
@@ -40,6 +40,7 @@ setup_backoffice()
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 
     msgConfig "Criando pastas necessárias: "
+
     cd html/portal/pravaler/
     
     if [ -d "csv" ]
@@ -115,6 +116,6 @@ setup_backoffice()
 
     dockerComposeUp 'backoffice'
 
-    configHost $BACKOFFICE_IP $BACKOFFICE_URL
-    configHost $BACKOFFICE_IP $BACKOFFICE_API_URL
+    configHost 'backoffice' $BACKOFFICE_URL
+    configHost 'backoffice' $BACKOFFICE_API_URL
 }

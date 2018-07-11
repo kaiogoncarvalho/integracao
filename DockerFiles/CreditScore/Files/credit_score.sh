@@ -31,5 +31,5 @@ setup_credit_score()
 
     dockerComposeUp 'creditscore'
 
-    configHost $CREDITSCORE_IP $CREDITSCORE_URL
+    configHost 'creditscore' $CREDITSCORE_URL
 }

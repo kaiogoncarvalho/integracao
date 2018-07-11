@@ -150,17 +150,17 @@ dockerComposeUp() {
     msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
 
-    if [ $2 == "neo" ];
+    if [ "$2" == "neo" ];
     then
         docker-compose -p neo -f neo.yml stop $1
         docker rm -f $1
-        docker-compose -p neo -f neo.yml  build --pull $1
-        docker-compose -p neo -f neo.yml  up -d $1
+        docker-compose -p neo -f neo.yml  build  --pull $1
+        docker-compose -p neo -f neo.yml  up --remove-orphans -d $1
     else
         docker-compose stop $1
         docker rm -f $1
         docker-compose build --pull $1
-        docker-compose up -d $1
+        docker-compose up --remove-orphans -d $1
     fi
 
 
@@ -216,17 +216,34 @@ configRepository() {
   fi
 }
 
+#função getIpContainer: Responsável por pegar o Ip do Container
+getIpContainer() {
+
+    network=$2
+    if isEmptyVariable $network; then
+        network="pravaler"
+    fi
+
+    IP=$(docker inspect --format="{{ .NetworkSettings.Networks.$network.IPAddress}}" $1)
+    if [ "$IP" == "<no value>" ]
+    then
+        msgAlert "Erro ao buscar ip do container $1, possivelmente a Network não foi criada."
+    else
+        echo $IP
+    fi
+}
+
 #função configHost: Configura o arquivo hosts
 configHost() {
     msgConfig "Configurando Hosts:"
-    HOST_PRINCIPAL=$1
+    HOST_PRINCIPAL=$(getIpContainer $1)
     if [ $TIPO_INSTALACAO == "servidor" ];
     then
         HOST_PRINCIPAL="127.0.0.1"
     fi
-    sed -E -i "s/(.*)($2)//g" /etc/hosts
-    sed -E -i "s/($HOST_PRINCIPAL)(.*)($2)//g" /etc/hosts
+    sed -E -i "s/^([0-9.]*)(\s+)($2)$//g" /etc/hosts
     echo -e "$HOST_PRINCIPAL $2" >> /etc/hosts
+    sed -E -i '/^(\s*)$/d' /etc/hosts
     msgConfigItem "Host '$HOST_PRINCIPAL $2' foi configurado."
 
 }
@@ -450,4 +467,23 @@ keepEnv(){
     updateEnv "$NAME_DIR=" $DIR
     updateEnv "$NAME_URL=" $URL
 
+}
+
+#função createNetwork
+createNetwork(){
+
+    network=$1
+    if isEmptyVariable $network; then
+        network="pravaler"
+    fi
+
+    network_test=$(docker network ls --format "{{ .Name}}" --filter "Name=$network")
+
+    if [ -z $network_test ]
+    then
+        docker network create pravaler
+        msgConfigItemSucess "Network $network foi criada.\n"
+    else
+        msgConfigItemWarning "Network $network já existe.\n"
+    fi
 }

@@ -12,11 +12,11 @@ setup_api_pravaler()
     cp database.example.php database.php
     chmod 777  database.php
 
-    sed -E -i "s/('host'[[:print:]]*)'(.*)'/\1'$DB_HOST'/g" 'database.php'
-    sed -E -i "s/('port'[[:print:]]*)'(.*)'/\1'$DB_PORT'/g" 'database.php'
-    sed -E -i "s/('dbname'[[:print:]]*)'(.*)'/\1'$DB_DATABASE'/g" 'database.php'
-    sed -E -i "s/('user'[[:print:]]*')'(.*)'/\1'$DB_USER'/g" 'database.php'
-    sed -E -i "s/('password'[[:print:]]*)'(.*)'/\1'$DB_PASSWORD'/g" 'database.php'
+    sed -E -i "s/('host'[[:print:]]*)'([[:digit:].]+)'/\1'$DB_HOST'/g" 'database.php'
+    sed -E -i "s/('port'[[:print:]]*)'([[:digit:]]+)'/\1'$DB_PORT'/g" 'database.php'
+    sed -E -i "s/('dbname'[[:print:]]*)'([^']*)'/\1'$DB_DATABASE'/g" 'database.php'
+    sed -E -i "s/('user'[[:print:]]*')'([^']*)'/\1'$DB_USER'/g" 'database.php'
+    sed -E -i "s/('password'[[:print:]]*)'([^']*)'/\1'$DB_PASSWORD'/g" 'database.php'
 
     msgConfigItem "Arquivo database.php gerado."
 
@@ -43,5 +43,5 @@ setup_api_pravaler()
 
     dockerComposeUp 'api_pravaler'
 
-    configHost $APIPRAVALER_IP $APIPRAVALER_URL
+    configHost 'api_pravaler' $APIPRAVALER_URL
 }

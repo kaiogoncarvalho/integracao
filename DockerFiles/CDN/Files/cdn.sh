@@ -44,11 +44,9 @@ setup_cdn()
     bower --allow-root install
 
 
-
     msgConfig "bower install no portal:"
     docker run --rm -v $1/portal:/app kaioidealinvest/node_modules:9 \
     bower --allow-root install
-
 
 
     msgConfig "npm install no votorantim:"
@@ -66,6 +64,6 @@ setup_cdn()
 
     dockerComposeUp 'cdn'
 
-    configHost $CDN_IP $CDN_URL
+    configHost 'cdn' $CDN_URL
 
 }

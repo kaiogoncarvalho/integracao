@@ -6,7 +6,7 @@ ENV NGINX_GROUPNAME=www-data
 ENV NGINX_VERSION=nginx-1.10.2
 ENV PROJECT_USERNAME=alfred-client
 ENV PROJECT_USERNAME_GROUP=alfred-client
-ENV PROJECT_FOLDER=/var/www/html/$PROJECT_USERNAME
+ENV PROJECT_FOLDER=/var/www/site
 ENV PROJECT_PUBLIC_FOLDER=$PROJECT_FOLDER/public/app
 
 ADD DockerFiles/Neo/AlfredClient/Files/install_centos_update.sh /usr/local

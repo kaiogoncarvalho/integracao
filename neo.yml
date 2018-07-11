@@ -102,6 +102,28 @@ services:
     networks:
       neo-network:
         ipv4_address: $NEO_STUDENT_IP
+  neo-api:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_API_LOCAL:$NEO_API_DOCKER
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_API_PROJECT
+    extra_hosts:
+          - "$NEO_API_URL:127.0.0.1"
+          - "$NEO_LOG_URL:$NEO_LOG_IP"
+          - "$BACKOFFICE_URL:$BACKOFFICE_IP"
+    environment:
+      - PROJECT=$NEO_API_PROJECT
+      - ROOT=$NEO_API_ROOT
+      - URL=$NEO_API_URL
+    networks:
+      neo-network:
+        ipv4_address: $NEO_API_IP
   alfred-server:
     restart: always
     stdin_open: true

@@ -4,7 +4,7 @@ alfred_client() {
 
     dockerComposeUp 'alfred-client' 'neo'
 
-    configHost $ALFRED_CLIENT_IP $ALFRED_CLIENT_URL
+    configHost $ALFRED_CLIENT_PROJECT $ALFRED_CLIENT_URL
 
     chmod 777 -R $1
 

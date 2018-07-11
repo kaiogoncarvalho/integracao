@@ -66,6 +66,6 @@ setup_cdn()
 
     dockerComposeUp 'cdn'
 
-    configHost $CDN_IP $CDN_URL
+    configHost 'cdn' $CDN_URL
 
 }

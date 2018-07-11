@@ -406,6 +406,7 @@ configEnvIntegracao(){
             keepEnv "NEO_INTEGRATION"
             keepEnv "NEO_STUDENT"
             keepEnv "NEO_LOG"
+            keepEnv "NEO_API"
             keepEnv "ALFRED_SERVER"
             keepEnv "ALFRED_CLIENT"
 

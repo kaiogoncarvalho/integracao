@@ -145,3 +145,24 @@ services:
       default:
         aliases:
           - $NEO_LOG_URL
+  neo-api:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_API_LOCAL:/var/www/site
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaioidealinvest/neo:php7.2
+    container_name: $NEO_API_PROJECT
+    extra_hosts:
+          - "$NEO_API_URL:127.0.0.1"
+    environment:
+      - PROJECT=$NEO_API_PROJECT
+      - ROOT=$NEO_API_ROOT
+      - URL=$NEO_API_URL
+    networks:
+      default:
+        aliases:
+          - $NEO_API_URL

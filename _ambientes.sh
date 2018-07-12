@@ -7,7 +7,10 @@ HELPERS=./helpers.sh
 ENV=./.env
 #Env Example
 ENV_EXAMPLE=./example.env
-# Configuração da Api Apartada
+# Configuração dos Outros Sistemas
+OUTROS=./Menu/outros.sh
+# Configuração dos Sistemas Neo
+NEO=./Menu/neo.sh
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -15,91 +18,46 @@ INTEGRACAO_DIR=$(pwd)
 
 # Inicializa as funções de configuração dos projetos
 main() {
+
+
+   sleep 2
+
   while true;
   do
-    printInBar "CONFIGURAÇÃO DE PROJETOS - PRAVALER"
+    clear
+
+    printInBar "Ambientes Pravaler" "verde"
+    echo -e
+    printInBar "Criado por Kaio Gonçalves Carvalho"
+    echo -e
+    printInBar "Menu" "verde"
     printLine "1 - Instalar Ambientes"
     printLine "2 - Instalar Ambientes Neo"
-    printLine "3 - Alterar Banco de Dados"
-    printInBar "S - Sair"
+    printLine "3 - Alterar Banco de Dados usado nas instalações"
+    printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
+
     lineDelimiter
+    configEnvIntegracao 'example.env'
+    createNetwork
+    clear
+
     case $OPTION in
-      0) clear
+      's')
+        clear
         printInBar "Execução finalizada!"
         exit
       ;;
-      1) clear
-        printInBar "AMBIENTES"
-        printLine "1 - Backoffice"
-        printLine "2 - CDN"
-        printLine "3 - API Pravaler"
-        printLine "0 - Voltar"
-        printInBar "S - Sair"
-        read -p "| Informe a opção desejada >_ " OPTION
+      'S')
+        clear
+        printInBar "Execução finalizada!"
+        exit
+      ;;
+      1) . $OUTROS
+      ;;
+      2) . $NEO
+      ;;
 
-        # performSetup "func" "TESTE"
-      ;;
-      "1.1") clear
-        lineDelimiter
-        read -p "| Informe o diretório de instalação do Backoffice >_ " BACKOFFICE_LOCAL
-        lineDelimiter
-        # if isValidRepository $BACKOFFICE_LOCAL; then
-        #   printInBar "Configurando o Backoffice em '${BACKOFFICE_LOCAL}'"
-        #   # setup_backoffice
-        # else
-        #   printInBar "ERRO: O diretório informado não é válido!"
-        # fi
-        performSetup "setup_backoffice" BACKOFFICE_LOCAL
-      ;;
-      "1.2") clear
-        lineDelimiter
-        read -p "| Informe o diretório de instalação do Portal Pravaler >_ " PORTALPRAVALER_LOCAL
-        lineDelimiter
-        # if isValidRepository $PORTALPRAVALER_LOCAL; then
-        #   printInBar "Instalando o Portal Pravaler em '${PORTALPRAVALER_LOCAL}'"
-        #   # setup_portal_pravaler
-        # else
-        #   printInBar "ERRO: O diretório informado não é válido!"
-        # fi
-        performSetup "setup_portal_pravaler" PORTALPRAVALER_LOCAL
-      ;;
-      "1.3") clear
-        lineDelimiter
-        read -p "| Informe o diretório de instalação do Credit Score >_ " CREDITSCORE_LOCAL
-        lineDelimiter
-        # if isValidRepository $CREDITSCORE_LOCAL; then
-        #   printInBar "Instalando o Credit Score em '${CREDITSCORE_LOCAL}'"
-        #   # setup_credit_score
-        # else
-        #   printInBar "ERRO: O diretório informado não é válido!"
-        # fi
-        performSetup "setup_credit_score" CREDITSCORE_LOCAL
-      ;;
-      "1.4") clear
-        lineDelimiter
-        read -p "| Informe o diretório de instalação do API Apartada >_ " APIAPARTADA_LOCAL
-        lineDelimiter
-        # if isValidRepository $APIAPARTADA_LOCAL; then
-        #   printInBar "Instalando a API Apartada em '${APIAPARTADA_LOCAL}'"
-        #   # setup_api_apartada
-        # else
-        #   printInBar "ERRO: O diretório informado não é válido!"
-        # fi
-        performSetup "setup_api_apartada" APIAPARTADA_LOCAL
-      ;;
-      "1.5") clear
-        lineDelimiter
-        read -p "| Informe o diretório de instalação do API Aprovação >_ " APIPRAVALER_LOCAL
-        lineDelimiter
-        # if isValidRepository $APIPRAVALER_LOCAL; then
-        #   printInBar "Instalando a API Aprovação em '${APIPRAVALER_LOCAL}'"
-        #   # setup_api_pravaler
-        # else
-        #   printInBar "ERRO: O diretório informado não é válido!"
-        # fi
-        performSetup "setup_api_pravaler" APIPRAVALER_LOCAL
-      ;;
       *) clear
         printInBar "Opção inválida!"
       ;;

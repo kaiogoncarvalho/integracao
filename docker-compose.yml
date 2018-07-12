@@ -314,7 +314,7 @@ services:
             - $SEGUROS_URL
   marketplace:
       restart: always
-      container_name: marketplace_api
+      container_name: marketplace
       image: kaioidealinvest/php:7.1
       stdin_open: true
       tty: true
@@ -332,8 +332,6 @@ services:
         - nginx:$MARKETPLACE_API_URL
       extra_hosts:
         - "$MARKETPLACE_API_URL:127.0.0.1"
-        - "$BACKOFFICE_URL:127.0.0.1"
-        - "$BACKOFFICE_API_URL:127.0.0.1"
       depends_on:
         - redis
       networks:
@@ -371,7 +369,5 @@ services:
       context: .
     image: kaioidealinvest/redis
     container_name: redis
-    ports:
-      - "6379:6379"
     networks:
       - default

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-setup_seguros()
+setup_marketplace_api()
 {
     cd $1
 
@@ -14,6 +14,6 @@ setup_seguros()
 
     dockerComposeUp 'marketplace'
 
-    configHost 'seguros' $MARKETPLACE_API_URL
+    configHost 'marketplace' $MARKETPLACE_API_URL
 
 }

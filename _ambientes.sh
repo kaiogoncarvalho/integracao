@@ -11,6 +11,8 @@ ENV_EXAMPLE=./example.env
 OUTROS=./Menu/outros.sh
 # Configuração dos Sistemas Neo
 NEO=./Menu/neo.sh
+# Configuração do Banco de Dados
+DATABASE=./Menu/database.sh
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -18,9 +20,9 @@ INTEGRACAO_DIR=$(pwd)
 
 # Inicializa as funções de configuração dos projetos
 main() {
-
-
-   sleep 2
+    configEnvIntegracao 'example.env'
+    createNetwork
+    clear
 
   while true;
   do
@@ -37,9 +39,6 @@ main() {
     printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
 
-    lineDelimiter
-    configEnvIntegracao 'example.env'
-    createNetwork
     clear
 
     case $OPTION in
@@ -53,11 +52,15 @@ main() {
         printInBar "Execução finalizada!"
         exit
       ;;
-      1) . $OUTROS
+      1)
+        . $OUTROS
       ;;
-      2) . $NEO
+      2)
+        . $NEO
       ;;
-
+      3)
+        . $DATABASE
+      ;;
       *) clear
         printInBar "Opção inválida!"
       ;;

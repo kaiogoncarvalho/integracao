@@ -59,7 +59,8 @@ main() {
         printLine "8  - Nova Proposta Backend"
         printLine "9  - Nova Proposta Frontend"
         printLine "10 - Portal Pravaler"
-        printLine "11 - Seguros"
+        printLine "11 - Retorno Mec"
+        printLine "12 - Seguros"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -104,7 +105,9 @@ main() {
           ;;
           10) installSystem "Portal Pravaler" "PORTALPRAVALER" "setup_portal_pravaler"
           ;;
-          11) installSystem "Seguros" "SEGUROS" "setup_seguros"
+          11) installSystem "Retorno Mec" "RETORNO_MEC" "retorno_mec"
+          ;;
+          12) installSystem "Seguros" "SEGUROS" "setup_seguros"
           ;;
           *) clear
             printInBar "Opção inválida!"

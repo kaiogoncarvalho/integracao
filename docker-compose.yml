@@ -342,7 +342,5 @@ services:
       context: .
     image: kaioidealinvest/redis
     container_name: redis
-    ports:
-      - "6379:6379"
     networks:
       - default

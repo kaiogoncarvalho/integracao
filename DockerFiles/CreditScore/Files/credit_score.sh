@@ -12,11 +12,11 @@ setup_credit_score()
     configInitialEnv '.env-example'
 
     regexFile "bo.api.host=" $BACKOFFICE_API_URL
-    regexFile "db.bo.user=" $DB_USER
-    regexFile "db.bo.pass=" $DB_PASSWORD
-    regexFile "db.bo.dbname=" $DB_DATABASE
-    regexFile "db.bo.port=" $DB_PORT
-    regexFile "db.bo.host=" $DB_HOST
+    regexFile "db.bo.user=" $DATABASE_USER
+    regexFile "db.bo.pass=" $DATABASE_PASSWORD
+    regexFile "db.bo.dbname=" $DATABASE_NAME
+    regexFile "db.bo.port=" $DATABASE_PORT
+    regexFile "db.bo.host=" $DATABASE_HOST
     regexFile "bo.api.host=" "$BACKOFFICE_API_URL/portal/pravaler_v2"
 
     msgConfig "Criando diretórios e definindo configurações:"

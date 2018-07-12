@@ -9,16 +9,17 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DB_HOST/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DB_PORT/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DB_DATABASE/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DB_USER/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DB_PASSWORD/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
+    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
+
+    regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
     regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
 
-    regexFile 'logger.dns=' "pgsql:host=$DB_HOST;port=$DB_PORT;dbname=syslog;user=$DB_USER"
 
     regexFile 'api.path=' "http://$BACKOFFICE_URL/portal/pravaler_v2/api/"
     regexFile 'api.link.billet=' "http://$BACKOFFICE_URL/portal/pravaler/backoffice/"

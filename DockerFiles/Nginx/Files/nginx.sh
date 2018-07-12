@@ -58,6 +58,7 @@ setup_nginx()
     server $NOVAPROPOSTA_FRONTEND_LOCAL $NOVAPROPOSTA_FRONTEND_URL nova_proposta_frontend
     server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
     server $SEGUROS_LOCAL $SEGUROS_URL seguros
+    server $RETORNO_MEC_LOCAL $RETORNO_MEC_URL retorno_mec
     dockerComposeUp 'nginx'
 }
 

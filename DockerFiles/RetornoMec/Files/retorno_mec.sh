@@ -8,11 +8,11 @@ retorno_mec()
 
     configInitialEnv '.env.example'
 
-    regexFile 'DB_HOST=' "$DB_HOST"
-    regexFile 'DB_PORT=' "$DB_PORT"
-    regexFile 'DB_DATABASE=' "$DB_DATABASE"
-    regexFile 'DB_USERNAME=' "$DB_USER"
-    regexFile 'DB_PASSWORD=' "$DB_PASSWORD"
+    regexFile 'DB_HOST=' "$DATABASE_HOST"
+    regexFile 'DB_PORT=' "$DATABASE_PORT"
+    regexFile 'DB_DATABASE=' "$DATABASE_NAME"
+    regexFile 'DB_USERNAME=' "$DATABASE_USER"
+    regexFile 'DB_PASSWORD=' "$DATABASE_PASSWORD"
 
     regexFile 'QUEUE_HOST=' "redis"
 

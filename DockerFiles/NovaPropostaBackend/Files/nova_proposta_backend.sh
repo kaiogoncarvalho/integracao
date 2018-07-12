@@ -16,11 +16,11 @@ setup_nova_proposta_backend()
     regexFile 'DB_USERNAME=' 'propostanova'
     regexFile 'DB_PASSWORD=' 'propostanova'
     regexFile 'RABBITMQ_HOST=' 'rabbitmq'
-    regexFile 'DB_BO_HOST=' $DB_HOST
-    regexFile 'DB_BO_PORT=' $DB_PORT
-    regexFile 'DB_BO_DATABASE=' $DB_DATABASE
-    regexFile 'DB_BO_USERNAME=' $DB_USER
-    regexFile 'DB_BO_PASSWORD=' $DB_PASSWORD
+    regexFile 'DB_BO_HOST=' $DATABASE_HOST
+    regexFile 'DB_BO_PORT=' $DATABASE_PORT
+    regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
+    regexFile 'DB_BO_USERNAME=' $DATABASE_USER
+    regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
     regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
     regexFile 'API_TOKEN=' "539a6c1ee350a8c21d56b68719a01caf"
     regexFile 'PROXY=' ""

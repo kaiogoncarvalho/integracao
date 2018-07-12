@@ -26,6 +26,8 @@ FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 # Configuração do Retorno Mec
 RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
+# Configuração do Marketplace
+MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
@@ -40,6 +42,7 @@ RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 . $NGINX_SH
 . $SEGUROS_SH
 . $RETORNO_MEC_SH
+. MARKETPLACE_API_SH
 
 
 # Inicializa as funções de configuração dos projetos
@@ -63,6 +66,7 @@ outros() {
         printLine "10 - Portal Pravaler"
         printLine "11 - Retorno Mec"
         printLine "12 - Seguros"
+        printLine "13 - Marketplace"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -109,6 +113,8 @@ outros() {
           11) installSystem "Retorno Mec" "RETORNO_MEC" "retorno_mec"
           ;;
           12) installSystem "Seguros" "SEGUROS" "setup_seguros"
+          ;;
+          13) installSystem "Marketplace Api" "MARKETPLACE_API" "setup_marketplace_api"
           ;;
           *) clear
             printInBar "Opção inválida!" "vermelho"

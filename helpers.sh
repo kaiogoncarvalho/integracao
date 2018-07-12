@@ -410,6 +410,7 @@ configEnvIntegracao(){
             keepEnv "NOVAPROPOSTA_BACKEND"
             keepEnv "NOVAPROPOSTA_FRONTEND"
             keepEnv "RETORNO_MEC"
+            keepEnv "MARKETPLACE_API"
 
             keepEnv "NEO_NEGOTIATION"
             keepEnv "NEO_PROPOSAL"

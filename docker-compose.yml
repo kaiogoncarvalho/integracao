@@ -311,6 +311,34 @@ services:
        default:
           aliases:
             - $SEGUROS_URL
+  marketplace:
+      restart: always
+      container_name: marketplace_api
+      image: kaioidealinvest/php:7.1
+      stdin_open: true
+      tty: true
+      dns:
+        - $DNS
+      environment:
+        - VOLUME=$MARKETPLACE_API_DOCKER
+        - SITE_HOST=$MARKETPLACE_API_URL
+        - SITE_DOCUMENT_ROOT=$MARKETPLACE_API_DOCUMENT_ROOT
+      volumes:
+        - $MARKETPLACE_API_LOCAL:$MARKETPLACE_API_DOCKER
+        - ./Marketplace/Files/overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+        - ./Marketplace/Files/logs/php-fpm:/var/log/php-fpm
+      external_links:
+        - nginx:$MARKETPLACE_API_URL
+      extra_hosts:
+        - "$MARKETPLACE_API_URL:127.0.0.1"
+        - "$BACKOFFICE_URL:127.0.0.1"
+        - "$BACKOFFICE_API_URL:127.0.0.1"
+      depends_on:
+        - redis
+      networks:
+         default:
+            aliases:
+              - $MARKETPLACE_API_URL
   retorno_mec:
     restart: always
     container_name: retorno_mec

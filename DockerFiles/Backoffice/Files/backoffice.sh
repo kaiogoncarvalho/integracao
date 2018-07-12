@@ -37,6 +37,8 @@ setup_backoffice()
     regexFile 'neo.orig=' "https://bpm.desenv"
     regexFile 'neo.log=' "http://st.log.idealinvest.srv.br"
 
+    regexFile 'retorno.mec=' "$RETORNO_MEC_URL"
+
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 
     msgConfig "Criando pastas necessárias: "

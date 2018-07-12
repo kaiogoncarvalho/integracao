@@ -193,6 +193,7 @@ services:
     depends_on:
       - mongodb
   nova_proposta_frontend:
+    restart: always
     stdin_open: true
     tty: true
     container_name: nova_proposta_frontend

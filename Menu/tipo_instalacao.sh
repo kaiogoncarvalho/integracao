@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-database(){
+installType(){
      while true;
     do
         printInBar "Ambientes Pravaler" "verde"
@@ -8,20 +8,12 @@ database(){
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
         echo -e
-        printInBar "Banco de Dados"
+        printInBar "Tipo de Instalação"
         echo -e
-        msgGeneral "Host: $DATABASE_HOST"
-        msgGeneral "Porta: $DATABASE_PORT"
-        msgGeneral "Banco: $DATABASE_NAME"
-        msgGeneral "Usuário: $DATABASE_USER"
+        msgGeneral "Tipo: $TIPO_INSTALACAO"
         echo -e
         printInBar "Menu" "verde"
-        printLine "1  - Alterar Host"
-        printLine "2  - Alterar Porta"
-        printLine "3  - Alterar Nome do Banco"
-        printLine "4  - Alterar Usuário"
-        printLine "5  - Alterar Senha"
-        printLine "6  - Ver Senha"
+        printLine "1  - Alterar Tipo de Instalação"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION

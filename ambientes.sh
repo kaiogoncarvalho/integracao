@@ -29,6 +29,8 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 # Configuração do Seguros
 SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
+# Configuração do Retorno Mec
+RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 
 . $HELPERS
 . $APIPRAVALER_SH
@@ -43,6 +45,7 @@ SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 . $AGENDAMENTO_SH
 . $NGINX_SH
 . $SEGUROS_SH
+. $RETORNO_MEC_SH
 
 
 
@@ -79,6 +82,8 @@ main() {
     fi
 
     configRepository "Seguros" "SEGUROS" "setup_seguros"
+
+    configRepository "Retorno Mec" "RETORNO_MEC" "retorno_mec"
 
     if [ $TIPO_INSTALACAO == "servidor" ];
     then

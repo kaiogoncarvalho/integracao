@@ -311,3 +311,39 @@ services:
        default:
           aliases:
             - $SEGUROS_URL
+  retorno_mec:
+    restart: always
+    container_name: retorno_mec
+    image: kaioidealinvest/php:7.1
+    stdin_open: true
+    tty: true
+    build:
+      dockerfile: ./DockerFiles/RetornoMec/Dockerfile
+      context: .
+    image: kaioidealinvest/retorno_mec
+    dns:
+      - $DNS
+    environment:
+      - VOLUME=$RETORNO_MEC_DOCKER
+      - SITE_HOST=$RETORNO_MEC_URL
+      - SITE_DOCUMENT_ROOT=$RETORNO_MEC_DOCUMENT_ROOT
+    volumes:
+      - $RETORNO_MEC_LOCAL:$RETORNO_MEC_DOCKER
+    extra_hosts:
+      - "$RETORNO_MEC_URL:127.0.0.1"
+    depends_on:
+      - redis
+    networks:
+       default:
+          aliases:
+            - $RETORNO_MEC_URL
+  redis:
+    build:
+      dockerfile: ./DockerFiles/Backoffice/Dockerfile
+      context: .
+    image: kaioidealinvest/redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - default

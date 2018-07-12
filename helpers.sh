@@ -410,6 +410,7 @@ configEnvIntegracao(){
             keepEnv "NOVAPROPOSTA_BACKEND"
             keepEnv "NOVAPROPOSTA_FRONTEND"
             keepEnv "RETORNO_MEC"
+            keepEnv "MARKETPLACE_API"
 
             keepEnv "NEO_NEGOTIATION"
             keepEnv "NEO_PROPOSAL"
@@ -422,6 +423,13 @@ configEnvIntegracao(){
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG
+
+            updateEnv "DATABASE_HOST=" $DATABASE_HOST
+            updateEnv "DATABASE_USER=" $DATABASE_USER
+            updateEnv "DATABASE_PASSWORD=" $DATABASE_PASSWORD
+            updateEnv "DATABASE_PORT=" $DATABASE_PORT
+            updateEnv "DATABASE_NAME=" $DATABASE_NAME
+
 
             . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"

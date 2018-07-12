@@ -193,6 +193,7 @@ services:
     depends_on:
       - mongodb
   nova_proposta_frontend:
+    restart: always
     stdin_open: true
     tty: true
     container_name: nova_proposta_frontend
@@ -311,15 +312,34 @@ services:
        default:
           aliases:
             - $SEGUROS_URL
+  marketplace:
+      restart: always
+      container_name: marketplace
+      image: kaioidealinvest/php:7.1
+      stdin_open: true
+      tty: true
+      dns:
+        - $DNS
+      environment:
+        - VOLUME=$MARKETPLACE_API_DOCKER
+        - SITE_HOST=$MARKETPLACE_API_URL
+        - SITE_DOCUMENT_ROOT=$MARKETPLACE_API_DOCUMENT_ROOT
+      volumes:
+        - $MARKETPLACE_API_LOCAL:$MARKETPLACE_API_DOCKER
+      extra_hosts:
+        - "$MARKETPLACE_API_URL:127.0.0.1"
+      depends_on:
+        - redis
+      networks:
+         default:
+            aliases:
+              - $MARKETPLACE_API_URL
   retorno_mec:
     restart: always
     container_name: retorno_mec
     stdin_open: true
     tty: true
-    build:
-      dockerfile: ./DockerFiles/RetornoMec/Dockerfile
-      context: .
-    image: kaioidealinvest/retorno_mec
+    image: kaioidealinvest/php7.1
     dns:
       - $DNS
     environment:

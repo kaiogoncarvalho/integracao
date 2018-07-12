@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-main(){
+database(){
      while true;
     do
         printInBar "Ambientes Pravaler" "verde"
@@ -10,10 +10,10 @@ main(){
         echo -e
         printInBar "Banco de Dados"
         echo -e
-        msgGeneral "Host: 10.10.100.21"
-        msgGeneral "Porta: 5432"
-        msgGeneral "Banco: iipravaler"
-        msgGeneral "Usuário: iipravaler"
+        msgGeneral "Host: $DATABASE_HOST"
+        msgGeneral "Porta: $DATABASE_PORT"
+        msgGeneral "Banco: $DATABASE_NAME"
+        msgGeneral "Usuário: $DATABASE_USER"
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Host"
@@ -21,31 +21,52 @@ main(){
         printLine "3  - Alterar Nome do Banco"
         printLine "4  - Alterar Usuário"
         printLine "5  - Alterar Senha"
+        printLine "6  - Ver Senha"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 
         clear
 
-        printInBar "Inicio da operação"
         case $OPTION in
           'S')
-              printInBar "Execução finalizada!"
+              printInBar "Execução finalizada!" "verde"
               exit
           ;;
           's')
-              printInBar "Execução finalizada!"
+              printInBar "Execução finalizada!" "verde"
               exit
           ;;
           0) break
           ;;
-          1) installSystem "Alfred Client" "ALFRED_CLIENT" "alfred_client"
+          1) databaseHost
+             clear
+             printInBar "Atualizado com Sucesso!" "ciano"
           ;;
-          *) printInBar "Opção inválida!"
+          2) databasePort
+             clear
+             printInBar "Atualizado com Sucesso!" "ciano"
+          ;;
+          3) databaseName
+             clear
+             printInBar "Atualizado com Sucesso!" "ciano"
+          ;;
+          4) databaseUser
+             clear
+             printInBar "Atualizado com Sucesso!" "ciano"
+          ;;
+          5) databasePassword
+             clear
+             printInBar "Atualizado com Sucesso!" "ciano"
+          ;;
+          6)
+           msgGeneral "Senha: $DATABASE_PASSWORD" "branco" "negrito"
+            sleep 1
+            clear
+          ;;
+          *) printInBar "Opção inválida!" "vermelho"
           ;;
         esac
-        printInBar "Fim da operação."
-        echo -e
     done
 
 }

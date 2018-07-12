@@ -537,16 +537,48 @@ createNetwork(){
 }
 
 installServiceNeo(){
+    printInBar "Operação Iniciada"
     msgGeneral "\nComeçando configuração do Serviço $1:\n" 'verde' 'negrito'
 
     if configNeo;
     then
         configRepository $2 $3
     fi
+    printInBar "Operação Finalizada!"
 }
 
 installSystem(){
+    printInBar "Operação Iniciada"
     msgGeneral "\nComeçando configuração do Sistema $1:\n" 'verde' 'negrito'
 
     configRepository $2 $3
+    printInBar "Operação Finalizada!"
+}
+
+informEnv(){
+    read -e -p  "| Informe $1 >_ " -i "$3" VAR
+    updateEnv "$2=" $VAR
+    reloadEnv
+}
+
+databaseHost(){
+    informEnv "Host" "DATABASE_HOST" $DATABASE_HOST
+}
+
+databasePort(){
+    informEnv "Porta" "DATABASE_PORT" $DATABASE_PORT
+}
+
+databaseName(){
+    informEnv "Banco" "DATABASE_NAME" $DATABASE_NAME
+}
+
+databaseUser(){
+    informEnv "Usuário" "DATABASE_USER" $DATABASE_USER
+}
+
+databasePassword(){
+    read -s -p  "| Informe a Senha >_ " VAR
+    updateEnv "DATABASE_PASSWORD=" $VAR
+    reloadEnv
 }

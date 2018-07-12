@@ -31,37 +31,36 @@ Criar o ambiente de todos os Sistemas de uma vez
 1. Acessar a pasta do repositório da Integração:
 2. Configurar os ambientes:
     * `sudo bash ambientes.sh` 
-    * **Importante: Ser executado em sudo** 
-3. Configurar os ambientes do Neo:
-    * `sudo bash ambientes-neo.sh` 
-    * **Importante: Ser executado em sudo**      
-4. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
-5. Todos os containers criados serão iniciados automaticamente;
-6. Quando necessário iniciar ou parar os containers:
-    * Iniciar container:
-        * `docker start <container name>`
-    * Parar container:
-        * `docker stop <container name>`    
+    * **Importante: Ser executado em sudo**     
+3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
+   
     
         
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
-    * **Ambientes**    
-        * **CDN:** http://cdn.portalpravaler.desenv
-        * **Backoffice:** http://backoffice.desenv
-        * **Portal Pravaler:** http://portalpravaler.desenv
-        * **API Pravaler:** http://api.pravaler.desenv
-        * **API Apartada:** http://api.apartada.desenv
-        * **CreditScore:** http://creditscore.desenv
+    * **Ambientes** 
         * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
+        * **API Apartada:** http://api.apartada.desenv
+        * **API Pravaler:** http://api.pravaler.desenv
+        * **Backoffice:** http://backoffice.desenv   
+        * **CDN:** http://cdn.portalpravaler.desenv
+        * **CreditScore:** http://creditscore.desenv
+        * **FTP Risco e Cobrança:** http://ftp.risco-cobranca.desenv       
+        * **Portal Pravaler:** http://portalpravaler.desenv        
         * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
         * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv
+        * **Retorno Mec:** http://lo.retornomec.idealinvest.srv.br
+        * **Seguros:** http://seguros.idealinvest.desenv      
+
     * **Ambientes Neo** 
         * **Neo Proposal:** http://lo.proposal.idealinvest.srv.br
         * **Neo Integration:** http://lo.integration.idealinvest.srv.br
         * **Neo Student:** http://lo.student.idealinvest.srv.br
         * **Neo Negotiation:** http://lo.negotiation.idealinvest.srv.br
         * **Alfred Server:** http://lo.callcenter.idealinvest.srv.br
+        * **Alfred Client:** http://lo.atendimento.idealinvest.com.br
+        * **Neo Log:** http://lo.log.idealinvest.srv.br
+        * **Neo Api:** http://lo.api.idealinvest.srv.br
     
 # Opcional: Instalar o Xdebug
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:

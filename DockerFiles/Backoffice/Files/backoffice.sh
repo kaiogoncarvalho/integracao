@@ -15,10 +15,11 @@ setup_backoffice()
     sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
     sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
 
+    regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
+
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
     regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
 
-    regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
 
     regexFile 'api.path=' "http://$BACKOFFICE_URL/portal/pravaler_v2/api/"
     regexFile 'api.link.billet=' "http://$BACKOFFICE_URL/portal/pravaler/backoffice/"

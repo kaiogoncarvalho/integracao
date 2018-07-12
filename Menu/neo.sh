@@ -11,7 +11,7 @@ ALFRED_CLIENT_SH=./DockerFiles/Neo/AlfredClient/Files/alfred_client.sh
 
 
 # Inicializa as funções de configuração dos projetos
-main() {
+neo() {
 
  while true;
     do
@@ -34,7 +34,6 @@ main() {
 
         clear
 
-        printInBar "Inicio da operação"
         case $OPTION in
           'S')
               printInBar "Execução finalizada!"
@@ -62,13 +61,10 @@ main() {
           ;;
           8) installServiceNeo "Student" "NEO_STUDENT" "service"
           ;;
-          *) printInBar "Opção inválida!"
+          *) printInBar "Opção inválida!" "vermelho"
           ;;
         esac
-        printInBar "Fim da operação."
-        echo -e
     done
 
 }
 
-main

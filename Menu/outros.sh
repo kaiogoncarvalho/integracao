@@ -24,6 +24,8 @@ NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta
 FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
 # Configuração do Seguros
 SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
+# Configuração do Retorno Mec
+RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
@@ -37,11 +39,11 @@ SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 . $AGENDAMENTO_SH
 . $NGINX_SH
 . $SEGUROS_SH
-
+. $RETORNO_MEC_SH
 
 
 # Inicializa as funções de configuração dos projetos
-main() {
+outros() {
     while true;
     do
         printInBar "Ambientes Pravaler" "verde"
@@ -67,7 +69,6 @@ main() {
 
         clear
 
-        printInBar "Inicio da operação"
         case $OPTION in
           'S')
               printInBar "Execução finalizada!"
@@ -110,13 +111,9 @@ main() {
           12) installSystem "Seguros" "SEGUROS" "setup_seguros"
           ;;
           *) clear
-            printInBar "Opção inválida!"
+            printInBar "Opção inválida!" "vermelho"
           ;;
         esac
-        printInBar "Fim da operação."
-        echo -e
     done
 
 }
-
-main

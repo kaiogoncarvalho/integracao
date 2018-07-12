@@ -326,10 +326,6 @@ services:
         - SITE_DOCUMENT_ROOT=$MARKETPLACE_API_DOCUMENT_ROOT
       volumes:
         - $MARKETPLACE_API_LOCAL:$MARKETPLACE_API_DOCKER
-        - ./Marketplace/Files/overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
-        - ./Marketplace/Files/logs/php-fpm:/var/log/php-fpm
-      external_links:
-        - nginx:$MARKETPLACE_API_URL
       extra_hosts:
         - "$MARKETPLACE_API_URL:127.0.0.1"
       depends_on:
@@ -343,10 +339,7 @@ services:
     container_name: retorno_mec
     stdin_open: true
     tty: true
-    build:
-      dockerfile: ./DockerFiles/RetornoMec/Dockerfile
-      context: .
-    image: kaioidealinvest/retorno_mec
+    image: kaioidealinvest/php7.1
     dns:
       - $DNS
     environment:

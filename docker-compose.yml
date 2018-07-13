@@ -2,7 +2,7 @@ version: '3'
 networks:
   default:
     external:
-      name: pravaler
+      name: Pravaler
 services:
   backoffice:
     restart: always
@@ -30,6 +30,7 @@ services:
       - API_DOCUMENT_ROOT=$BACKOFFICE_API_DOCUMENT_ROOT
     networks:
       default:
+        ipv4_address: $BACKOFFICE_IP
         aliases:
           - $BACKOFFICE_URL
           - $BACKOFFICE_API_URL
@@ -51,6 +52,7 @@ services:
       - VOLUME=$CDN_DOCKER
     networks:
       default:
+        ipv4_address: $CDN_IP
         aliases:
           - $CDN_URL
   portal_pravaler:
@@ -66,6 +68,7 @@ services:
       - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
     networks:
       default:
+        ipv4_address: $PORTALPRAVALER_IP
         aliases:
           - $PORTALPRAVALER_URL
     environment:
@@ -90,6 +93,7 @@ services:
       - SITE_DOCUMENT_ROOT=$APIPRAVALER_DOCUMENT_ROOT
     networks:
       default:
+        ipv4_address: $APIPRAVALER_IP
         aliases:
           - $APIPRAVALER_URL
   api_apartada:
@@ -111,6 +115,7 @@ services:
       - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
     networks:
       default:
+        ipv4_address: $APIAPARTADA_IP
         aliases:
           - $APIAPARTADA_URL
   creditscore:
@@ -131,6 +136,7 @@ services:
       - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
     networks:
       default:
+        ipv4_address: $CREDITSCORE_IP
         aliases:
           - $CREDITSCORE_URL
   agendamento:
@@ -152,6 +158,7 @@ services:
       - SITE_DOCUMENT_ROOT=$AGENDAMENTO_DOCUMENT_ROOT
     networks:
       default:
+        ipv4_address: $AGENDAMENTO_IP
         aliases:
           - $AGENDAMENTO_URL
   nginx:
@@ -177,7 +184,8 @@ services:
     dns:
       - $DNS
     networks:
-       - default
+      default:
+        ipv4_address: $MONGODB_IP
   mongo-temp:
     container_name: mongo-temp
     dns:
@@ -215,6 +223,7 @@ services:
       - SITE_HOST=$NOVAPROPOSTA_FRONTEND_URL
     networks:
       default:
+        ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
         aliases:
           - $NOVAPROPOSTA_FRONTEND_URL
   nova_proposta_backend:
@@ -235,6 +244,7 @@ services:
       - "$NOVAPROPOSTA_BACKEND_URL:127.0.0.1"
     networks:
        default:
+          ipv4_address: $NOVAPROPOSTA_BACKEND_IP
           aliases:
             - $NOVAPROPOSTA_BACKEND_URL
     depends_on:
@@ -287,6 +297,7 @@ services:
     tty: true
     networks:
       default:
+        ipv4_address: $FTPRISCOCOBRANCA_IP
         aliases:
           - $FTPRISCOCOBRANCA_URL
     ports:
@@ -310,6 +321,7 @@ services:
       - "$SEGUROS_URL:127.0.0.1"
     networks:
        default:
+          ipv4_address: $SEGUROS_IP
           aliases:
             - $SEGUROS_URL
   marketplace:
@@ -332,6 +344,7 @@ services:
         - redis
       networks:
          default:
+            ipv4_address: $MARKETPLACE_API_IP
             aliases:
               - $MARKETPLACE_API_URL
   retorno_mec:
@@ -354,6 +367,7 @@ services:
       - redis
     networks:
        default:
+          ipv4_address: $RETORNO_MEC_IP
           aliases:
             - $RETORNO_MEC_URL
   redis:

@@ -2,7 +2,7 @@ version: '3'
 networks:
   default:
     external:
-      name: pravaler
+      name: Pravaler
 services:
   negotiation:
     restart: always
@@ -22,6 +22,7 @@ services:
       - URL=$NEO_NEGOTIATION_URL
     networks:
       default:
+        ipv4_address: $NEO_NEGOTIATION_IP
         aliases:
           - $NEO_NEGOTIATION_URL
   proposal:
@@ -42,6 +43,7 @@ services:
       - URL=$NEO_PROPOSAL_URL
     networks:
       default:
+        ipv4_address: $NEO_PROPOSAL_IP
         aliases:
           - $NEO_PROPOSAL_URL
   integration:
@@ -62,6 +64,7 @@ services:
       - URL=$NEO_INTEGRATION_URL
     networks:
       default:
+        ipv4_address: $NEO_INTEGRATION_IP
         aliases:
           - $NEO_INTEGRATION_URL
   student:
@@ -82,6 +85,7 @@ services:
       - URL=$NEO_STUDENT_URL
     networks:
       default:
+        ipv4_address: $NEO_STUDENT_IP
         aliases:
           - $NEO_STUDENT_URL
   callcenter:
@@ -102,6 +106,7 @@ services:
       - URL=$ALFRED_SERVER_URL
     networks:
       default:
+        ipv4_address: $ALFRED_SERVER_IP
         aliases:
           - $ALFRED_SERVER_URL
   alfred-client:
@@ -123,6 +128,7 @@ services:
       - SITE_HOST=$ALFRED_CLIENT_URL
     networks:
       default:
+        ipv4_address: $ALFRED_CLIENT_IP
         aliases:
           - $ALFRED_CLIENT_URL
   log:
@@ -143,6 +149,7 @@ services:
       - URL=$NEO_LOG_URL
     networks:
       default:
+        ipv4_address: $NEO_LOG_IP
         aliases:
           - $NEO_LOG_URL
   neo-api:
@@ -164,5 +171,6 @@ services:
       - URL=$NEO_API_URL
     networks:
       default:
+        ipv4_address: $NEO_API_IP
         aliases:
           - $NEO_API_URL

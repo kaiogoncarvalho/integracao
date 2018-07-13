@@ -70,5 +70,3 @@ database(){
     done
 
 }
-
-main

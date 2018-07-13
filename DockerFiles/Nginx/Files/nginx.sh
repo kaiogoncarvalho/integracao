@@ -59,6 +59,7 @@ setup_nginx()
     server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
     server $SEGUROS_LOCAL $SEGUROS_URL seguros
     server $RETORNO_MEC_LOCAL $RETORNO_MEC_URL retorno_mec
+    server $MARKETPLACE_API_LOCAL $MARKETPLACE_API_URL marketplace
     dockerComposeUp 'nginx'
 }
 

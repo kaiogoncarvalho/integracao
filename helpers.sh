@@ -219,7 +219,7 @@ getIpContainer() {
 
     network=$2
     if isEmptyVariable $network; then
-        network="pravaler"
+        network="Pravaler"
     fi
 
     IP=$(docker inspect --format="{{ .NetworkSettings.Networks.$network.IPAddress}}" $1)
@@ -530,14 +530,14 @@ createNetwork(){
 
     network=$1
     if isEmptyVariable $network; then
-        network="pravaler"
+        network="Pravaler"
     fi
 
     network_test=$(docker network ls --format "{{ .Name}}" --filter "Name=$network")
 
     if [ -z $network_test ]
     then
-        docker network create pravaler
+        docker network create --driver=bridge --subnet=172.50.1.0/16 Pravaler
         msgConfigItemSucess "Network $network foi criada.\n"
     else
         msgConfigItemWarning "Network $network já existe.\n"

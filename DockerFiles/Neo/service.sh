@@ -11,7 +11,7 @@ service(){
     msgConfig "Configurando $NEO_CONFIG:"
     if isNotValidFile config.php; then
         ln -s $NEO_CONFIG config.php
-        msgConfigItemSuccess "Link do $NEO_CONFIG foi criado.\n"
+        msgConfigItemSucess "Link do $NEO_CONFIG foi criado.\n"
     else
         msgConfigItemWarning "Link do $NEO_CONFIG já existe.\n"
     fi

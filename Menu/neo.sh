@@ -53,9 +53,9 @@ neo() {
           ;;
           4) installServiceNeo "Log" "NEO_LOG" "service"
           ;;
-          5) installServiceNeo "Neo Api" "NEO_API" "service"
+          5) installServiceNeo "Negotiation" "NEO_NEGOTIATION" "service"
           ;;
-          6) installServiceNeo "Negotiation" "NEO_NEGOTIATION" "service"
+          6) installServiceNeo "Neo Api" "NEO_API" "service"
           ;;
           7) installServiceNeo "Proposal" "NEO_PROPOSAL" "service"
           ;;

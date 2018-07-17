@@ -121,7 +121,7 @@ services:
     dns:
       - $DNS
     volumes:
-      - $ALFRED_CLIENT_LOCAL:$NEO_SERVICE_VOLUME
+      - $ALFRED_CLIENT_LOCAL:$ALFRED_CLIENT_DOCKER
     build:
       dockerfile: ./DockerFiles/Neo/AlfredClient/Dockerfile
       context: .
@@ -131,6 +131,7 @@ services:
       - "$ALFRED_CLIENT_URL:127.0.0.1"
     environment:
       - SITE_HOST=$ALFRED_CLIENT_URL
+      - PROJECT_FOLDER=$ALFRED_CLIENT_DOCKER
     networks:
       default:
         ipv4_address: $ALFRED_CLIENT_IP

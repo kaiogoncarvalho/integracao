@@ -59,7 +59,14 @@ setup_nginx()
     server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
     server $SEGUROS_LOCAL $SEGUROS_URL seguros
     server $RETORNO_MEC_LOCAL $RETORNO_MEC_URL retorno_mec
-    server $MARKETPLACE_API_LOCAL $MARKETPLACE_API_URL marketplace
+    server $ALFRED_CLIENT_LOCAL $ALFRED_CLIENT_URL alfred-client
+    server $ALFRED_SERVER_LOCAL $ALFRED_SERVER_URL callcenter
+    server $NEO_NEGOTIATION_LOCAL $NEO_NEGOTIATION_URL negotiation
+    server $NEO_PROPOSAL_LOCAL $NEO_PROPOSAL_URL proposal
+    server $NEO_INTEGRATION_LOCAL $NEO_INTEGRATION_URL integration
+    server $NEO_STUDENT_LOCAL $NEO_STUDENT_URL student
+    server $NEO_LOG_LOCAL $NEO_LOG_URL $NEO_LOG_PROJECT
+    server $NEO_API_LOCAL $NEO_API_URL $NEO_API_PROJECT
     dockerComposeUp 'nginx'
 }
 

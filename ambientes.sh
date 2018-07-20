@@ -13,6 +13,8 @@ OUTROS=./Menu/outros.sh
 NEO=./Menu/neo.sh
 # Configuração do Banco de Dados
 DATABASE=./Menu/database.sh
+# Configuração do Nginx
+NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -20,6 +22,7 @@ INTEGRACAO_DIR=$(pwd)
 . $OUTROS
 . $NEO
 . $DATABASE
+. $NGINX_SH
 
 # Inicializa as funções de configuração dos projetos
 main() {
@@ -31,6 +34,7 @@ main() {
   do
     clear
 
+
     printInBar "Ambientes Pravaler" "verde"
     echo -e
     printInBar "Criado por Kaio Gonçalves Carvalho"
@@ -39,6 +43,10 @@ main() {
     printLine "1 - Instalar Ambientes"
     printLine "2 - Instalar Ambientes Neo"
     printLine "3 - Alterar Banco de Dados usado nas instalações"
+    if [ $TIPO_INSTALACAO == "servidor" ];
+         then
+           printLine "4 - Reinstalar Nginx do Servidor"
+         fi
     printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
 
@@ -64,6 +72,14 @@ main() {
       3)
         database
       ;;
+      4)
+       if [ $TIPO_INSTALACAO == "servidor" ];
+         then
+            echo -e "\nConfigurando Nginx:\n"
+            reloadEnv
+            setup_nginx
+         fi
+       ;;
       *) clear
         printInBar "Opção inválida!"
       ;;
@@ -72,12 +88,7 @@ main() {
     printInBar "Fim da operação."
     echo -e
   done
-  if [ $TIPO_INSTALACAO == "servidor" ];
-         then
-            echo -e "\nConfigurando Nginx:\n"
-            reloadEnv
-            setup_nginx
-  fi
+
 }
 
 main

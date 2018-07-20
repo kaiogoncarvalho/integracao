@@ -16,8 +16,6 @@ NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_ba
 CDN_SH=./DockerFiles/CDN/Files/cdn.sh
 # Configuração do Agendamento de homologação
 AGENDAMENTO_SH=./DockerFiles/Agendamento/Files/agendamento.sh
-# Configuração do Nginx
-NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração do frontend da proposta nova
 NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
 # Configuração do ftp risco cobranca

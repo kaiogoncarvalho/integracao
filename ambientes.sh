@@ -69,15 +69,15 @@ main() {
       ;;
     esac
     clear
-     if [ $TIPO_INSTALACAO == "servidor" ];
+    printInBar "Fim da operação."
+    echo -e
+  done
+  if [ $TIPO_INSTALACAO == "servidor" ];
          then
             echo -e "\nConfigurando Nginx:\n"
             reloadEnv
             setup_nginx
-        fi
-    printInBar "Fim da operação."
-    echo -e
-  done
+  fi
 }
 
 main

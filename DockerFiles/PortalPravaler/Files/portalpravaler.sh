@@ -8,6 +8,7 @@ setup_portal_pravaler()
     composerConfig "$1/workbench/portal/pravaler-backoffice"
     composerConfig "$1/workbench/portal/proposal"
     composerConfig "$1/workbench/portal/marketplace"
+    composerConfig "$1/workbench/portal/seguros"
 
     msgConfig "Configurando permissões de diretórios: "
     cd $1

@@ -28,5 +28,7 @@ setup_portal_pravaler()
     dockerComposeUp $PORTALPRAVALER_CONTAINER
 
     configHost $PORTALPRAVALER_CONTAINER $PORTALPRAVALER_URL
+
+    include_portalpravaler_backoffice
 }
 

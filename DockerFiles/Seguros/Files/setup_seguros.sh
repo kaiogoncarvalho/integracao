@@ -14,8 +14,8 @@ setup_seguros()
     chmod 777 -R $1
     msgConfigItem "Permissões Definidas"
 
-    dockerComposeUp 'seguros'
+    dockerComposeUp $SEGUROS_CONTAINER
 
-    configHost 'seguros' $SEGUROS_URL
+    configHost $SEGUROS_CONTAINER $SEGUROS_URL
 
 }

@@ -318,7 +318,7 @@ msgAlert(){
 
 #função msgConfig: Retorna texto no formato configuração
 msgConfig(){
-    msgGeneral "\n\t$1" 'branco' 'reverso'
+    msgGeneral "\n\t$1\n" 'branco' 'reverso'
 }
 
 #função msgConfigItem:  Retorna texto no formato item configuração
@@ -624,4 +624,28 @@ verifyContainer(){
     else
      return 0
     fi
+}
+
+#função npmInstall: Executa o NPM install em um diretório passado por parâmetro
+npmInstall() {
+    msgConfig "Realizando o NPM install no diretório $1: "
+    docker run --rm -v $1:/app kaiocarvalhopravaler/node:9 npm install
+    chmod 777 -R "$1"
+}
+
+bowerInstall(){
+    if isEmptyVariable $1; then
+     DIR='vendor'
+    else
+     DIR=$2
+    fi
+
+    msgConfig "Realizando o Bower install no diretório $1: "
+    docker run --rm -v $1:/app kaiocarvalhopravaler/node:9 bower install --allow-root --config.directory=$DIR
+    chmod 777 -R "$1"
+}
+
+logContainer(){
+    msgConfig "Consultando Log do container $1: "
+    docker logs $1
 }

@@ -13,8 +13,8 @@ services:
     volumes:
       - $NEO_NEGOTIATION_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
-    container_name: $NEO_NEGOTIATION_PROJECT
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
+    container_name: $NEO_NEGOTIATION_CONTAINER
     extra_hosts:
           - "$NEO_NEGOTIATION_URL:127.0.0.1"
     environment:
@@ -35,7 +35,7 @@ services:
     volumes:
       - $NEO_PROPOSAL_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $NEO_PROPOSAL_CONTAINER
     extra_hosts:
           - "$NEO_PROPOSAL_URL:127.0.0.1"
@@ -57,7 +57,7 @@ services:
     volumes:
       - $NEO_INTEGRATION_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $NEO_INTEGRATION_CONTAINER
     extra_hosts:
           - "$NEO_INTEGRATION_URL:127.0.0.1"
@@ -79,7 +79,7 @@ services:
     volumes:
       - $NEO_STUDENT_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $NEO_STUDENT_CONTAINER
     extra_hosts:
           - "$NEO_STUDENT_URL:127.0.0.1"
@@ -101,7 +101,7 @@ services:
     volumes:
       - $ALFRED_SERVER_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $ALFRED_SERVER_CONTAINER
     extra_hosts:
           - "$ALFRED_SERVER_URL:127.0.0.1"
@@ -122,9 +122,6 @@ services:
       - $DNS
     volumes:
       - $ALFRED_CLIENT_LOCAL:$ALFRED_CLIENT_DOCKER
-    build:
-      dockerfile: ./DockerFiles/Neo/AlfredClient/Dockerfile
-      context: .
     container_name: $ALFRED_CLIENT_CONTAINER
     image: kaiocarvalhopravaler/angular:node-9
     extra_hosts:
@@ -146,7 +143,7 @@ services:
     volumes:
       - $NEO_LOG_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $NEO_LOG_CONTAINER
     extra_hosts:
           - "$NEO_LOG_URL:127.0.0.1"
@@ -159,7 +156,7 @@ services:
         ipv4_address: $NEO_LOG_IP
         aliases:
           - $NEO_LOG_URL
-  neo-api:
+  neo_api:
     restart: always
     stdin_open: true
     tty: true
@@ -168,7 +165,7 @@ services:
     volumes:
       - $NEO_API_LOCAL:$NEO_SERVICE_VOLUME
       - $NEO_CONFIG:/opt/neo/config.php
-    image: kaiocarvalhopravaler/neo:php7.2
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
     container_name: $NEO_API_CONTAINER
     extra_hosts:
           - "$NEO_API_URL:127.0.0.1"

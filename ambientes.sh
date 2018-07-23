@@ -43,10 +43,6 @@ main() {
     printLine "1 - Instalar Ambientes"
     printLine "2 - Instalar Ambientes Neo"
     printLine "3 - Alterar Banco de Dados usado nas instalações"
-    if [ $TIPO_INSTALACAO == "servidor" ];
-         then
-           printLine "4 - Reinstalar Nginx do Servidor"
-         fi
     printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
 
@@ -64,7 +60,7 @@ main() {
         exit
       ;;
       1)
-        outros
+        sistemas
       ;;
       2)
         neo
@@ -72,14 +68,6 @@ main() {
       3)
         database
       ;;
-      4)
-       if [ $TIPO_INSTALACAO == "servidor" ];
-         then
-            echo -e "\nConfigurando Nginx:\n"
-            reloadEnv
-            setup_nginx
-         fi
-       ;;
       *) clear
         printInBar "Opção inválida!"
       ;;

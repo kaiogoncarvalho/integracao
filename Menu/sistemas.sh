@@ -27,6 +27,7 @@ RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 # Configuração do Marketplace
 MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 
+
 . $APIPRAVALER_SH
 . $APIAPARTADA_SH
 . $BACKOFFICE_SH
@@ -37,14 +38,13 @@ MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 . $NOVA_PROPOSTA_FRONTEND_SH
 . $FTP_RISCO_COBRANCA_SH
 . $AGENDAMENTO_SH
-. $NGINX_SH
 . $SEGUROS_SH
 . $RETORNO_MEC_SH
 . $MARKETPLACE_API_SH
 
 
 # Inicializa as funções de configuração dos projetos
-outros() {
+sistemas() {
     while true;
     do
         printInBar "Ambientes Pravaler" "verde"

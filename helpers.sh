@@ -570,6 +570,7 @@ installSystem(){
     msgGeneral "\nComeçando configuração do Sistema $1:\n" 'verde' 'negrito'
 
     configRepository $2 $3
+    configServer
     printInBar "Operação Finalizada!"
 }
 
@@ -648,4 +649,14 @@ bowerInstall(){
 logContainer(){
     msgConfig "Consultando Log do container $1: "
     docker logs $1
+}
+
+configServer()
+{
+    if [ $TIPO_INSTALACAO == "servidor" ];
+         then
+            echo -e "\nConfigurando Nginx:\n"
+            reloadEnv
+            setup_nginx
+     fi
 }

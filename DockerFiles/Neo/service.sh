@@ -22,8 +22,8 @@ service(){
 
     msgConfigItem "Permissões Definidas."
 
-    dockerComposeUp $(getEnv "$2_PROJECT") 'neo'
+    dockerComposeUp $(getEnv "$2_CONTAINER") 'neo'
 
-    configHost $(getEnv "$2_PROJECT")  $(getEnv "$2_URL")
+    configHost $(getEnv "$2_CONTAINER")  $(getEnv "$2_URL")
 
 }

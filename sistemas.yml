@@ -15,15 +15,14 @@ services:
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
-    image: kaioidealinvest/backoffice
-    container_name: backoffice
+    image: kaiocarvalhopravaler/backoffice
+    container_name: $BACKOFFICE_CONTAINER
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
       - "$BACKOFFICE_API_URL:127.0.0.1"
-      - "retornomec.idealinvest.srv.br:10.104.110.143"
     environment:
       - SITE_HOST=$BACKOFFICE_URL
-      - SITE_DOCUMENT_ROOT=$BACKOFFICE_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${BACKOFFICE_DOCKER}${BACKOFFICE_DOCUMENT_ROOT}
       - VOLUME=$BACKOFFICE_DOCKER
       - CDN_URL=$CDN_URL
       - API_HOST=$BACKOFFICE_API_URL
@@ -42,13 +41,13 @@ services:
       - $DNS
     volumes:
       - $CDN_LOCAL:$CDN_DOCKER
-    image: kaioidealinvest/apache:ubuntu16.04
-    container_name: cdn
+    image: kaiocarvalhopravaler/apache:ubuntu16.04
+    container_name: $CDN_CONTAINER
     extra_hosts:
       - "$CDN_URL:127.0.0.1"
     environment:
       - SITE_HOST=$CDN_URL
-      - SITE_DOCUMENT_ROOT=$CDN_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${CDN_DOCKER}${CDN_DOCUMENT_ROOT}
       - VOLUME=$CDN_DOCKER
     networks:
       default:
@@ -61,8 +60,8 @@ services:
     tty: true
     volumes:
       - $PORTALPRAVALER_LOCAL:$PORTALPRAVALER_DOCKER
-    container_name: portal_pravaler
-    image: kaioidealinvest/php:5.6
+    container_name: $PORTALPRAVALER_CONTAINER
+    image: kaiocarvalhopravaler/php:5.6-apache
     extra_hosts:
       - "$PORTALPRAVALER_URL:127.0.0.1"
       - "qa.marketplace.idealinvest.srv.br:10.10.100.177"
@@ -74,7 +73,7 @@ services:
     environment:
       - VOLUME=$PORTALPRAVALER_DOCKER
       - SITE_HOST=$PORTALPRAVALER_URL
-      - SITE_DOCUMENT_ROOT=$PORTALPRAVALER_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${PORTALPRAVALER_DOCKER}${PORTALPRAVALER_DOCUMENT_ROOT}
   api_pravaler:
     restart: always
     stdin_open: true
@@ -83,14 +82,14 @@ services:
       - $DNS
     volumes:
       - $APIPRAVALER_LOCAL:$APIPRAVALER_DOCKER
-    container_name: api_pravaler
-    image: kaioidealinvest/php:7.0
+    container_name: $APIPRAVALER_CONTAINER
+    image: kaiocarvalhopravaler/php:7.0-apache
     extra_hosts:
       - "$APIPRAVALER_URL:127.0.0.1"
     environment:
       - VOLUME=$APIPRAVALER_DOCKER
       - SITE_HOST=$APIPRAVALER_URL
-      - SITE_DOCUMENT_ROOT=$APIPRAVALER_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${APIPRAVALER_DOCKER}${APIPRAVALER_DOCUMENT_ROOT}
     networks:
       default:
         ipv4_address: $APIPRAVALER_IP
@@ -105,27 +104,24 @@ services:
     volumes:
       - $APIAPARTADA_LOCAL:$APIAPARTADA_DOCKER
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-    container_name: api_apartada
-    image: kaioidealinvest/php:5.6
+    container_name: $APIAPARTADA_CONTAINER
+    image: kaiocarvalhopravaler/php:5.6-apache
     extra_hosts:
       - "$APIAPARTADA_URL:127.0.0.1"
     environment:
       - VOLUME=$APIAPARTADA_DOCKER
       - SITE_HOST=$APIAPARTADA_URL
-      - SITE_DOCUMENT_ROOT=$APIAPARTADA_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${APIAPARTADA_DOCKER}${APIAPARTADA_DOCUMENT_ROOT}
     networks:
       default:
         ipv4_address: $APIAPARTADA_IP
         aliases:
           - $APIAPARTADA_URL
-  creditscore:
+  credit_score:
     volumes:
       - $CREDITSCORE_LOCAL:$CREDITSCORE_DOCKER
-    build:
-      dockerfile: ./DockerFiles/CreditScore/Dockerfile
-      context: .
-    container_name: creditscore
-    image: kaioidealinvest/php:7.1
+    container_name: $CREDITSCORE_CONTAINER
+    image: kaiocarvalhopravaler/php:7.1-apache
     dns:
       - $DNS
     extra_hosts:
@@ -133,7 +129,7 @@ services:
     environment:
       - VOLUME=$CREDITSCORE_DOCKER
       - SITE_HOST=$CREDITSCORE_URL
-      - SITE_DOCUMENT_ROOT=$CREDITSCORE_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${CREDITSCORE_DOCKER}${CREDITSCORE_DOCUMENT_ROOT}
     networks:
       default:
         ipv4_address: $CREDITSCORE_IP
@@ -146,8 +142,8 @@ services:
     volumes:
       - $AGENDAMENTO_LOCAL:$AGENDAMENTO_DOCKER
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
-    container_name: agendamento
-    image: kaioidealinvest/php:7.1
+    container_name: $AGENDAMENTO_CONTAINER
+    image: kaiocarvalhopravaler/php:7.2-apache
     dns:
       - $DNS
     extra_hosts:
@@ -155,7 +151,7 @@ services:
     environment:
       - VOLUME=$AGENDAMENTO_DOCKER
       - SITE_HOST=$AGENDAMENTO_URL
-      - SITE_DOCUMENT_ROOT=$AGENDAMENTO_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${AGENDAMENTO_DOCKER}${AGENDAMENTO_DOCUMENT_ROOT}
     networks:
       default:
         ipv4_address: $AGENDAMENTO_IP
@@ -171,7 +167,7 @@ services:
       dockerfile: ./DockerFiles/Nginx/Dockerfile
       context: .
     container_name: nginx
-    image: kaioidealinvest/nginx
+    image: kaiocarvalhopravaler/nginx
     ports:
       - "80:80"
       - "9000:9000"
@@ -194,7 +190,7 @@ services:
       dockerfile: ./DockerFiles/MongoDB/Dockerfile
       context: .
     restart: always
-    image: kaioidealinvest/mongo-temp
+    image: kaiocarvalhopravaler/mongo-temp
     networks:
       - default
     command: mongo "mongodb://mongodb" /data/db/script.js
@@ -204,7 +200,7 @@ services:
     restart: always
     stdin_open: true
     tty: true
-    container_name: nova_proposta_frontend
+    container_name: $NOVAPROPOSTA_FRONTEND_CONTAINER
     dns:
       - $DNS
     volumes:
@@ -213,7 +209,7 @@ services:
       dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
       context: .
     container_name: nova_proposta_frontend
-    image: kaioidealinvest/nova_proposta_frontend
+    image: kaiocarvalhopravaler/nova_proposta_frontend
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
     environment:
@@ -228,8 +224,8 @@ services:
           - $NOVAPROPOSTA_FRONTEND_URL
   nova_proposta_backend:
     restart: always
-    container_name: nova_proposta_backend
-    image: kaioidealinvest/php:7.0
+    container_name: $NOVAPROPOSTA_BACKEND_CONTAINER
+    image: kaiocarvalhopravaler/php:7.0
     stdin_open: true
     tty: true
     dns:
@@ -237,7 +233,7 @@ services:
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
       - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
-      - SITE_DOCUMENT_ROOT=$NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${NOVAPROPOSTA_BACKEND_DOCKER}${NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT}
     volumes:
       - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
     extra_hosts:
@@ -275,15 +271,15 @@ services:
       - RABBITMQ_DEFAULT_PASS=propostanova
     depends_on:
      - "rabbitmq"
-  ftp-risco-cobranca:
+  ftp_risco_cobranca:
     restart: always
     dns:
       - $DNS
     build:
       dockerfile: ./DockerFiles/FtpRiscoCobranca/Dockerfile
       context: .
-    container_name: ftp-risco-cobranca
-    image: kaioidealinvest/ftp-risco-cobranca
+    container_name: $FTPRISCOCOBRANCA_CONTAINER
+    image: kaiocarvalhopravaler/ftp-risco-cobranca
     stdin_open: true
     volumes:
       - "/home/ftpusers/"
@@ -305,8 +301,8 @@ services:
       - "30000-30009:30000-30009"
   seguros:
     restart: always
-    container_name: seguros
-    image: kaioidealinvest/php:7.1
+    container_name: $SEGUROS_CONTAINER
+    image: kaiocarvalhopravaler/php:7.1
     stdin_open: true
     tty: true
     dns:
@@ -314,7 +310,7 @@ services:
     environment:
       - VOLUME=$SEGUROS_DOCKER
       - SITE_HOST=$SEGUROS_URL
-      - SITE_DOCUMENT_ROOT=$SEGUROS_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${SEGUROS_DOCKER}${SEGUROS_DOCUMENT_ROOT}
     volumes:
       - $SEGUROS_LOCAL:$SEGUROS_DOCKER
     extra_hosts:
@@ -324,10 +320,10 @@ services:
           ipv4_address: $SEGUROS_IP
           aliases:
             - $SEGUROS_URL
-  marketplace:
+  marketplace_api:
       restart: always
-      container_name: marketplace
-      image: kaioidealinvest/php:7.1
+      container_name: $MARKETPLACE_API_CONTAINER
+      image: kaiocarvalhopravaler/php:7.1
       stdin_open: true
       tty: true
       dns:
@@ -335,7 +331,7 @@ services:
       environment:
         - VOLUME=$MARKETPLACE_API_DOCKER
         - SITE_HOST=$MARKETPLACE_API_URL
-        - SITE_DOCUMENT_ROOT=$MARKETPLACE_API_DOCUMENT_ROOT
+        - SITE_DOCUMENT_ROOT=${MARKETPLACE_API_DOCKER}${MARKETPLACE_API_DOCUMENT_ROOT}
       volumes:
         - $MARKETPLACE_API_LOCAL:$MARKETPLACE_API_DOCKER
       extra_hosts:
@@ -349,16 +345,16 @@ services:
               - $MARKETPLACE_API_URL
   retorno_mec:
     restart: always
-    container_name: retorno_mec
+    container_name: $RETORNO_MEC_CONTAINER
     stdin_open: true
     tty: true
-    image: kaioidealinvest/php7.1
+    image: kaiocarvalhopravaler/php7.1
     dns:
       - $DNS
     environment:
       - VOLUME=$RETORNO_MEC_DOCKER
       - SITE_HOST=$RETORNO_MEC_URL
-      - SITE_DOCUMENT_ROOT=$RETORNO_MEC_DOCUMENT_ROOT
+      - SITE_DOCUMENT_ROOT=${RETORNO_MEC_DOCKER}${RETORNO_MEC_DOCUMENT_ROOT}
     volumes:
       - $RETORNO_MEC_LOCAL:$RETORNO_MEC_DOCKER
     extra_hosts:
@@ -374,7 +370,7 @@ services:
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
-    image: kaioidealinvest/redis
+    image: kaiocarvalhopravaler/redis
     container_name: redis
     networks:
       - default

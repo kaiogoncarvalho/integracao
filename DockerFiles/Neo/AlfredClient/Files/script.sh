@@ -4,6 +4,11 @@
 cd $PROJECT_FOLDER
 npm install
 
+
+cd src/assets
+
+bower install
+
 #Movendo o arquivo environment.ts(caso exista) para a pasta do projeto
 if [ -e "/home/alfred-client/environment.ts" ]
 then

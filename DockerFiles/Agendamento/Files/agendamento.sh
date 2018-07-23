@@ -21,9 +21,9 @@ setup_agendamento()
     fi
     chmod 777 -R $1
 
-   dockerComposeUp 'agendamento'
+   dockerComposeUp $AGENDAMENTO_CONTAINER
 
-   configHost 'agendamento' $AGENDAMENTO_URL
+   configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
 
 
 }

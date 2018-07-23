@@ -2,8 +2,8 @@
 
 setup_ftp_risco_cobranca() {
 
-    dockerComposeUp 'ftp-risco-cobranca'
+    dockerComposeUp $FTPRISCOCOBRANCA_CONTAINER
 
-    configHost 'ftp-risco-cobranca' $FTPRISCOCOBRANCA_URL
+    configHost $FTPRISCOCOBRANCA_CONTAINER $FTPRISCOCOBRANCA_URL
 
 }

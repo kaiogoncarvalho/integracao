@@ -24,7 +24,7 @@ setup_api_apartada()
     fi
     chmod 777 -R $1
 
-    dockerComposeUp 'api_apartada'
+    dockerComposeUp $APIAPARTADA_CONTAINER
 
-    configHost 'api_apartada' $APIAPARTADA_URL
+    configHost $APIAPARTADA_CONTAINER $APIAPARTADA_URL
 }

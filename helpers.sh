@@ -18,9 +18,19 @@ isNotEmptyDirectory() {
   [ "$(ls -A $1)" ]
 }
 
-# função isEmptyVariable: verifica se a váriavel existe
+# função isEmptyVariable: verifica se a váriavel não existe
 isEmptyVariable() {
   [ -z $1 ]
+}
+
+# função isNotEmptyVariable: verifica se a váriavel existe
+isNotEmptyVariable() {
+  if [  -z $1 ];
+  then
+    return 1
+  else
+    return 0
+  fi
 }
 
 # função isValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
@@ -150,18 +160,18 @@ dockerComposeUp() {
     msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
 
-    if [ "$2" == "neo" ];
+    if isEmptyVariable $2;
     then
-        docker-compose -p neo -f neo.yml stop $1
-        docker rm -f $1
-        docker-compose -p neo -f neo.yml  build  --pull $1
-        docker-compose -p neo -f neo.yml  up --remove-orphans -d $1
+        PROJECT='sistemas'
     else
-        docker-compose stop $1
-        docker rm -f $1
-        docker-compose build --pull $1
-        docker-compose up --remove-orphans -d $1
+        PROJECT=$2
     fi
+
+    docker-compose -p $PROJECT -f $PROJECT.yml stop $1
+    docker rm -f $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  build  --pull $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  up --remove-orphans -d $1
+
 
 
 }
@@ -589,4 +599,29 @@ databasePassword(){
     read -s -p  "| Informe a Senha >_ " VAR
     updateEnv "DATABASE_PASSWORD=" $VAR
     reloadEnv
+}
+
+isValidInstall(){
+    CONTAINER="$1_CONTAINER"
+    DIR=$(getEnv "$1_LOCAL")
+
+    if isNotValidRepository $DIR; then
+        return 1
+    fi
+
+    if verifyContainer $CONTAINER; then
+        return 1
+    fi
+
+    return 0
+}
+
+verifyContainer(){
+    VERIFY=$(docker ps -a -q -f "name=$1")
+
+   if isEmptyVariable $VERIFY; then
+     return 1
+    else
+     return 0
+    fi
 }

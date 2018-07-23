@@ -1,5 +1,74 @@
 #!/usr/bin/env bash
+database_backoffice()
+{
+    if isValidRepository $BACKOFFICE_LOCAL; then
 
+        cd $BACKOFFICE_LOCAL
+        if isNotEmptyVariable $DATABASE_HOST; then
+            sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
+            regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
+        fi
+
+        if isNotEmptyVariable $DATABASE_PORT; then
+            sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
+        fi
+
+        if isNotEmptyVariable $DATABASE_NAME; then
+            sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
+        fi
+
+        if isNotEmptyVariable $DATABASE_USER; then
+            sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
+        fi
+
+        if isNotEmptyVariable $DATABASE_PASSWORD; then
+            sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
+        fi
+
+    fi
+
+
+}
+
+include_portalpravaler_backoffice()
+{
+    cd $BACKOFFICE_LOCAL
+     if isValidInstall 'PORTALPRAVALER'; then
+            regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
+     fi
+}
+
+include_novaproposta_backoffice()
+{
+      cd $BACKOFFICE_LOCAL
+     if isValidInstall 'NOVAPROPOSTA_FRONTEND'; then
+          regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
+     fi
+
+}
+
+include_retornomec_backoffice()
+{
+    cd $BACKOFFICE_LOCAL
+    if isValidInstall 'RETORNO_MEC'; then
+        regexFile 'retorno.mec=' "$RETORNO_MEC_URL"
+    fi
+}
+include_apipravaler_backoffice()
+{
+    cd $BACKOFFICE_LOCAL
+    if isValidInstall 'APIPRAVALER'; then
+        regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
+    fi
+}
+
+include_neolog_backoffice()
+{
+    cd $BACKOFFICE_LOCAL
+    if isValidInstall 'NEO_LOG'; then
+        regexFile 'neo.log=' "$NEO_LOG_URL"
+    fi
+}
 setup_backoffice()
 {
 
@@ -9,36 +78,29 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
-    sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
+    database_backoffice
 
-    regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
+    include_portalpravaler_backoffice
+    include_apipravaler_backoffice
+    include_novaproposta_backoffice
+    include_neolog_backoffice
+    include_retornomec_backoffice
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
-    regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
-
 
     regexFile 'api.path=' "http://$BACKOFFICE_URL/portal/pravaler_v2/api/"
     regexFile 'api.link.billet=' "http://$BACKOFFICE_URL/portal/pravaler/backoffice/"
     regexFile 'api.link.contract=' "http://$BACKOFFICE_URL/portal/pravaler/contrato/"
     regexFile 'api.link.debt=' "http://$BACKOFFICE_URL/portal/pravaler/backoffice/dividas/cmd.php?mAcordoID="
 
-    regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
-
     regexFile 'api.url=' "$BACKOFFICE_API_URL/"
-    regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
 
     regexFile 'neo.oauth=' "http://st.oauth.idealinvest.srv.br"
     regexFile 'neo.subscription_fee=' "http://st.fee.idealinvest.srv.br"
     regexFile 'neo.userToAccess=' "backoffice.contrato"
     regexFile 'neo.passwordToAccess=' "123456"
     regexFile 'neo.orig=' "https://bpm.desenv"
-    regexFile 'neo.log=' "http://st.log.idealinvest.srv.br"
 
-    regexFile 'retorno.mec=' "$RETORNO_MEC_URL"
 
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 
@@ -117,8 +179,10 @@ setup_backoffice()
 
     msgConfigItem "Permissões Definidas."
 
-    dockerComposeUp 'backoffice'
+    dockerComposeUp $BACKOFFICE_CONTAINER
 
-    configHost 'backoffice' $BACKOFFICE_URL
-    configHost 'backoffice' $BACKOFFICE_API_URL
+    configHost $BACKOFFICE_CONTAINER $BACKOFFICE_URL
+    configHost $BACKOFFICE_CONTAINER $BACKOFFICE_API_URL
+
+    include_backoffice_creditscore
 }

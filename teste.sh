@@ -8,7 +8,6 @@ ENV=./.env
 #Env Example
 ENV_EXAMPLE=./example.env
 # Configuração dos Outros Sistemas
-OUTROS=./Menu/outros.sh
 # Configuração dos Sistemas Neo
 NEO=./Menu/neo.sh
 # Configuração do Banco de Dados
@@ -19,15 +18,8 @@ NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 INTEGRACAO_DIR=$(pwd)
 
 . $HELPERS
-. $OUTROS
 . $NEO
 . $DATABASE
 . $NGINX_SH
 . $ENV
 
-if isValidInstall 'BACKOFFICE' ;
-then
-    echo 'valido';
-else
-    echo 'invalido'
-fi

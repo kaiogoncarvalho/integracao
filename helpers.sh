@@ -409,27 +409,10 @@ configEnvIntegracao(){
             msgConfigItemWarning "Necessário atualizar arquivo $(pwd)/.env, sua versão está desatualizada.\n"
             cp $1 .env
 
-            keepEnv "BACKOFFICE"
-            keepEnv "PORTALPRAVALER"
-            keepEnv "APIPRAVALER"
-            keepEnv "APIAPARTADA"
-            keepEnv "CREDITSCORE"
-            keepEnv "AGENDAMENTO"
-            keepEnv "CDN"
-
-            keepEnv "NOVAPROPOSTA_BACKEND"
-            keepEnv "NOVAPROPOSTA_FRONTEND"
-            keepEnv "RETORNO_MEC"
-            keepEnv "MARKETPLACE_API"
-
-            keepEnv "NEO_NEGOTIATION"
-            keepEnv "NEO_PROPOSAL"
-            keepEnv "NEO_INTEGRATION"
-            keepEnv "NEO_STUDENT"
-            keepEnv "NEO_LOG"
-            keepEnv "NEO_API"
-            keepEnv "ALFRED_SERVER"
-            keepEnv "ALFRED_CLIENT"
+            SISTEMS=$(getSystems)
+            for i in $SISTEMS
+            do keepEnv $i
+            done
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG
@@ -603,24 +586,23 @@ databasePassword(){
 }
 
 isValidInstall(){
-    CONTAINER="$1_CONTAINER"
+    CONTAINER=$(getEnv "$1_CONTAINER")
     DIR=$(getEnv "$1_LOCAL")
 
-    if isNotValidRepository $DIR; then
-        return 1
+    if isValidRepository $DIR; then
+
+        if verifyContainer $CONTAINER; then
+            return 0
+        fi
     fi
 
-    if verifyContainer $CONTAINER; then
-        return 1
-    fi
-
-    return 0
+    return 1
 }
 
 verifyContainer(){
-    VERIFY=$(docker ps -a -q -f "name=$1")
+    VERIFY=$(docker ps -a -q -f name=$1$)
 
-   if isEmptyVariable $VERIFY; then
+   if [ -z $VERIFY ]; then
      return 1
     else
      return 0
@@ -659,4 +641,8 @@ configServer()
             reloadEnv
             setup_nginx
      fi
+}
+
+getSystems(){
+    grep -oP '([[:alnum:]_]*)(?=_LOCAL)' "$INTEGRACAO_DIR/.env"
 }

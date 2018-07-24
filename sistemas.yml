@@ -167,12 +167,13 @@ services:
       dockerfile: ./DockerFiles/Nginx/Dockerfile
       context: .
     container_name: nginx
-    image: kaiocarvalhopravaler/nginx
+    image: sistemas/nginx
     ports:
       - "80:80"
       - "9000:9000"
     networks:
-      - default
+      default:
+        ipv4_address: $NGINX_IP
   mongodb:
     container_name: mongodb
     image: mongo:3.4

@@ -544,6 +544,7 @@ installServiceNeo(){
     if configNeo;
     then
         configRepository $2 $3
+        configServer
     fi
     printInBar "Operação Finalizada!"
 }

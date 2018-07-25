@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
-
+database_novapropostabackend(){
+    regexFile 'DB_BO_HOST=' $DATABASE_HOST
+    regexFile 'DB_BO_PORT=' $DATABASE_PORT
+    regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
+    regexFile 'DB_BO_USERNAME=' $DATABASE_USER
+    regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
+}
+include_backoffice_novapropostabackend(){
+    regexFile 'BO_URL=' "$BACKOFFICE_URL/"
+}
+include_novapropostafrontend_novapropostabackend()
+{
+    regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
+}
 setup_nova_proposta_backend()
 {
     cd $1
@@ -11,17 +24,13 @@ setup_nova_proposta_backend()
     regexFile 'APP_ENV=' "homolog"
     regexFile 'APP_URL=' $NOVAPROPOSTA_BACKEND_URL
     regexFile 'API_URL=' "$APIAPARTADA_URL/"
-    regexFile 'BO_URL=' "$BACKOFFICE_URL/"
+
     regexFile 'DB_HOST=' 'mongodb'
     regexFile 'DB_USERNAME=' 'propostanova'
     regexFile 'DB_PASSWORD=' 'propostanova'
     regexFile 'RABBITMQ_HOST=' 'rabbitmq'
-    regexFile 'DB_BO_HOST=' $DATABASE_HOST
-    regexFile 'DB_BO_PORT=' $DATABASE_PORT
-    regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
-    regexFile 'DB_BO_USERNAME=' $DATABASE_USER
-    regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
-    regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
+
+
     regexFile 'API_TOKEN=' "539a6c1ee350a8c21d56b68719a01caf"
     regexFile 'PROXY=' ""
 
@@ -41,7 +50,7 @@ setup_nova_proposta_backend()
 
     configHost "mongodb" "mongodb"
 
-    configHost "nova_proposta_backend" $NOVAPROPOSTA_BACKEND_URL
+    configHost $NOVAPROPOSTA_BACKEND_CONTAINER $NOVAPROPOSTA_BACKEND_URL
 
     docker rm -f mongo-temp
 
@@ -67,4 +76,9 @@ setup_nova_proposta_backend()
     echo -e "\n"
 
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
+
+    database_nova_proposta_backend
+
+    include_backoffice_nova_proposta_backend
+    include_nova_proposta_frontend_nova_proposta_backend
 }

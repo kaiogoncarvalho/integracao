@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 database_backoffice()
 {
-    if isValidRepository $BACKOFFICE_LOCAL; then
+    if isValidInstall 'BACKOFFICE'; then
 
         cd $BACKOFFICE_LOCAL
         if isNotEmptyVariable $DATABASE_HOST; then
@@ -32,16 +32,18 @@ database_backoffice()
 
 include_portalpravaler_backoffice()
 {
-    cd $BACKOFFICE_LOCAL
-     if isValidInstall 'PORTALPRAVALER'; then
-            regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
+
+     if isValidInstall 'PORTALPRAVALER' && isValidInstall 'BACKOFFICE'; then
+          cd $BACKOFFICE_LOCAL
+          regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
      fi
 }
 
-include_novaproposta_backoffice()
+include_novapropostafrontend_backoffice()
 {
-      cd $BACKOFFICE_LOCAL
-     if isValidInstall 'NOVAPROPOSTA_FRONTEND'; then
+
+     if isValidInstall 'NOVAPROPOSTA_FRONTEND' && isValidInstall 'BACKOFFICE'; then
+          cd $BACKOFFICE_LOCAL
           regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
      fi
 
@@ -49,23 +51,26 @@ include_novaproposta_backoffice()
 
 include_retornomec_backoffice()
 {
-    cd $BACKOFFICE_LOCAL
-    if isValidInstall 'RETORNO_MEC'; then
+
+    if isValidInstall 'RETORNO_MEC' && isValidInstall 'BACKOFFICE'; then
+        cd $BACKOFFICE_LOCAL
         regexFile 'retorno.mec=' "$RETORNO_MEC_URL"
     fi
 }
 include_apipravaler_backoffice()
 {
-    cd $BACKOFFICE_LOCAL
-    if isValidInstall 'APIPRAVALER'; then
+
+    if isValidInstall 'APIPRAVALER' && isValidInstall 'BACKOFFICE'; then
+        cd $BACKOFFICE_LOCAL
         regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
     fi
 }
 
 include_neolog_backoffice()
 {
-    cd $BACKOFFICE_LOCAL
-    if isValidInstall 'NEO_LOG'; then
+
+    if isValidInstall 'NEO_LOG' && isValidInstall 'BACKOFFICE'; then
+        cd $BACKOFFICE_LOCAL
         regexFile 'neo.log=' "$NEO_LOG_URL"
     fi
 }
@@ -78,13 +83,7 @@ setup_backoffice()
 
     configInitialEnv 'sample.env'
 
-    database_backoffice
 
-    include_portalpravaler_backoffice
-    include_apipravaler_backoffice
-    include_novaproposta_backoffice
-    include_neolog_backoffice
-    include_retornomec_backoffice
 
     regexFile 'backoffice.domain=' "$BACKOFFICE_URL"
 
@@ -183,6 +182,14 @@ setup_backoffice()
 
     configHost $BACKOFFICE_CONTAINER $BACKOFFICE_URL
     configHost $BACKOFFICE_CONTAINER $BACKOFFICE_API_URL
+
+    database_backoffice
+
+    include_portalpravaler_backoffice
+    include_apipravaler_backoffice
+    include_novaproposta_backoffice
+    include_neolog_backoffice
+    include_retornomec_backoffice
 
     include_backoffice_creditscore
 }

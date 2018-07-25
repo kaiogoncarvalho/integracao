@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+database_service(){
+   echo 'teste'
+
+}
 service(){
 
     DIR=$1
@@ -25,5 +29,9 @@ service(){
     dockerComposeUp $(getEnv "$2_CONTAINER") 'neo'
 
     configHost $(getEnv "$2_CONTAINER")  $(getEnv "$2_URL")
+
+    include_callcenter_alfredclient
+    include_bpm_alfredclient
+    include_oauth_alfredclient
 
 }

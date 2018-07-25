@@ -8,6 +8,6 @@ export const environment = {
     endpoints: {
         "bpm"           :"http://qa.bpm.idealinvest.com.br",
         "oauth"         :"http://qa.oauth.idealinvest.srv.br",
-        "alfredserver"  :"http://lo.callcenter.idealinvest.srv.br"
+        "alfredserver"  :"http://qa.callcenter.idealinvest.srv.br"
     }
-};
+}

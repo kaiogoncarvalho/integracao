@@ -2,7 +2,7 @@
 database_credit_score()
 {
 
-    if isValidRepository $CREDITSCORE_LOCAL; then
+    if isValidInstall 'CREDITSCORE'; then
         cd $CREDITSCORE_LOCAL
         if isNotEmptyVariable $DATABASE_HOST; then
             regexFile "db.bo.host=" $DATABASE_HOST
@@ -28,7 +28,7 @@ database_credit_score()
 
 include_backoffice_creditscore()
 {
-    if isValidInstall 'BACKOFFICE'; then
+    if isValidInstall 'BACKOFFICE' && isValidInstall 'CREDITSCORE'; then
         cd $CREDITSCORE_LOCAL
         regexFile "bo.api.host=" "$BACKOFFICE_API_URL/portal/pravaler_v2"
     fi
@@ -37,7 +37,7 @@ include_backoffice_creditscore()
 include_neolog_creditscore()
 {
 
-    if isValidInstall 'NEO_LOG'; then
+    if isValidInstall 'NEO_LOG' && isValidInstall 'CREDITSCORE'; then
         cd $NEO_LOG_LOCAL
         regexFile "neo.log.host=" $NEO_LOG_URL
     fi
@@ -47,7 +47,7 @@ include_neolog_creditscore()
 include_neoproposal_creditscore()
 {
 
-    if isValidInstall 'NEO_PROPOSAL'; then
+    if isValidInstall 'NEO_PROPOSAL' && isValidInstall 'CREDITSCORE'; then
         cd $NEO_PROPOSAL_LOCAL
         regexFile "neo.proposal.host=" $NEO_PROPOSA_URL
     fi

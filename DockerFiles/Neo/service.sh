@@ -5,9 +5,9 @@ config_service(){
         msgConfig "Incluindo Serviço no Config:"
 
         SYSTEM_URL=$(getEnv "$2_URL")
+        CONTAINER=$(getEnv "$2_CONTAINER")
 
-        grep -i -E 's/(\s*.backoffice.\s*=>\s*array.[\s\w\d[:punct:]]*?.host.\s=>\s.)([\w\/:.]*)./g' $NEO_CONFIG
-
+        phpregex "/(\s*\'$CONTAINER'\s*=>\s*array\s*\([\s\w\d[:punct:]]*?\'host\'\s=>\s\')([\w\/:.]*)(?=\')/s" '$1'$SYSTEM_URL $NEO_CONFIG
 
         msgConfigItemSucess "Serviço incluido.\n"
     fi
@@ -16,8 +16,7 @@ config_service(){
 
 service(){
 
-config_service $2
-return 0
+
 
     DIR=$1
 
@@ -43,6 +42,7 @@ return 0
 
     configHost $(getEnv "$2_CONTAINER")  $(getEnv "$2_URL")
 
+    config_service $2
 
 
     include_callcenter_alfredclient

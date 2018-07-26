@@ -117,7 +117,7 @@ services:
         ipv4_address: $APIAPARTADA_IP
         aliases:
           - $APIAPARTADA_URL
-  credit_score:
+  creditscore:
     volumes:
       - $CREDITSCORE_LOCAL:$CREDITSCORE_DOCKER
     container_name: $CREDITSCORE_CONTAINER
@@ -344,7 +344,7 @@ services:
             ipv4_address: $MARKETPLACE_API_IP
             aliases:
               - $MARKETPLACE_API_URL
-  retorno_mec:
+  retornomec:
     restart: always
     container_name: $RETORNO_MEC_CONTAINER
     stdin_open: true

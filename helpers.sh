@@ -651,5 +651,5 @@ getSystems(){
 
 phpregex()
 {
-
+    docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php regex.php $1 $2 $3
 }

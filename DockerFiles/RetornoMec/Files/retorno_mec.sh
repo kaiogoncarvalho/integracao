@@ -24,8 +24,8 @@ retorno_mec()
     chmod 777 -R $1
     msgConfigItem "Permissões Definidas"
 
-    dockerComposeUp 'retorno_mec'
+    dockerComposeUp $RETORNO_MEC_CONTAINER
 
-    configHost 'retorno_mec' $RETORNO_MEC_URL
+    configHost $RETORNO_MEC_CONTAINER $RETORNO_MEC_URL
 
 }

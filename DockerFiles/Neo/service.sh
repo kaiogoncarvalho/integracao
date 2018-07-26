@@ -51,6 +51,8 @@ service(){
 
      cd $DIR
 
+     configInitialEnv '.env.dist'
+
     msgConfig "Configurando $NEO_CONFIG:"
     if isNotValidFile config.php; then
         ln -s $NEO_CONFIG config.php

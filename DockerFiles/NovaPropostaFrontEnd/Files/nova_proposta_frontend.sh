@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
+update_environment_novaproposta(){
+    if isNotValidFile $NOVAPROPOSTA_FRONTEND_LOCAL/src/environments/environment.integration.ts; then
+        cp $INTEGRACAO_DIR/DockerFiles/NovaPropostaFrontend/Files/environment.ts $NOVAPROPOSTA_FRONTEND_LOCAL/src/environments/
+        msgConfigItemSucess "Arquivo de environment foi criado.\n"
+    else
+        msgConfigItemWarning "Arquivo de environment já existe.\n"
+    fi
 
+}
 setup_nova_proposta_frontend() {
 
     cd $1
@@ -16,7 +24,7 @@ setup_nova_proposta_frontend() {
     bowerInstall $1/src/assets
 
     msgConfig "Copiando arquivo de environment: "
-    update_environment
+    update_environment_novaproposta
 
 
     dockerComposeUp $NOVAPROPOSTA_FRONTEND_CONTAINER
@@ -30,20 +38,8 @@ setup_nova_proposta_frontend() {
 
     sleep 45
 
-    logContainer $ALFRED_CLIENT_CONTAINER
+    logContainer $NOVAPROPOSTA_FRONTEND_CONTAINER
 
-    include_callcenter_alfred_client
-    include_bpm_alfred_client
-    include_oauth_alfred_client
-
-    dockerComposeUp 'nova_proposta_frontend'
-
-    configHost 'nova_proposta_frontend' $NOVAPROPOSTA_FRONTEND_URL
-
-    chmod 777 -R $1
-
-    msgGeneral "\nAguarde cerca de 30 segundos para que o Frontend da Nova Proposta funcione..." "verde" "reverso"
-    msgGeneral "\nnpm build sendo executado..." "branco" "reverso\n"
 
 }
 

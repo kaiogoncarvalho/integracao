@@ -11,7 +11,7 @@ return array(
 
     'api'             => array('host' => 'http://st.api.idealinvest.srv.br'),
     'assignment'      => array('host' => 'http://st.assignment.idealinvest.srv.br'),
-    'bpm'             => array('host' => 'http://qa.bpm.idealinvest.com.br'),
+    'bpm'             => array('host' => 'http://st.bpm.idealinvest.com.br'),
     'creditscore'     => array('host' => 'http://st.creditscore.idealinvest.srv.br'),
     'email'           => array('host' => 'http://st.email.idealinvest.srv.br'),
     'fee'             => array('host' => 'http://st.fee.idealinvest.srv.br'),

@@ -384,8 +384,13 @@ configInitialEnv(){
     then
         msgConfigItemWarning "Arquivo $(pwd)/.env já existe.\n"
     else
-        cp $1 .env
-        msgConfigItem "Arquivo $(pwd)/.env criado.\n"
+        if isValidFile $1;then
+            cp $1 .env
+            msgConfigItemSucess "Arquivo $(pwd)/.env criado.\n"
+        else
+            msgConfigItemWarning "Arquivo $1 não encontrado.\n"
+        fi
+
     fi
 
     chmod 777 .env

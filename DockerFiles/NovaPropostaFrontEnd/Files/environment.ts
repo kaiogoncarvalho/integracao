@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    host: $NOVAPROPOSTA_BACKEND_URL,
-    api: $APIPRAVALER_URL,
+    host: 'http://cadastro.creditouniversitario.local/v1',
+    api: 'https://sandbox.pravaler.com.br/v1',
     facebook: 'http://cadastro.portalpravaler.dev'
 };

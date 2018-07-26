@@ -75,7 +75,6 @@ service(){
 
     database_service
 
-
     include_callcenter_alfredclient
     include_bpm_alfredclient
     include_oauth_alfredclient

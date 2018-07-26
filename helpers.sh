@@ -619,7 +619,7 @@ npmInstall() {
 }
 
 bowerInstall(){
-    if isEmptyVariable $1; then
+    if isEmptyVariable $2; then
      DIR='vendor'
     else
      DIR=$2

@@ -1,17 +1,53 @@
 #!/usr/bin/env bash
 database_novapropostabackend(){
-    regexFile 'DB_BO_HOST=' $DATABASE_HOST
-    regexFile 'DB_BO_PORT=' $DATABASE_PORT
-    regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
-    regexFile 'DB_BO_USERNAME=' $DATABASE_USER
-    regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
+
+     if isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+
+        cd $BACKOFFICE_LOCAL
+        if isNotEmptyVariable $DATABASE_HOST; then
+             regexFile 'DB_BO_HOST=' $DATABASE_HOST
+        fi
+
+        if isNotEmptyVariable $DATABASE_PORT; then
+            regexFile 'DB_BO_PORT=' $DATABASE_PORT
+        fi
+
+        if isNotEmptyVariable $DATABASE_NAME; then
+            regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
+        fi
+
+        if isNotEmptyVariable $DATABASE_USER; then
+            regexFile 'DB_BO_USERNAME=' $DATABASE_USER
+        fi
+
+        if isNotEmptyVariable $DATABASE_PASSWORD; then
+            regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
+        fi
+
+    fi
+
 }
 include_backoffice_novapropostabackend(){
-    regexFile 'BO_URL=' "$BACKOFFICE_URL/"
+
+    if isValidInstall 'BACKOFFICE' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        regexFile 'BO_URL=' "$BACKOFFICE_URL/"
+    fi
 }
+
 include_novapropostafrontend_novapropostabackend()
 {
-    regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
+    if isValidInstall 'NOVAPROPOSTA_FRONTEND' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
+    fi
+
+}
+
+include_apiapartada_novapropostabackend()
+{
+    if isValidInstall 'APIAPARTADA' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        regexFile 'API_URL=' "$APIAPARTADA_URL/"
+    fi
+
 }
 setup_nova_proposta_backend()
 {
@@ -23,8 +59,6 @@ setup_nova_proposta_backend()
 
     regexFile 'APP_ENV=' "homolog"
     regexFile 'APP_URL=' $NOVAPROPOSTA_BACKEND_URL
-    regexFile 'API_URL=' "$APIAPARTADA_URL/"
-
     regexFile 'DB_HOST=' 'mongodb'
     regexFile 'DB_USERNAME=' 'propostanova'
     regexFile 'DB_PASSWORD=' 'propostanova'
@@ -46,7 +80,7 @@ setup_nova_proposta_backend()
 
     dockerComposeUp "mongo-temp"
 
-    dockerComposeUp "nova_proposta_backend"
+    dockerComposeUp $NOVAPROPOSTA_BACKEND_CONTAINER
 
     configHost "mongodb" "mongodb"
 
@@ -77,8 +111,9 @@ setup_nova_proposta_backend()
 
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
 
-    database_nova_proposta_backend
+    database_novapropostabackend
 
-    include_backoffice_nova_proposta_backend
-    include_nova_proposta_frontend_nova_proposta_backend
+    include_backoffice_novapropostabackend
+    include_novapropostafrontend_novapropostabackend
+    include_apiapartada_novapropostabackend
 }

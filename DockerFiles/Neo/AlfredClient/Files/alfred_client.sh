@@ -69,9 +69,9 @@ alfred_client() {
 
     logContainer $ALFRED_CLIENT_CONTAINER
 
-    include_callcenter_alfred_client
-    include_bpm_alfred_client
-    include_oauth_alfred_client
+    include_callcenter_alfredclient
+    include_bpm_alfredclient
+    include_oauth_alfredclient
 
 
 

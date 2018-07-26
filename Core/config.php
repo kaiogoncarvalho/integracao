@@ -1,0 +1,1 @@
+/home/local/IDEALINVEST/kaio.carvalho/Workspace/Neo/config.php

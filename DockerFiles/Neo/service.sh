@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 
-database_service(){
-   echo 'teste'
+config_service(){
+    if isValidInstall $1; then
+        msgConfig "Incluindo Serviço no Config:"
+
+        SYSTEM_URL=$(getEnv "$2_URL")
+
+        grep -i -E 's/(\s*.backoffice.\s*=>\s*array.[\s\w\d[:punct:]]*?.host.\s=>\s.)([\w\/:.]*)./g' $NEO_CONFIG
+
+
+        msgConfigItemSucess "Serviço incluido.\n"
+    fi
 
 }
+
 service(){
+
+config_service $2
+return 0
 
     DIR=$1
 
@@ -30,8 +43,12 @@ service(){
 
     configHost $(getEnv "$2_CONTAINER")  $(getEnv "$2_URL")
 
+
+
     include_callcenter_alfredclient
     include_bpm_alfredclient
     include_oauth_alfredclient
+    include_neolog_creditscore
+    include_neoproposal_creditscore
 
 }

@@ -469,7 +469,7 @@ configNeo(){
 
 }
 
-#função keepEnv
+#função keepEnv: Mantem os valores entre versões do Env
 keepEnv(){
 
     NAME_DIR="$1_LOCAL"
@@ -518,7 +518,7 @@ printInBar() {
 }
 
 
-#função createNetwork
+#função createNetwork: Cria uma rede no docker
 createNetwork(){
 
     network=$1
@@ -536,6 +536,7 @@ createNetwork(){
         msgConfigItemWarning "Network $network já existe.\n"
     fi
 }
+
 
 installServiceNeo(){
     printInBar "Operação Iniciada"
@@ -613,7 +614,7 @@ verifyContainer(){
 #função npmInstall: Executa o NPM install em um diretório passado por parâmetro
 npmInstall() {
     msgConfig "Realizando o NPM install no diretório $1: "
-    docker run --rm -v $1:/app kaiocarvalhopravaler/node:9 npm install
+    docker run --rm -v $(pwd):/app kaiocarvalhopravaler/node:9 npm install
     chmod 777 -R "$1"
 }
 
@@ -646,4 +647,9 @@ configServer()
 
 getSystems(){
     grep -oP '([[:alnum:]_]*)(?=_LOCAL)' "$INTEGRACAO_DIR/.env"
+}
+
+phpregex()
+{
+
 }

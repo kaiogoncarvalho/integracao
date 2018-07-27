@@ -1,8 +1,6 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
-INTEGRACAO_DIR=$(pwd)
-
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
   [ -d $1 ]
@@ -657,4 +655,12 @@ getSystems(){
 phpregex()
 {
     docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php regex.php "$1" $2 $3
+}
+
+validDatabase(){
+    if isNotEmptyVariable $DATABASE_HOST && isNotEmptyVariable $DATABASE_PORT && isNotEmptyVariable $DATABASE_NAME && isNotEmptyVariable $DATABASE_USER && isNotEmptyVariable $DATABASE_PASSWORD; then
+        return 0
+    else
+        return 1
+    fi
 }

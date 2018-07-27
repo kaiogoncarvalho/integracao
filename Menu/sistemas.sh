@@ -1,47 +1,5 @@
 #!/bin/bash
 #!/usr/bin/env bash
-# Configuração da Api Apartada
-APIAPARTADA_SH=./DockerFiles/ApiApartada/Files/api_apartada.sh
-# Configuração da Api Pravaler
-APIPRAVALER_SH=./DockerFiles/ApiPravaler/Files/api_pravaler.sh
-# Configuração do Backoffice
-BACKOFFICE_SH=./DockerFiles/Backoffice/Files/backoffice.sh
-# Configuração do CreditScore
-CREDITSCORE_SH=./DockerFiles/CreditScore/Files/credit_score.sh
-# Configuração do Portal Pravaler
-PORTALPRAVALER_SH=./DockerFiles/PortalPravaler/Files/portalpravaler.sh
-# Configuração da Nova Proposta - Backend
-NOVAPROPOSTA_BACKEND_SH=./DockerFiles/NovaPropostaBackend/Files/nova_proposta_backend.sh
-# Configuração do CDN
-CDN_SH=./DockerFiles/CDN/Files/cdn.sh
-# Configuração do Agendamento de homologação
-AGENDAMENTO_SH=./DockerFiles/Agendamento/Files/agendamento.sh
-# Configuração do frontend da proposta nova
-NOVA_PROPOSTA_FRONTEND_SH=./DockerFiles/NovaPropostaFrontEnd/Files/nova_proposta_frontend.sh
-# Configuração do ftp risco cobranca
-FTP_RISCO_COBRANCA_SH=./DockerFiles/FtpRiscoCobranca/Files/ftp_risco_cobranca.sh
-# Configuração do Seguros
-SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
-# Configuração do Retorno Mec
-RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
-# Configuração do Marketplace
-MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
-
-
-. $APIPRAVALER_SH
-. $APIAPARTADA_SH
-. $BACKOFFICE_SH
-. $CREDITSCORE_SH
-. $PORTALPRAVALER_SH
-. $CDN_SH
-. $NOVAPROPOSTA_BACKEND_SH
-. $NOVA_PROPOSTA_FRONTEND_SH
-. $FTP_RISCO_COBRANCA_SH
-. $AGENDAMENTO_SH
-. $SEGUROS_SH
-. $RETORNO_MEC_SH
-. $MARKETPLACE_API_SH
-
 
 # Inicializa as funções de configuração dos projetos
 sistemas() {

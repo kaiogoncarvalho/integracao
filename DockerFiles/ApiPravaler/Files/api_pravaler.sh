@@ -71,4 +71,6 @@ setup_api_pravaler()
     database_api_pravaler
 
     include_apipravaler_backoffice
+    include_apipravaler_novapropostafrontend
+    include_apipravaler_retornomec
 }

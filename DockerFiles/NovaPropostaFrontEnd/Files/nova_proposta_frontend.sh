@@ -8,20 +8,35 @@ update_environment_novaproposta(){
     fi
 
 }
+include_novapropostabackend_novapropostafrontend()
+{
+
+    if isValidInstall 'NOVAPROPOSTA_BACKEND' && isValidInstall 'NOVAPROPOSTA_FRONTEND'; then
+        cd $$NOVAPROPOSTA_FRONTEND_LOCAL//src/environments
+        regexFile '"host"\s*:\s*' '"http://'$NOVAPROPOSTA_BACKEND_URL'"' environment.ts
+    fi
+}
+
+include_apipravaler_novapropostafrontend()
+{
+    if isValidInstall 'APIPRAVALER' && isValidInstall 'NOVAPROPOSTA_FRONTEND'; then
+        cd $$NOVAPROPOSTA_FRONTEND_LOCAL//src/environments
+        regexFile '"api"\s*:\s*' '"http://'$APIPRAVALER_URL'"' environment.ts
+    fi
+}
 setup_nova_proposta_frontend() {
 
     cd $1
 
     msgConfig "Copiando arquivo angular-cli.json: "
     if isNotValidFile angular-cli.json; then
-        cp .angular-cli.json angular-cli.json
+        cp ~angular-cli.json angular-cli.json
         msgConfigItemSucess "Arquivo angular-cli.json foi criado.\n"
     else
         msgConfigItemWarning "Arquivo angular-cli.json já existe.\n"
     fi
 
     npmInstall $1
-    bowerInstall $1/src/assets
 
     msgConfig "Copiando arquivo de environment: "
     update_environment_novaproposta
@@ -40,6 +55,10 @@ setup_nova_proposta_frontend() {
 
     logContainer $NOVAPROPOSTA_FRONTEND_CONTAINER
 
+    include_novapropostabackend_novapropostafrontend
+    include_apipravaler_novapropostafrontend
+
+    include_novapropostafrontend_novapropostabackend
 
 }
 

@@ -1,14 +1,5 @@
 #!/bin/bash
 #!/usr/bin/env bash
-# Configuração padrão para instalação de serviço
-SERVICE_SH=./DockerFiles/Neo/service.sh
-# Configuração do Serviço de Negociação de acordos
-ALFRED_CLIENT_SH=./DockerFiles/Neo/AlfredClient/Files/alfred_client.sh
-
-
-. $SERVICE_SH
-. $ALFRED_CLIENT_SH
-
 
 # Inicializa as funções de configuração dos projetos
 neo() {

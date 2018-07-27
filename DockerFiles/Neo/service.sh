@@ -79,6 +79,8 @@ service(){
     include_bpm_alfredclient
     include_oauth_alfredclient
     include_neolog_creditscore
+
     include_neoproposal_creditscore
+    include_neolog_backoffice
 
 }

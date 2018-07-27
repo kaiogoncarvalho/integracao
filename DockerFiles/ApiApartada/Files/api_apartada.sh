@@ -27,4 +27,6 @@ setup_api_apartada()
     dockerComposeUp $APIAPARTADA_CONTAINER
 
     configHost $APIAPARTADA_CONTAINER $APIAPARTADA_URL
+
+    include_apiapartada_novapropostabackend
 }

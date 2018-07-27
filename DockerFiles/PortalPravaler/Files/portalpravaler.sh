@@ -30,5 +30,7 @@ setup_portal_pravaler()
     configHost $PORTALPRAVALER_CONTAINER $PORTALPRAVALER_URL
 
     include_portalpravaler_backoffice
+
+    include_portalpravaler_retornomec
 }
 

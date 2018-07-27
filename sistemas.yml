@@ -201,23 +201,17 @@ services:
     restart: always
     stdin_open: true
     tty: true
-    container_name: $NOVAPROPOSTA_FRONTEND_CONTAINER
     dns:
       - $DNS
     volumes:
-      - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
-    build:
-      dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
-      context: .
-    container_name: nova_proposta_frontend
-    image: kaiocarvalhopravaler/nova_proposta_frontend
+       - $NOVAPROPOSTA_FRONTEND_LOCAL:$NOVAPROPOSTA_FRONTEND_DOCKER
+    container_name: $NOVAPROPOSTA_FRONTEND_CONTAINER
+    image: kaiocarvalhopravaler/angular:node-9
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-      - NOVAPROPOSTA_BACKEND_URL=$NOVAPROPOSTA_BACKEND_URL
-      - APIPRAVALER_URL=$APIPRAVALER_URL
-      - SITE_HOST=$NOVAPROPOSTA_FRONTEND_URL
+      - ENVIRONMENT=dev
     networks:
       default:
         ipv4_address: $NOVAPROPOSTA_FRONTEND_IP
@@ -233,8 +227,7 @@ services:
       - $DNS
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-      - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
-      - SITE_DOCUMENT_ROOT=${NOVAPROPOSTA_BACKEND_DOCKER}${NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT}
+      - DOCUMENT_ROOT=app/
     volumes:
       - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
     extra_hosts:

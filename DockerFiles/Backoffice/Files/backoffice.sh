@@ -191,5 +191,8 @@ setup_backoffice()
     include_neolog_backoffice
     include_retornomec_backoffice
 
+    config_service 'BACKOFFICE'
+
     include_backoffice_creditscore
+    include_backoffice_novapropostabackend
 }

@@ -3,30 +3,19 @@ database_novapropostabackend(){
 
      if isValidInstall 'NOVAPROPOSTA_BACKEND'; then
 
-        cd $BACKOFFICE_LOCAL
-        if isNotEmptyVariable $DATABASE_HOST; then
-             regexFile 'DB_BO_HOST=' $DATABASE_HOST
-        fi
 
-        if isNotEmptyVariable $DATABASE_PORT; then
+        if validDatabase; then
+            cd $BACKOFFICE_LOCAL
+            regexFile 'DB_BO_HOST=' $DATABASE_HOST
             regexFile 'DB_BO_PORT=' $DATABASE_PORT
-        fi
-
-        if isNotEmptyVariable $DATABASE_NAME; then
             regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
-        fi
-
-        if isNotEmptyVariable $DATABASE_USER; then
             regexFile 'DB_BO_USERNAME=' $DATABASE_USER
-        fi
-
-        if isNotEmptyVariable $DATABASE_PASSWORD; then
             regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
         fi
-
-    fi
+     fi
 
 }
+
 include_backoffice_novapropostabackend(){
 
     if isValidInstall 'BACKOFFICE' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
@@ -116,4 +105,7 @@ setup_nova_proposta_backend()
     include_backoffice_novapropostabackend
     include_novapropostafrontend_novapropostabackend
     include_apiapartada_novapropostabackend
+
+    include_novapropostafrontend_backoffice
+    include_novapropostabackend_novapropostafrontend
 }

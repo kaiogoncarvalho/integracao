@@ -562,6 +562,26 @@ installSystem(){
     printInBar "Operação Finalizada!"
 }
 
+installFtp()
+{
+    msgGeneral "\nComeçando configuração do FTP Risco e Cobrança:\n" 'verde' 'negrito'
+
+    configEnvIntegracao 'example.env'
+    createNetwork
+    reloadEnv
+    setup_ftp_risco_cobranca
+}
+
+install(){
+    if [ $3 == 'service' ]; then
+        installServiceNeo $1 $2 $3
+    elif [ $3 == 'ftp' ]; then
+        installFtp
+    else
+        installSystem $1 $2 $3
+    fi
+}
+
 informEnv(){
     read -e -p  "| Informe $1 >_ " -i "$3" VAR
     updateEnv "$2=" $VAR

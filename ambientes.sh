@@ -13,6 +13,8 @@ SISTEMAS=./Menu/sistemas.sh
 NEO=./Menu/neo.sh
 # Configuração do Banco de Dados
 DATABASE=./Menu/database.sh
+# Configuração do Detalhe
+DETALHE_SH=./Menu/detalhe.sh
 # Configuração do Nginx
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração padrão para instalação de serviço
@@ -67,6 +69,7 @@ MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 . $NGINX_SH
 . $SERVICE_SH
 . $ALFRED_CLIENT_SH
+. $DETALHE_SH
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -87,9 +90,10 @@ main() {
     printInBar "Criado por Kaio Gonçalves Carvalho"
     echo -e
     printInBar "Menu" "verde"
-    printLine "1 - Instalar Ambientes"
-    printLine "2 - Instalar Ambientes Neo"
-    printLine "3 - Alterar Banco de Dados usado nas instalações"
+    printLine "1 - Ambientes"
+    printLine "2 - Ambientes Neo"
+    printLine "3 - Banco De Dados"
+    printLine "4 - Tipo de Instalação"
     printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
 

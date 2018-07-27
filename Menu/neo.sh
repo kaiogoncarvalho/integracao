@@ -36,21 +36,21 @@ neo() {
           ;;
           0) break
           ;;
-          1) installSystem "Alfred Client" "ALFRED_CLIENT" "alfred_client"
+          1) detalhe "Alfred Client" "ALFRED_CLIENT" "alfred_client"
           ;;
-          2) installServiceNeo "Alfred Server" "ALFRED_SERVER" "service"
+          2) detalhe "Alfred Server" "ALFRED_SERVER" "service"
           ;;
-          3) installServiceNeo "Integration" "NEO_INTEGRATION" "service"
+          3) detalhe "Integration" "NEO_INTEGRATION" "service"
           ;;
-          4) installServiceNeo "Log" "NEO_LOG" "service"
+          4) detalhe "Log" "NEO_LOG" "service"
           ;;
-          5) installServiceNeo "Negotiation" "NEO_NEGOTIATION" "service"
+          5) detalhe "Negotiation" "NEO_NEGOTIATION" "service"
           ;;
-          6) installServiceNeo "Neo Api" "NEO_API" "service"
+          6) detalhe "Neo Api" "NEO_API" "service"
           ;;
-          7) installServiceNeo "Proposal" "NEO_PROPOSAL" "service"
+          7) detalhe "Proposal" "NEO_PROPOSAL" "service"
           ;;
-          8) installServiceNeo "Student" "NEO_STUDENT" "service"
+          8) detalhe "Student" "NEO_STUDENT" "service"
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

@@ -41,37 +41,31 @@ sistemas() {
           ;;
           0) break
           ;;
-          1) installSystem "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
+          1) detalhe "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
           ;;
-          2) installSystem "Api Apartada" "APIAPARTADA" "setup_api_apartada"
+          2) detalhe "Api Apartada" "APIAPARTADA" "setup_api_apartada"
           ;;
-          3) installSystem "Api Pravaler" "APIPRAVALER" "setup_api_pravaler"
+          3) detalhe "Api Pravaler" "APIPRAVALER" "setup_api_pravaler"
           ;;
-          4) installSystem "Backoffice" "BACKOFFICE" "setup_backoffice"
+          4) detalhe "Backoffice" "BACKOFFICE" "setup_backoffice"
           ;;
-          5) installSystem "CDN" "CDN" "setup_cdn"
+          5) detalhe "CDN" "CDN" "setup_cdn"
           ;;
-          6) installSystem "CreditScore" "CREDITSCORE" "setup_credit_score"
+          6) detalhe "CreditScore" "CREDITSCORE" "setup_credit_score"
           ;;
-          7)
-            msgGeneral "\nComeçando configuração do FTP Risco e Cobrança:\n" 'verde' 'negrito'
-
-            configEnvIntegracao 'example.env'
-            createNetwork
-            reloadEnv
-            setup_ftp_risco_cobranca
+          7) detalhe "FTP Risco e Cobrança" "FTPRISCOCOBRANCA" "ftp"
           ;;
-          8) installSystem "Marketplace Api" "MARKETPLACE_API" "setup_marketplace_api"
+          8) detalhe "Marketplace Api" "MARKETPLACE_API" "setup_marketplace_api"
           ;;
-          9) installSystem "Nova Proposta Backend" "NOVAPROPOSTA_BACKEND" "setup_nova_proposta_backend"
+          9) detalhe "Nova Proposta Backend" "NOVAPROPOSTA_BACKEND" "setup_nova_proposta_backend"
           ;;
-          10) installSystem "Nova Proposta Frontend" "NOVAPROPOSTA_FRONTEND" "setup_nova_proposta_frontend"
+          10) detalhe "Nova Proposta Frontend" "NOVAPROPOSTA_FRONTEND" "setup_nova_proposta_frontend"
           ;;
-          11) installSystem "Portal Pravaler" "PORTALPRAVALER" "setup_portal_pravaler"
+          11) detalhe "Portal Pravaler" "PORTALPRAVALER" "setup_portal_pravaler"
           ;;
-          12) installSystem "Retorno Mec" "RETORNO_MEC" "retorno_mec"
+          12) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
           ;;
-          13) installSystem "Seguros" "SEGUROS" "setup_seguros"
+          13) detalhe "Seguros" "SEGUROS" "setup_seguros"
           ;;
 
           *) clear

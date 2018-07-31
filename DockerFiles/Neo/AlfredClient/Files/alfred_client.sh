@@ -21,7 +21,7 @@ include_bpm_alfredclient(){
 
     if isValidInstall 'NEO_BPM' && isValidInstall 'ALFRED_CLIENT'; then
         cd $ALFRED_CLIENT_LOCAL/src/environments
-        regexFile '"bpm"\s*:\s*' '"http://'$NEO_BPM_URL'"' environ1ment.integration.ts
+        regexFile '"bpm"\s*:\s*' '"http://'$NEO_BPM_URL'",' environ1ment.integration.ts
 
     fi
 
@@ -31,7 +31,7 @@ include_oauth_alfredclient(){
 
     if isValidInstall 'NEO_OAUTH' && isValidInstall 'ALFRED_CLIENT'; then
         cd $ALFRED_CLIENT_LOCAL/src/environments
-        regexFile '"oauth"\s*:\s*' '"http://'$NEO_OAUTH_URL'"' environment.integration.ts
+        regexFile '"oauth"\s*:\s*' '"http://'$NEO_OAUTH_URL'",' environment.integration.ts
     fi
 
 }

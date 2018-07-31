@@ -1,44 +1,56 @@
 #!/usr/bin/env bash
+display_database_neo()
+{
 
+
+    echo -e "\033[01;37mHost: \033[00;37m\033[01;32m$SYSTEM_DB_HOST\033[00;37m"
+    echo -e "\033[01;37mPorta: \033[00;37m\033[01;31m$SYSTEM_DB_PORT \033[00;37m"
+    echo -e "\033[01;37mBanco: \033[00;37m\033[01;32m$SYSTEM_DB_NAME\033[00;37m"
+    echo -e "\033[01;37mUsuário: \033[00;37m\033[01;32m$SYSTEM_DB_USER\033[00;37m"
+    echo -e "\033[01;37mSenha: \033[00;37m\033[01;32m$SYSTEM_DB_PASSWORD\033[00;37m"
+
+}
 database_service(){
 
         msgConfig "Atualizando Banco de dados no Config:"
         if isNotEmptyVariable $DATABASE_HOST; then
-            phpregex "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'host\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_HOST $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'host\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_HOST $NEO_CONFIG
             msgConfigItemSucess "Host Alterado.\n"
         fi
 
         if isNotEmptyVariable $DATABASE_PORT; then
-            phpregex "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'port\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_PORT $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'port\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_PORT $NEO_CONFIG
             msgConfigItemSucess "Porta Alterado.\n"
         fi
 
         if isNotEmptyVariable $DATABASE_NAME; then
-            phpregex "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'dbname\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_NAME $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'dbname\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_NAME $NEO_CONFIG
             msgConfigItemSucess "Nome Alterado.\n"
         fi
 
         if isNotEmptyVariable $DATABASE_USER; then
-            phpregex "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'user\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_USER $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'user\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_USER $NEO_CONFIG
             msgConfigItemSucess "Usuário Alterado.\n"
         fi
 
         if isNotEmptyVariable $DATABASE_PASSWORD; then
-            phpregex "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
             msgConfigItemSucess "Senha Alterado.\n"
         fi
 }
 
 config_service(){
+    msgConfig "Incluindo Serviço no Config:"
     if isValidInstall $1; then
-        msgConfig "Incluindo Serviço no Config:"
 
         SYSTEM_URL='http://'$(getEnv "$1_URL")
         CONTAINER=$(getEnv "$1_CONTAINER")
 
-        phpregex "/(\'$CONTAINER\'\s*=>\s*array\s*\([^)]*\'host\'\s*=>\s*\')([\w\d:.\/]*?)(?=\')/s" '${1}'$SYSTEM_URL $NEO_CONFIG
+        php_preg_replace "/(\'$CONTAINER\'\s*=>\s*array\s*\([^)]*\'host\'\s*=>\s*\')([\w\d:.\/]*?)(?=\')/s" '${1}'$SYSTEM_URL $NEO_CONFIG
 
         msgConfigItemSucess "Serviço incluido.\n"
+    else
+        msgConfigItemDanger "Serviço não incluido devido erro na instalação.\n"
     fi
 
 }

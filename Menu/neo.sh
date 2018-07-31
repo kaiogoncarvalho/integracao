@@ -6,19 +6,21 @@ neo() {
 
  while true;
     do
-        printInBar "Ambientes Pravaler" "verde"
+        printInBar "Ambientes Pravaler" "ciano"
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
         printInBar "Ambientes Neo" "verde"
         printLine "1  - Alfred Client"
         printLine "2  - Alfred Server"
-        printLine "3  - Integration"
-        printLine "4  - Log"
-        printLine "5  - Negotiation"
-        printLine "6  - Neo Api"
-        printLine "7  - Proposal"
-        printLine "8  - Student"
+        printLine "3  - BPM"
+        printLine "4  - Integration"
+        printLine "5  - Log"
+        printLine "6  - Negotiation"
+        printLine "7  - Neo Api"
+        printLine "8  - Oauth"
+        printLine "9  - Proposal"
+        printLine "10 - Student"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -40,17 +42,21 @@ neo() {
           ;;
           2) detalhe "Alfred Server" "ALFRED_SERVER" "service"
           ;;
-          3) detalhe "Integration" "NEO_INTEGRATION" "service"
+          3) detalhe "BPM" "NEO_BPM" "service"
           ;;
-          4) detalhe "Log" "NEO_LOG" "service"
+          4) detalhe "Integration" "NEO_INTEGRATION" "service"
           ;;
-          5) detalhe "Negotiation" "NEO_NEGOTIATION" "service"
+          5) detalhe "Log" "NEO_LOG" "service"
           ;;
-          6) detalhe "Neo Api" "NEO_API" "service"
+          6) detalhe "Negotiation" "NEO_NEGOTIATION" "service"
           ;;
-          7) detalhe "Proposal" "NEO_PROPOSAL" "service"
+          7) detalhe "Neo Api" "NEO_API" "service"
           ;;
-          8) detalhe "Student" "NEO_STUDENT" "service"
+          8) detalhe "Oauth" "NEO_OAUTH" "service"
+          ;;
+          9) detalhe "Proposal" "NEO_PROPOSAL" "service"
+          ;;
+          10) detalhe "Student" "NEO_STUDENT" "service"
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

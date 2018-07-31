@@ -3,7 +3,7 @@
 database(){
      while true;
     do
-        printInBar "Ambientes Pravaler" "verde"
+        printInBar "Ambientes Pravaler" "ciano"
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e

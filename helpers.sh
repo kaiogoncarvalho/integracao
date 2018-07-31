@@ -610,6 +610,7 @@ databasePassword(){
     reloadEnv
 }
 
+#Função isValidInstall: Responsável por validar uma instalação
 isValidInstall(){
     CONTAINER=$(getEnv "$1_CONTAINER")
     DIR=$(getEnv "$1_LOCAL")
@@ -624,6 +625,7 @@ isValidInstall(){
     return 1
 }
 
+#Função verifyContainer: Responsável por verificar se um container existe
 verifyContainer(){
     VERIFY=$(docker ps -a -q -f name=$1$)
 
@@ -641,6 +643,7 @@ npmInstall() {
     chmod 777 -R "$1"
 }
 
+#Função bowerInstall: Responsável por instalar o Bower
 bowerInstall(){
     if isEmptyVariable $2; then
      DIR='vendor'
@@ -653,11 +656,13 @@ bowerInstall(){
     chmod 777 -R "$1"
 }
 
+#Função logContainer: Responsável por retornar o log do container
 logContainer(){
     msgConfig "Consultando Log do container $1: "
     docker logs $1
 }
 
+#Função configServer: Responsável por atualizar o NGINX do Servidor
 configServer()
 {
     if [ $TIPO_INSTALACAO == "servidor" ];
@@ -668,19 +673,36 @@ configServer()
      fi
 }
 
+#Função getSystems: Responsável por retornar todos os Sistemas instalados
 getSystems(){
     grep -oP '([[:alnum:]_]*)(?=_LOCAL)' "$INTEGRACAO_DIR/.env"
 }
 
-phpregex()
+#Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
+php_preg_replace()
 {
-    docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php regex.php "$1" $2 $3
+    docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php preg_replace.php "$1" $2 $3
 }
 
+#Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado
 validDatabase(){
     if isNotEmptyVariable $DATABASE_HOST && isNotEmptyVariable $DATABASE_PORT && isNotEmptyVariable $DATABASE_NAME && isNotEmptyVariable $DATABASE_USER && isNotEmptyVariable $DATABASE_PASSWORD; then
         return 0
     else
         return 1
     fi
+}
+
+# Função function_exists: Verifica se uma função existe
+function_exists() {
+  [ `type -t $1`"" == 'function' ]
+}
+
+#Função getBranch: Retorna a Branch de um repositório
+getBranch()
+{
+    DIR=$(getEnv "$1_LOCAL")
+    cd $DIR
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    echo ${!BRANCH}
 }

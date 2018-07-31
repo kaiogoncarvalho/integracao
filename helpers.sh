@@ -684,6 +684,12 @@ php_preg_replace()
     docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php preg_replace.php "$1" $2 $3
 }
 
+#Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
+php_preg_match()
+{
+     echo $(docker run -it --rm -v $2:$2 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php preg_match.php \"$1\" $2 $3)
+}
+
 #Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado
 validDatabase(){
     if isNotEmptyVariable $DATABASE_HOST && isNotEmptyVariable $DATABASE_PORT && isNotEmptyVariable $DATABASE_NAME && isNotEmptyVariable $DATABASE_USER && isNotEmptyVariable $DATABASE_PASSWORD; then
@@ -704,5 +710,47 @@ getBranch()
     DIR=$(getEnv "$1_LOCAL")
     cd $DIR
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    echo ${!BRANCH}
+    echo ${BRANCH}
 }
+
+# Função validateNetwork: Valida se a Network é valida
+validNetwork()
+{
+    TEST=$(docker inspect --format="{{json .NetworkSettings.Networks}}" $1 | grep -E -i "$2")
+
+    if isNotEmptyVariable $TEST; then
+        return 0
+    else
+        return 1
+    fi
+
+}
+
+validURL()
+{
+    ALIASES=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.Aliases}}{{end}}" $1)
+    for i in $ALIASES
+    do
+        if [ $i == $2 ] || [ $i == '['$2 ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+validVolume()
+{
+   if verifyContainer $1; then
+    TEST_VL=$(docker inspect --format="{{ .HostConfig.Binds}}" $1 | grep $2)
+        if isNotEmptyVariable $TEST_VL; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}
+
+

@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 display_database_neo()
 {
-
-
-    echo -e "\033[01;37mHost: \033[00;37m\033[01;32m$SYSTEM_DB_HOST\033[00;37m"
-    echo -e "\033[01;37mPorta: \033[00;37m\033[01;31m$SYSTEM_DB_PORT \033[00;37m"
-    echo -e "\033[01;37mBanco: \033[00;37m\033[01;32m$SYSTEM_DB_NAME\033[00;37m"
-    echo -e "\033[01;37mUsuário: \033[00;37m\033[01;32m$SYSTEM_DB_USER\033[00;37m"
-    echo -e "\033[01;37mSenha: \033[00;37m\033[01;32m$SYSTEM_DB_PASSWORD\033[00;37m"
-
+    SYSTEM_DB_HOST=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]host['\\\"]\s*=>\s*')([\d.]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    SYSTEM_DB_PORT=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]port['\\\"]\s*=>\s*')([\d]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    SYSTEM_DB_NAME=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]dbname['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    SYSTEM_DB_USER=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]user['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    SYSTEM_DB_PASSWORD=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]password['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
 }
 database_service(){
 

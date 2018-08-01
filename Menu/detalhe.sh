@@ -27,12 +27,20 @@ detalhe(){
 
         if isValidInstall $2; then
 
-            if validNetwork $CONTAINER 'Pravaler'; then
+            if notValidNetwork $CONTAINER 'Pravaler'; then
                 STATUS=$STATUS"\033[07;31m- Rede do Container Diferente (necessário reinstalar o Sistema)\033[00;31m\n\n"
             fi
 
             BRANCH=$(getBranch $2)
-            echo -e "\033[01;37mContainer: \033[00;37m\033[01;32m$CONTAINER\033[00;37m"
+
+            if verifyContainerStarted $CONTAINER; then
+                COR_CONTAINER='32m'
+            else
+                COR_CONTAINER='31m'
+                STATUS=$STATUS"\033[07;31m- Container parado (necessário reiniciar o container)\033[00;31m\n\n"
+            fi
+
+            echo -e "\033[01;37mContainer: \033[00;37m\033[01;$COR_CONTAINER$CONTAINER\033[00;37m"
             echo -e "\033[01;37mBranch: \033[00;37m\033[01;32m$BRANCH\033[00;37m"
             if validURL $CONTAINER $URL; then
                 COR_URL='32m'
@@ -51,6 +59,7 @@ detalhe(){
 
         if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
             $FUNCTION_DATABASE
+            deleteContainer 'php_cli'
             echo -e
             echo -e "\033[07;37mBanco de Dados\n\033[00;37m"
 
@@ -82,7 +91,10 @@ detalhe(){
                 STATUS=$STATUS"\033[07;31m- Usuário do Banco de Dados Diferente, Usuário: $DATABASE_USER (necessário atualizar o banco de dados)\033[00;31m\n\n"
             fi
 
-            if [ $SYSTEM_DB_PASSWORD != $DATABASE_PASSWORD ]; then
+            if [ $SYSTEM_DB_PASSWORD == $DATABASE_PASSWORD ]; then
+                COR_PASSWORD='32m'
+            else
+                COR_PASSWORD='31m'
                 STATUS=$STATUS"\033[07;31m- Senha do Banco de Dados Diferente (necessário atualizar o banco de dados)\033[00;31m\n\n"
             fi
 
@@ -103,10 +115,11 @@ detalhe(){
         printLine "1  - Instalar/Reinstalar"
         printLine "2  - Alterar URL"
         if isValidInstall $2; then
-            printLine "3  - Consultar Log"
+            printLine "3  - Reiniciar Container"
+            printLine "4  - Consultar Log"
             if function_exists $FUNCTION_DATABASE; then
-                 printLine "4  - Atualizar Banco de Dados"
-                 printLine "5  - Ver Senha do Banco de Dados"
+                 printLine "5  - Atualizar Banco de Dados"
+                 printLine "6  - Ver Senha do Banco de Dados"
             fi
         fi
         printLine "0  - Voltar" "branco" "negrito"
@@ -126,7 +139,7 @@ detalhe(){
           ;;
           0) break
           ;;
-          1) install $1 $2 $3
+          1) install "$1" "$2" "$3"
           ;;
           2) databasePort
              clear
@@ -134,12 +147,20 @@ detalhe(){
           ;;
           3)
             if isValidInstall $2; then
+                restartContainer $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+          ;;
+
+          4)
+            if isValidInstall $2; then
                 logContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          4)
+          5)
             if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
                 $FUNCTION_CHANGE_DATABASE
                 printInBar "Banco de dados atualizado com Sucesso!" "verde"
@@ -147,13 +168,13 @@ detalhe(){
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          5)
+          6)
                 if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
-                    echo -e "\033[01;37mSenha no Integração: \033[00;37m\033[01;31m$DATABASE_PASSWORD \033[00;37m"
+                    echo -e "\033[01;37mSenha no Integração: \033[00;37m\033[01;$COR_PASSWORD$DATABASE_PASSWORD \033[00;37m"
                     if [ $SYSTEM_DB_PASSWORD != $DATABASE_PASSWORD ]; then
-                        echo -e "\033[01;37mSenha no Sistema: \033[00;37m\033[01;32m$SYSTEM_DB_PASSWORD\033[00;37m"
+                        echo -e "\033[01;37mSenha no Sistema: \033[00;37m\033[01;31m$SYSTEM_DB_PASSWORD\033[00;37m"
                     fi
-                    sleep 5
+                    sleep 3
                     clear
                  else
                     printInBar "Opção inválida!" "vermelho"

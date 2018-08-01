@@ -29,11 +29,11 @@ neo() {
 
         case $OPTION in
           'S')
-              printInBar "Execução finalizada!"
+              printInBar "Execução finalizada!" 'verde'
               exit
           ;;
           's')
-              printInBar "Execução finalizada!"
+              printInBar "Execução finalizada!" 'verde'
               exit
           ;;
           0) break

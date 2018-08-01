@@ -166,7 +166,9 @@ dockerComposeUp() {
     fi
 
     docker-compose -p $PROJECT -f $PROJECT.yml stop $1
-    docker rm -f $1
+
+    deleteContainer $1
+
     docker-compose -p $PROJECT -f $PROJECT.yml  build  --pull $1
     docker-compose -p $PROJECT -f $PROJECT.yml  up --remove-orphans -d $1
 
@@ -547,19 +549,19 @@ installServiceNeo(){
 
     if configNeo;
     then
-        configRepository $2 $3
+        configRepository "$2" "$3"
         configServer
     fi
-    printInBar "Operação Finalizada!"
+    printInBar "Operação Finalizada!" 'verde'
 }
 
 installSystem(){
     printInBar "Operação Iniciada"
     msgGeneral "\nComeçando configuração do Sistema $1:\n" 'verde' 'negrito'
 
-    configRepository $2 $3
+    configRepository "$2" "$3"
     configServer
-    printInBar "Operação Finalizada!"
+    printInBar "Operação Finalizada!" 'verde'
 }
 
 installFtp()
@@ -574,11 +576,11 @@ installFtp()
 
 install(){
     if [ $3 == 'service' ]; then
-        installServiceNeo $1 $2 $3
+        installServiceNeo "$1" "$2" "$3"
     elif [ $3 == 'ftp' ]; then
         installFtp
     else
-        installSystem $1 $2 $3
+        installSystem "$1" "$2" "$3"
     fi
 }
 
@@ -628,6 +630,17 @@ isValidInstall(){
 #Função verifyContainer: Responsável por verificar se um container existe
 verifyContainer(){
     VERIFY=$(docker ps -a -q -f name=$1$)
+
+   if [ -z $VERIFY ]; then
+     return 1
+    else
+     return 0
+    fi
+}
+
+verifyContainerStarted()
+{
+    VERIFY=$(docker ps -q -f name=$1$)
 
    if [ -z $VERIFY ]; then
      return 1
@@ -687,7 +700,18 @@ php_preg_replace()
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
 php_preg_match()
 {
-     echo $(docker run -it --rm -v $2:$2 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php preg_match.php \"$1\" $2 $3)
+    if verifyContainerStarted 'php_cli' && validVolume 'php_cli' $2; then
+        docker exec php_cli php preg_match.php "$1" $2 $3
+    else
+        if verifyContainer 'php_cli'; then
+            TESTE=$(docker rm -f php_cli)
+        fi
+        TESTE=$(docker run -dti --name php_cli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
+        docker exec php_cli php preg_match.php "$1" $2 $3
+    fi
+
+
+
 }
 
 #Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado
@@ -714,11 +738,11 @@ getBranch()
 }
 
 # Função validateNetwork: Valida se a Network é valida
-validNetwork()
+notValidNetwork()
 {
     TEST=$(docker inspect --format="{{json .NetworkSettings.Networks}}" $1 | grep -E -i "$2")
 
-    if isNotEmptyVariable $TEST; then
+    if isEmptyVariable $TEST; then
         return 0
     else
         return 1
@@ -731,7 +755,7 @@ validURL()
     ALIASES=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.Aliases}}{{end}}" $1)
     for i in $ALIASES
     do
-        if [ $i == $2 ] || [ $i == '['$2 ]; then
+        if [ $i == $2 ] || [ $i == '['$2 ] || [ $i == $2']' ]; then
             return 0
         fi
     done
@@ -753,4 +777,27 @@ validVolume()
     fi
 }
 
+restartContainer()
+{
+    msgConfig "Reiniciando Container $1"
+    if verifyContainer $1; then
+        TESTE_CONTAINER=$(docker restart $1)
 
+        if [ $TESTE_CONTAINER == $1 ]; then
+            msgConfigItemSucess "Container Reiniciado \n"
+        else
+            msgAlert " Erro ao reiniciar container"
+        fi
+    else
+         msgAlert "Container não existe"
+    fi
+
+
+}
+
+deleteContainer()
+{
+    if verifyContainer $1; then
+        TESTE_DELETE=$(docker rm -f $1)
+    fi
+}

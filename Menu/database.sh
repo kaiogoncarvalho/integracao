@@ -61,7 +61,7 @@ database(){
           ;;
           6)
            msgGeneral "Senha: $DATABASE_PASSWORD" "branco" "negrito"
-            sleep 5
+            sleep 3
             clear
           ;;
           *) printInBar "Opção inválida!" "vermelho"

@@ -210,7 +210,7 @@ services:
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"
     environment:
-      - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
+      - VOLUME=$NOVAPROPOSTA_FRONTEND_DOCKER
       - ENVIRONMENT=dev
     networks:
       default:
@@ -220,14 +220,15 @@ services:
   nova_proposta_backend:
     restart: always
     container_name: $NOVAPROPOSTA_BACKEND_CONTAINER
-    image: kaiocarvalhopravaler/php:7.0
+    image: kaiocarvalhopravaler/php:7.0-apache
     stdin_open: true
     tty: true
     dns:
       - $DNS
     environment:
       - VOLUME=$NOVAPROPOSTA_BACKEND_DOCKER
-      - DOCUMENT_ROOT=app/
+      - SITE_HOST=$NOVAPROPOSTA_BACKEND_URL
+      - SITE_DOCUMENT_ROOT=${NOVAPROPOSTA_BACKEND_DOCKER}${NOVAPROPOSTA_BACKEND_DOCUMENT_ROOT}
     volumes:
       - $NOVAPROPOSTA_BACKEND_LOCAL:$NOVAPROPOSTA_BACKEND_DOCKER
     extra_hosts:

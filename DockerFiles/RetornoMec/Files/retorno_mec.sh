@@ -2,14 +2,12 @@
 database_retornomec()
 {
 
-    if isValidInstall 'RETORNO_MEC'; then
-        if validDatabase; then
-            regexFile 'DB_HOST=' "$DATABASE_HOST"
-            regexFile 'DB_PORT=' "$DATABASE_PORT"
-            regexFile 'DB_DATABASE=' "$DATABASE_NAME"
-            regexFile 'DB_USERNAME=' "$DATABASE_USER"
-            regexFile 'DB_PASSWORD=' "$DATABASE_PASSWORD"
-        fi
+    if isValidInstall 'RETORNO_MEC' && validDatabase; then
+        regexFile 'DB_HOST=' "$DATABASE_HOST"
+        regexFile 'DB_PORT=' "$DATABASE_PORT"
+        regexFile 'DB_DATABASE=' "$DATABASE_NAME"
+        regexFile 'DB_USERNAME=' "$DATABASE_USER"
+        regexFile 'DB_PASSWORD=' "$DATABASE_PASSWORD"
     fi
 
 }
@@ -39,8 +37,6 @@ retorno_mec()
     composerConfig $1
 
     configInitialEnv '.env.example'
-
-
 
     regexFile 'QUEUE_HOST=' "redis"
 

@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 database_seguros()
 {
-    if  isValidInstall 'SEGUROS'; then
-        if validDatabase; then
-            cd $SEGUROS_LOCAL
-            regexFile 'DATABASE_URL=' "pgsql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_NAME"
-        fi
+    if  isValidInstall 'SEGUROS' && validDatabase; then
+        cd $SEGUROS_LOCAL
+        regexFile 'DATABASE_URL=' "pgsql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_NAME"
     fi
 }
 

@@ -1,30 +1,24 @@
 #!/usr/bin/env bash
+display_database_backoffice()
+{
+    SYSTEM_DB_HOST=$(grep -oP '(?<=db.default.host=)([\d.]*)' $BACKOFFICE_LOCAL/.env)
+    SYSTEM_DB_PORT=$(grep -oP '(?<=db.default.port=)([\d]*)' $BACKOFFICE_LOCAL/.env)
+    SYSTEM_DB_NAME=$(grep -oP '(?<=db.default.name=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+    SYSTEM_DB_USER=$(grep -oP '(?<=db.default.user=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.default.pass=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+}
+
 database_backoffice()
 {
-    if isValidInstall 'BACKOFFICE'; then
-
+    if isValidInstall 'BACKOFFICE' && validDatabase; then
         cd $BACKOFFICE_LOCAL
-        if isNotEmptyVariable $DATABASE_HOST; then
-            sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
-            regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
-        fi
-
-        if isNotEmptyVariable $DATABASE_PORT; then
-            sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
-        fi
-
-        if isNotEmptyVariable $DATABASE_NAME; then
-            sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
-        fi
-
-        if isNotEmptyVariable $DATABASE_USER; then
-            sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
-        fi
-
-        if isNotEmptyVariable $DATABASE_PASSWORD; then
-            sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
-        fi
-
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
+        regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
+        regexFile 'db.cep.name=' "xcep"
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
     fi
 
 

@@ -1,28 +1,22 @@
 #!/usr/bin/env bash
+display_database_api_pravaler()
+{
+    SYSTEM_DB_HOST=$(php_preg_match "/('host'[[:print:]]*)'([[:digit:].]+)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+    SYSTEM_DB_PORT=$(php_preg_match "/('port'[[:print:]]*)'([[:digit:]]+)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
+    SYSTEM_DB_NAME=$(php_preg_match "/('dbname'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+    SYSTEM_DB_USER=$(php_preg_match "/('user'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
+    SYSTEM_DB_PASSWORD=$(php_preg_match "/('password'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+}
 database_api_pravaler()
 {
-    if isValidInstall 'APIPRAVALER'; then
+    if isValidInstall 'APIPRAVALER' && validDatabase; then
 
         cd $APIPRAVALER_LOCAL/config
-        if isNotEmptyVariable $DATABASE_HOST; then
-            sed -E -i "s/('host'[[:print:]]*)'([[:digit:].]+)'/\1'$DATABASE_HOST'/g" 'database.php'
-        fi
-
-        if isNotEmptyVariable $DATABASE_PORT; then
-            sed -E -i "s/('port'[[:print:]]*)'([[:digit:]]+)'/\1'$DATABASE_PORT'/g" 'database.php'
-        fi
-
-        if isNotEmptyVariable $DATABASE_NAME; then
-            sed -E -i "s/('dbname'[[:print:]]*)'([^']*)'/\1'$DATABASE_NAME'/g" 'database.php'
-        fi
-
-        if isNotEmptyVariable $DATABASE_USER; then
-            sed -E -i "s/('user'[[:print:]]*')'([^']*)'/\1'$DATABASE_USER'/g" 'database.php'
-        fi
-
-        if isNotEmptyVariable $DATABASE_PASSWORD; then
-            sed -E -i "s/('password'[[:print:]]*)'([^']*)'/\1'$DATABASE_PASSWORD'/g" 'database.php'
-        fi
+        sed -E -i "s/('host'[[:print:]]*)'([[:digit:].]+)'/\1'$DATABASE_HOST'/g" 'database.php'
+        sed -E -i "s/('port'[[:print:]]*)'([[:digit:]]+)'/\1'$DATABASE_PORT'/g" 'database.php'
+        sed -E -i "s/('dbname'[[:print:]]*)'([^']*)'/\1'$DATABASE_NAME'/g" 'database.php'
+        sed -E -i "s/('user'[[:print:]]*')'([^']*)'/\1'$DATABASE_USER'/g" 'database.php'
+        sed -E -i "s/('password'[[:print:]]*)'([^']*)'/\1'$DATABASE_PASSWORD'/g" 'database.php'
     fi
 
 }

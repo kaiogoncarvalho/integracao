@@ -7,7 +7,7 @@ display_database_neo()
     SYSTEM_DB_USER=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]user['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
     SYSTEM_DB_PASSWORD=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]password['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
 }
-database_service(){
+database_neo(){
 
         msgConfig "Atualizando Banco de dados no Config:"
         if isNotEmptyVariable $DATABASE_HOST; then
@@ -82,7 +82,7 @@ service(){
 
     config_service $2
 
-    database_service
+    database_neo
 
     include_callcenter_alfredclient
     include_bpm_alfredclient

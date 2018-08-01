@@ -23,3 +23,7 @@ INTEGRACAO_DIR=$(pwd)
 . $NGINX_SH
 . $ENV
 
+grep -Pzo "(?s)(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'port\'\s*=>\s*\')([\d]*)" $NEO_CONFIG
+echo -e
+
+#sed -n  "s/(database)/\1/p" $NEO_CONFIG

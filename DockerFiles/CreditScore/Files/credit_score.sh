@@ -1,28 +1,23 @@
 #!/usr/bin/env bash
-database_credit_score()
+display_database_creditscore()
+{
+    SYSTEM_DB_HOST=$(grep -oP '(?<=db.bo.host=)([\d.]*)' $CREDITSCORE_LOCAL/.env)
+    SYSTEM_DB_PORT=$(grep -oP '(?<=db.bo.port=)([\d]*)' $CREDITSCORE_LOCAL/.env)
+    SYSTEM_DB_NAME=$(grep -oP '(?<=db.bo.dbname=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+    SYSTEM_DB_USER=$(grep -oP '(?<=db.bo.user=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.bo.pass=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+}
+
+database_creditscore()
 {
 
-    if isValidInstall 'CREDITSCORE'; then
+    if isValidInstall 'CREDITSCORE' && validDatabase; then
         cd $CREDITSCORE_LOCAL
-        if isNotEmptyVariable $DATABASE_HOST; then
-            regexFile "db.bo.host=" $DATABASE_HOST
-        fi
-
-        if isNotEmptyVariable $DATABASE_PORT; then
-            regexFile "db.bo.port=" $DATABASE_PORT
-        fi
-
-        if isNotEmptyVariable $DATABASE_NAME; then
-            regexFile "db.bo.dbname=" $DATABASE_NAME
-        fi
-
-        if isNotEmptyVariable $DATABASE_USER; then
-            regexFile "db.bo.user=" $DATABASE_USER
-        fi
-
-        if isNotEmptyVariable $DATABASE_PASSWORD; then
-            regexFile "db.bo.pass=" $DATABASE_PASSWORD
-        fi
+        regexFile "db.bo.host=" $DATABASE_HOST
+        regexFile "db.bo.port=" $DATABASE_PORT
+        regexFile "db.bo.dbname=" $DATABASE_NAME
+        regexFile "db.bo.user=" $DATABASE_USER
+        regexFile "db.bo.pass=" $DATABASE_PASSWORD
     fi
 }
 

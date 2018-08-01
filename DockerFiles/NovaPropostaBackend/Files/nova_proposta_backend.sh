@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
-database_novapropostabackend(){
+display_database_nova_proposta_backend(){
+    SYSTEM_DB_HOST=$(grep -oP '(?<=DB_BO_HOST=)([\d.]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    SYSTEM_DB_PORT=$(grep -oP '(?<=DB_BO_PORT=)([\d]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    SYSTEM_DB_NAME=$(grep -oP '(?<=DB_BO_DATABASE=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    SYSTEM_DB_USER=$(grep -oP '(?<=DB_BO_USERNAME=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=DB_BO_PASSWORD=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+}
 
-     if isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+database_nova_proposta_backend(){
 
-
-        if validDatabase; then
-            cd $BACKOFFICE_LOCAL
-            regexFile 'DB_BO_HOST=' $DATABASE_HOST
-            regexFile 'DB_BO_PORT=' $DATABASE_PORT
-            regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
-            regexFile 'DB_BO_USERNAME=' $DATABASE_USER
-            regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
-        fi
+     if isValidInstall 'NOVAPROPOSTA_BACKEND' && validDatabase; then
+        cd $NOVAPROPOSTA_BACKEND_LOCAL
+        regexFile 'DB_BO_HOST=' $DATABASE_HOST
+        regexFile 'DB_BO_PORT=' $DATABASE_PORT
+        regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
+        regexFile 'DB_BO_USERNAME=' $DATABASE_USER
+        regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
      fi
 
 }
@@ -59,13 +63,13 @@ setup_nova_proposta_backend()
 
     if [ -d "xdebug-profile-logs" ]
     then
-        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItemWarning "Diretório $(pwd)/xdebug-profile-logs já existe."
     else
         mkdir xdebug-profile-logs
     fi
     chmod 777 -R .
 
-    docker rm -f mongodb
+    deleteContainer 'mongodb'
 
     dockerComposeUp "mongo-temp"
 
@@ -75,8 +79,7 @@ setup_nova_proposta_backend()
 
     configHost $NOVAPROPOSTA_BACKEND_CONTAINER $NOVAPROPOSTA_BACKEND_URL
 
-    docker rm -f mongo-temp
-
+    deleteContainer 'mongo-temp'
 
     msgConfig "Executando php artisan key:generate: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" key:generate
@@ -86,6 +89,16 @@ setup_nova_proposta_backend()
 
     msgConfig "Executando php artisan db:seed: "
     docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" db:seed
+
+
+    database_nova_proposta_backend
+
+    include_backoffice_novapropostabackend
+    include_novapropostafrontend_novapropostabackend
+    include_apiapartada_novapropostabackend
+
+    include_novapropostafrontend_backoffice
+    include_novapropostabackend_novapropostafrontend
 
     msgConfig "Atualizando Instituições: "
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/instituicoes"
@@ -100,12 +113,5 @@ setup_nova_proposta_backend()
 
     docker exec -ti nova_proposta_backend curl "http://$NOVAPROPOSTA_BACKEND_URL/v1/atualizar-base/atualizar"
 
-    database_novapropostabackend
 
-    include_backoffice_novapropostabackend
-    include_novapropostafrontend_novapropostabackend
-    include_apiapartada_novapropostabackend
-
-    include_novapropostafrontend_backoffice
-    include_novapropostabackend_novapropostafrontend
 }

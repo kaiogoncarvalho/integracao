@@ -102,12 +102,12 @@ main() {
     case $OPTION in
       's')
         clear
-        printInBar "Execução finalizada!"
+        printInBar "Execução finalizada!" 'verde'
         exit
       ;;
       'S')
         clear
-        printInBar "Execução finalizada!"
+        printInBar "Execução finalizada!" 'verde'
         exit
       ;;
       1)

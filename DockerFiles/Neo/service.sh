@@ -47,7 +47,7 @@ config_service(){
 
         msgConfigItemSucess "Serviço incluido.\n"
     else
-        msgConfigItemDanger "Serviço não incluido devido erro na instalação.\n"
+        msgAlert "Serviço não incluido devido erro na instalação.\n"
     fi
 
 }

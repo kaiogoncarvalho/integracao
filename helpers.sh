@@ -386,6 +386,7 @@ configInitialEnv(){
     else
         if isValidFile $1;then
             cp $1 .env
+            chmod 777 .env
             msgConfigItemSucess "Arquivo $(pwd)/.env criado.\n"
         else
             msgConfigItemWarning "Arquivo $1 não encontrado.\n"
@@ -393,7 +394,7 @@ configInitialEnv(){
 
     fi
 
-    chmod 777 .env
+
 }
 
 #função configEnvIntegracao:  Função para copiar o env do projeto de integração
@@ -552,7 +553,7 @@ installServiceNeo(){
         configRepository "$2" "$3"
         configServer
     fi
-    printInBar "Operação Finalizada!" 'verde'
+    printInBar "Operação Finalizada!"
 }
 
 installSystem(){
@@ -561,7 +562,7 @@ installSystem(){
 
     configRepository "$2" "$3"
     configServer
-    printInBar "Operação Finalizada!" 'verde'
+    printInBar "Operação Finalizada!"
 }
 
 installFtp()

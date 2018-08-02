@@ -224,3 +224,25 @@ services:
         ipv4_address: $NEO_BPM_IP
         aliases:
           - $NEO_BPM_URL
+  people:
+    restart: always
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    volumes:
+      - $NEO_PEOPLE_LOCAL:$NEO_SERVICE_VOLUME
+      - $NEO_CONFIG:/opt/neo/config.php
+    image: kaiocarvalhopravaler/neo:php7.2-nginx
+    container_name: $NEO_PEOPLE_CONTAINER
+    extra_hosts:
+          - "$NEO_PEOPLE_URL:127.0.0.1"
+    environment:
+      - ROOT=${NEO_SERVICE_VOLUME}${NEO_PEOPLE_ROOT}
+      - URL=$NEO_PEOPLE_URL
+      - VOLUME=$NEO_SERVICE_VOLUME
+    networks:
+      default:
+        ipv4_address: $NEO_PEOPLE_IP
+        aliases:
+          - $NEO_PEOPLE_URL

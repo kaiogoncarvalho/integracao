@@ -33,7 +33,7 @@ include_neolog_creditscore()
 {
 
     if isValidInstall 'NEO_LOG' && isValidInstall 'CREDITSCORE'; then
-        cd $NEO_LOG_LOCAL
+        cd $CREDITSCORE_LOCAL
         regexFile "neo.log.host=" $NEO_LOG_URL
     fi
 
@@ -43,7 +43,7 @@ include_neoproposal_creditscore()
 {
 
     if isValidInstall 'NEO_PROPOSAL' && isValidInstall 'CREDITSCORE'; then
-        cd $NEO_PROPOSAL_LOCAL
+        cd $CREDITSCORE_LOCAL
         regexFile "neo.proposal.host=" $NEO_PROPOSA_URL
     fi
 

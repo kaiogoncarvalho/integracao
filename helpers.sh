@@ -806,12 +806,14 @@ deleteContainer()
 updateUrlLote()
 {
     msgConfig "Atualizando URL's"
+    updateUrl "BACKOFFICE_API" $1
+
     SISTEMS=$(getSystems)
     for i in $SISTEMS
     do
         updateUrl $i $1
     done
-    updateUrl "BACKOFFICE_API" $1
+
 
     reloadEnv
 }

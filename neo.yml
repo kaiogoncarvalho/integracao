@@ -196,6 +196,7 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_OAUTH_ROOT}
       - URL=$NEO_OAUTH_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - INDEX=$NEO_OAUTH_INDEX
     networks:
       default:
         ipv4_address: $NEO_OAUTH_IP

@@ -43,7 +43,7 @@ config_service(){
         SYSTEM_URL='http://'$(getEnv "$1_URL")
         CONTAINER=$(getEnv "$1_CONTAINER")
 
-        php_preg_replace "/(\'$CONTAINER\'\s*=>\s*array\s*\([^)]*\'host\'\s*=>\s*\')([\w\d:.\/]*?)(?=\')/s" '${1}'$SYSTEM_URL $NEO_CONFIG
+        php_preg_replace "/(\'$CONTAINER\'\s*=>\s*array\s*\([^)]*\'host\'\s*=>\s*\')(http:[\w\d:.\/]*?)(?=\')/s" '${1}'$SYSTEM_URL $NEO_CONFIG
 
         msgConfigItemSucess "Serviço incluido.\n"
     else

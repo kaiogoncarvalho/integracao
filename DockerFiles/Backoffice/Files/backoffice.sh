@@ -13,10 +13,10 @@ database_backoffice()
     if isValidInstall 'BACKOFFICE' && validDatabase; then
         cd $BACKOFFICE_LOCAL
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.host=)([0-9.]*)/\1$DATABASE_HOST/g" .env
-        regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER"
-        regexFile 'db.cep.name=' "xcep"
+        regexFile 'logger.dns=' "pgsql:host=$DATABASE_HOST;port=$DATABASE_PORT;dbname=syslog;user=$DATABASE_USER;password=$DATABASE_PASSWORD"
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.port=)([0-9]*)/\1$DATABASE_PORT/g" .env
-        sed -i -E "/portal/!s/(db\.[[:print:]]+\.database=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
+        sed -i -E "/portal/!s/(db\.[[:print:]]+\.name=)([[:print:]]*)/\1$DATABASE_NAME/g" .env
+        regexFile 'db.cep.name=' "xcep"
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
     fi

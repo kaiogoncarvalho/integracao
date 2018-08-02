@@ -694,7 +694,7 @@ getSystems(){
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
 php_preg_replace()
 {
-    docker run -it --rm -v $3:$3 -v $INTEGRACAO_DIR/Core:/usr/src/myapp -w /usr/src/myapp php:7.0-cli php preg_replace.php "$1" $2 $3
+    docker run -it --rm -v $3:$3 kaiocarvalhopravaler/php:7.0-cli php preg_replace.php "$1" $2 $3
 }
 
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
@@ -709,8 +709,6 @@ php_preg_match()
         TESTE=$(docker run -dti --name php_cli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
         docker exec php_cli php preg_match.php "$1" $2 $3
     fi
-
-
 
 }
 

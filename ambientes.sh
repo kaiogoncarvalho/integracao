@@ -51,6 +51,8 @@ RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 # Configuração do Oauth
 OAUTH_API_SH=./DockerFiles/Neo/Oauth/Files/oauth.sh
+#ENV das URLS
+ENV_URL=./url.env
 
 
 . $APIPRAVALER_SH
@@ -76,6 +78,7 @@ OAUTH_API_SH=./DockerFiles/Neo/Oauth/Files/oauth.sh
 . $DETALHE_SH
 . $OAUTH_API_SH
 . $TIPO_INSTALACAO_SH
+. $ENV_URL
 
 INTEGRACAO_DIR=$(pwd)
 

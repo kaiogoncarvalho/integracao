@@ -9,4 +9,4 @@ out
 gen
 .env
 DockerFiles/Nginx/Files/default.conf
-url.env
+.env-swp

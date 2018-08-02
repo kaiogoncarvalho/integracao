@@ -13,7 +13,11 @@ tipoInstalacao(){
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Tipo de Instalação"
-        printLine "2  - Alterar URL's em massa"
+
+        if [ $TIPO_INSTALACAO == 'servidor' ]; then
+            printLine "2  - Alterar URL's em massa"
+        fi
+
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -66,7 +70,46 @@ tipoInstalacao(){
             ;;
             esac
           ;;
-          2) printInBar "Atualizado com Sucesso!" "verde"
+          2)
+           if [ $TIPO_INSTALACAO == 'servidor' ]; then
+             echo -e
+            printInBar "Escolha o Tipo de URL" "verde"
+            printLine "1  - Risco e Financeiro"
+            printLine "2  - Escolher Prefixo/Sufixo"
+            printLine "0  - Voltar" "branco" "negrito"
+            printInBar "s - Sair" "vermelho"
+            read -p "| Informe a opção desejada >_ " TIPO_URL
+            case $TIPO_URL in
+            'S')
+                clear
+                printInBar "Execução finalizada!" "verde"
+                 exit
+              ;;
+              's')
+              clear
+                  printInBar "Execução finalizada!" "verde"
+                  exit
+              ;;
+            0) clear
+            ;;
+            1)
+               clear
+               updateUrlLote 'rf'
+               printInBar "URL's Atualizadas com Sucesso!" "verde"
+            ;;
+            2)
+               clear
+               read -p "| Informe o Prefixo/Sufixo das URL's >_ " PREFIX
+               updateUrlLote "$PREFIX"
+               printInBar "URL's Atualizadas com Sucesso!" "verde"
+            ;;
+            *) printInBar "Opção inválida!" "vermelho"
+            ;;
+            esac
+           else
+            printInBar "Opção inválida!" "vermelho"
+           fi
+
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

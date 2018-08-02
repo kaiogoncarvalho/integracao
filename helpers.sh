@@ -802,3 +802,26 @@ deleteContainer()
         TESTE_DELETE=$(docker rm -f $1)
     fi
 }
+
+updateUrlLote()
+{
+    msgConfig "Atualizando URL's"
+    SISTEMS=$(getSystems)
+    for i in $SISTEMS
+    do
+        updateUrl $i $1
+    done
+    updateUrl "BACKOFFICE_API" $1
+
+    reloadEnv
+}
+
+updateUrl()
+{
+    PATTERN_URL=$(getEnv $1"_PATTERN_URL")
+    NEW_URL=$(echo $PATTERN_URL | sed "s/%CHANGE%/$2/")
+    if isNotEmptyVariable $NEW_URL; then
+        echo -e $NEW_URL
+    fi
+    updateEnv $1"_URL=" $NEW_URL
+}

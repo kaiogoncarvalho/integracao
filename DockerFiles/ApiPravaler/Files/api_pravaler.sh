@@ -17,7 +17,9 @@ database_api_pravaler()
         sed -E -i "s/('dbname'[[:print:]]*)'([^']*)'/\1'$DATABASE_NAME'/g" 'database.php'
         sed -E -i "s/('user'[[:print:]]*')'([^']*)'/\1'$DATABASE_USER'/g" 'database.php'
         sed -E -i "s/('password'[[:print:]]*)'([^']*)'/\1'$DATABASE_PASSWORD'/g" 'database.php'
+        return 0
     fi
+    return 1
 
 }
 

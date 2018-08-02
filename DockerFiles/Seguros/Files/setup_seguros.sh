@@ -4,7 +4,9 @@ database_seguros()
     if  isValidInstall 'SEGUROS' && validDatabase; then
         cd $SEGUROS_LOCAL
         regexFile 'DATABASE_URL=' "pgsql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_NAME"
+        return 0
     fi
+    return 1
 }
 
 setup_seguros()

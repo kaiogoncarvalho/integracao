@@ -18,7 +18,9 @@ database_creditscore()
         regexFile "db.bo.dbname=" $DATABASE_NAME
         regexFile "db.bo.user=" $DATABASE_USER
         regexFile "db.bo.pass=" $DATABASE_PASSWORD
+        return 0
     fi
+    return 1
 }
 
 include_backoffice_creditscore()

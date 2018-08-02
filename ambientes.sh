@@ -15,6 +15,8 @@ NEO=./Menu/neo.sh
 DATABASE=./Menu/database.sh
 # Configuração do Detalhe
 DETALHE_SH=./Menu/detalhe.sh
+# Configuração do Tipo de Instalação
+TIPO_INSTALACAO_SH=./Menu/tipo_instalacao.sh
 # Configuração do Nginx
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração padrão para instalação de serviço
@@ -73,6 +75,7 @@ OAUTH_API_SH=./DockerFiles/Neo/Oauth/Files/oauth.sh
 . $ALFRED_CLIENT_SH
 . $DETALHE_SH
 . $OAUTH_API_SH
+. $TIPO_INSTALACAO_SH
 
 INTEGRACAO_DIR=$(pwd)
 
@@ -88,7 +91,7 @@ main() {
     clear
 
 
-    printInBar "Ambientes Pravaler" "verde"
+    printInBar "Ambientes Pravaler" "ciano"
     echo -e
     printInBar "Criado por Kaio Gonçalves Carvalho"
     echo -e
@@ -121,6 +124,9 @@ main() {
       ;;
       3)
         database
+      ;;
+      4)
+        tipoInstalacao
       ;;
       *) clear
         printInBar "Opção inválida!"

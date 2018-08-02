@@ -16,7 +16,10 @@ database_nova_proposta_backend(){
         regexFile 'DB_BO_DATABASE=' $DATABASE_NAME
         regexFile 'DB_BO_USERNAME=' $DATABASE_USER
         regexFile 'DB_BO_PASSWORD=' $DATABASE_PASSWORD
+        return 0
      fi
+
+     return 1
 
 }
 

@@ -8,7 +8,9 @@ database_retornomec()
         regexFile 'DB_DATABASE=' "$DATABASE_NAME"
         regexFile 'DB_USERNAME=' "$DATABASE_USER"
         regexFile 'DB_PASSWORD=' "$DATABASE_PASSWORD"
+        return 0
     fi
+    return 1
 
 }
 

@@ -19,8 +19,9 @@ database_backoffice()
         regexFile 'db.cep.name=' "xcep"
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.user=)([[:print:]]*)/\1$DATABASE_USER/g" .env
         sed -i -E "/portal/!s/(db\.[[:print:]]+\.pass=)([[:print:]]*)/\1$DATABASE_PASSWORD/g" .env
+        return 0
     fi
-
+    return 1
 
 }
 

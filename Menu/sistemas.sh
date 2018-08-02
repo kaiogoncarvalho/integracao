@@ -9,7 +9,9 @@ sistemas() {
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
-        printInBar "Ambientes" "verde"
+        printInBar "Ambientes" "amarelo"
+        echo -e
+        printInBar "Menu" "verde"
         printLine "1  - Agendamento de Homologação"
         printLine "2  - Api Apartada"
         printLine "3  - Api Pravaler"

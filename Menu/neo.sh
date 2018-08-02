@@ -10,7 +10,9 @@ neo() {
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
-        printInBar "Ambientes Neo" "verde"
+        printInBar "Ambientes Neo" "amarelo"
+        echo -e
+        printInBar "Menu" "verde"
         printLine "1  - Alfred Client"
         printLine "2  - Alfred Server"
         printLine "3  - BPM"

@@ -16,12 +16,12 @@ detalhe(){
             FUNCTION_CHANGE_DATABASE='database_'$CONTAINER
         fi
 
-        printInBar "Detalhe Sistema" "ciano"
+        printInBar "Ambientes Pravaler" "ciano"
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
         echo -e
-        printInBar "Sistema $1" "branco" "negrito"
+        printInBar "Sistema $1" "amarelo"
          echo -e
         echo -e "\033[07;37mInformações\n\033[00;37m"
 
@@ -141,9 +141,12 @@ detalhe(){
           ;;
           1) install "$1" "$2" "$3"
           ;;
-          2) databasePort
+          2)
+             read -e -p  "Informe a Nova URL: >_ " -i "$URL" VAR
+             updateEnv "$2_URL=" $VAR
+             reloadEnv
              clear
-             printInBar "Atualizado com Sucesso!" "ciano"
+             printInBar "URL atualizada com Sucesso!" "verde"
           ;;
           3)
             if isValidInstall $2; then

@@ -9,31 +9,14 @@ display_database_neo()
 }
 database_neo(){
 
-        msgConfig "Atualizando Banco de dados no Config:"
-        if isNotEmptyVariable $DATABASE_HOST; then
+        if validFile $NEO_CONFIG && validDatabase; then
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'host\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_HOST $NEO_CONFIG
-            msgConfigItemSucess "Host Alterado.\n"
-        fi
-
-        if isNotEmptyVariable $DATABASE_PORT; then
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'port\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_PORT $NEO_CONFIG
-            msgConfigItemSucess "Porta Alterado.\n"
-        fi
-
-        if isNotEmptyVariable $DATABASE_NAME; then
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'dbname\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_NAME $NEO_CONFIG
-            msgConfigItemSucess "Nome Alterado.\n"
-        fi
-
-        if isNotEmptyVariable $DATABASE_USER; then
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'user\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_USER $NEO_CONFIG
-            msgConfigItemSucess "Usuário Alterado.\n"
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
         fi
 
-        if isNotEmptyVariable $DATABASE_PASSWORD; then
-            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
-            msgConfigItemSucess "Senha Alterado.\n"
-        fi
 }
 
 config_service(){
@@ -82,6 +65,7 @@ service(){
 
     config_service $2
 
+    msgConfig "Atualizando Banco de dados no Config:"
     database_neo
 
     include_callcenter_alfredclient

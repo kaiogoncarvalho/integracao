@@ -61,7 +61,7 @@ detalhe(){
             $FUNCTION_DATABASE
             deleteContainer 'php_cli'
             echo -e
-            echo -e "\033[07;37mBanco de Dados\n\033[00;37m"
+            echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 
             if [ $SYSTEM_DB_HOST == $DATABASE_HOST ]; then
                 COR_HOST='32m'

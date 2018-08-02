@@ -21,8 +21,7 @@ sistemas() {
         printLine "9  - Nova Proposta Backend"
         printLine "10 - Nova Proposta Frontend"
         printLine "11 - Portal Pravaler"
-        printLine "12 - Retorno Mec"
-        printLine "13 - Seguros"
+        printLine "12 - Seguros"
 
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
@@ -63,9 +62,7 @@ sistemas() {
           ;;
           11) detalhe "Portal Pravaler" "PORTALPRAVALER" "setup_portal_pravaler"
           ;;
-          12) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
-          ;;
-          13) detalhe "Seguros" "SEGUROS" "setup_seguros"
+          12) detalhe "Seguros" "SEGUROS" "setup_seguros"
           ;;
 
           *) clear

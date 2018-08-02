@@ -47,6 +47,8 @@ SEGUROS_SH=./DockerFiles/Seguros/Files/setup_seguros.sh
 RETORNO_MEC_SH=./DockerFiles/RetornoMec/Files/retorno_mec.sh
 # Configuração do Marketplace
 MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
+# Configuração do Oauth
+OAUTH_API_SH=./DockerFiles/Neo/Oauth/Files/oauth.sh
 
 
 . $APIPRAVALER_SH
@@ -70,6 +72,7 @@ MARKETPLACE_API_SH=./DockerFiles/Marketplace/Files/setup_marketplace_api.sh
 . $SERVICE_SH
 . $ALFRED_CLIENT_SH
 . $DETALHE_SH
+. $OAUTH_API_SH
 
 INTEGRACAO_DIR=$(pwd)
 

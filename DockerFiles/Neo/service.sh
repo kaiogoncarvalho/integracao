@@ -38,7 +38,7 @@ database_neo(){
 
 config_service(){
     msgConfig "Incluindo Serviço no Config:"
-    if isValidInstall $1; then
+    if isValidInstall $1 && validFile $NEO_CONFIG; then
 
         SYSTEM_URL='http://'$(getEnv "$1_URL")
         CONTAINER=$(getEnv "$1_CONTAINER")

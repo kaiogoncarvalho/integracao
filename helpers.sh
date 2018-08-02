@@ -209,9 +209,9 @@ configRepository() {
         then
             if isValidRepository $DIR; then
                 includeEnv $NAME_DIR $DIR
-                $2 $DIR $1
                 cd $DIR
-                git config core.filemode false
+                GIT=$(git config core.filemode false)
+                $2 $DIR $1
             else
                 msgAlert 'Repositório Inválido.'
             fi
@@ -219,6 +219,8 @@ configRepository() {
             msgAlert 'Erro ao instalar Sistema.'
         fi
     else
+        cd $DIR
+        GIT=$(git config core.filemode false)
         $2 $DIR $1
         echo -e "\n"
     fi

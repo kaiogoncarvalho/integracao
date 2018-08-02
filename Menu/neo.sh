@@ -21,7 +21,8 @@ neo() {
         printLine "8  - Oauth"
         printLine "9  - People"
         printLine "10 - Proposal"
-        printLine "11 - Student"
+        printLine "11 - Retorno Mec"
+        printLine "12 - Student"
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -53,13 +54,15 @@ neo() {
           ;;
           7) detalhe "Neo Api" "NEO_API" "service"
           ;;
-          8) detalhe "Oauth" "NEO_OAUTH" "service"
+          8) detalhe "Oauth" "NEO_OAUTH" "oauth"
           ;;
           9) detalhe "People" "NEO_PEOPLE" "service"
           ;;
           10) detalhe "Proposal" "NEO_PROPOSAL" "service"
           ;;
-          11) detalhe "Student" "NEO_STUDENT" "service"
+          11) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
+          ;;
+          12) detalhe "Student" "NEO_STUDENT" "service"
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

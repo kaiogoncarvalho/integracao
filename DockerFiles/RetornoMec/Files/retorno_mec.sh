@@ -30,6 +30,8 @@ include_apipravaler_retornomec()
 
 }
 
+
+
 retorno_mec()
 {
     cd $1
@@ -55,5 +57,7 @@ retorno_mec()
     include_apipravaler_retornomec
 
     include_retornomec_backoffice
+
+    config_service 'RETORNO_MEC'
 
 }

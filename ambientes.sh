@@ -1,6 +1,5 @@
 #!/bin/bash
 #!/usr/bin/env bash
-
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 #Variáveis do ENV

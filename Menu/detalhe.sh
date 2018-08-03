@@ -6,14 +6,17 @@ detalhe(){
         CONTAINER=$(getEnv "$2_CONTAINER")
         URL=$(getEnv "$2_URL")
         IP=$(getEnv "$2_IP")
+        DIRECTORY=$(getEnv "$2_LOCAL")
         STATUS=''
 
         if [ $3 == 'service' ]; then
             FUNCTION_DATABASE='display_database_neo'
             FUNCTION_CHANGE_DATABASE='database_neo'
+            FUNCTION_ENV='env_neo'
         else
             FUNCTION_DATABASE='display_database_'$CONTAINER
             FUNCTION_CHANGE_DATABASE='database_'$CONTAINER
+            FUNCTION_ENV='env_'$CONTAINER
         fi
 
         printInBar "Ambientes Pravaler" "ciano"
@@ -115,11 +118,15 @@ detalhe(){
         printLine "1  - Instalar/Reinstalar"
         printLine "2  - Alterar URL"
         if isValidInstall $2; then
-            printLine "3  - Reiniciar Container"
-            printLine "4  - Consultar Log"
+            printLine "3  - Ver Arquivo de configuração (config.php, .env, etc..)"
+            printLine "4  - Alterar Arquivo de configuração (config.php, .env, etc..)"
+            printLine "5  - Acessar Pasta do Projeto"
+            printLine "6  - Composer Update"
+            printLine "7  - Reiniciar Container"
+            printLine "8  - Consultar Log"
             if function_exists $FUNCTION_DATABASE; then
-                 printLine "5  - Atualizar Banco de Dados"
-                 printLine "6  - Ver Senha do Banco de Dados"
+                 printLine "9  - Atualizar Banco de Dados"
+                 printLine "10  - Ver Senha do Banco de Dados"
             fi
         fi
         printLine "0  - Voltar" "branco" "negrito"
@@ -149,21 +156,45 @@ detalhe(){
              printInBar "URL atualizada com Sucesso!" "verde"
           ;;
           3)
+            clear
+            if function_exists $FUNCTION_ENV; then
+                cat $FUNCTION_ENV
+            else
+                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+            fi
+          ;;
+          4)
+            clear
+            if function_exists $FUNCTION_ENV; then
+                vi $FUNCTION_ENV
+            else
+                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+            fi
+          ;;
+          5)
+            cd $DIRECTORY
+            exec /usr/bin/bash
+          ;;
+          6)
+            clear
+            msgConfig 'Realizando Composer Update'
+            docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
+          ;;
+          7)
             if isValidInstall $2; then
                 restartContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-
-          4)
+          8)
             if isValidInstall $2; then
                 logContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          5)
+          9)
             if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
                 $FUNCTION_CHANGE_DATABASE
                 printInBar "Banco de dados atualizado com Sucesso!" "verde"
@@ -171,7 +202,7 @@ detalhe(){
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          6)
+          10)
                 if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
                     echo -e "\033[01;37mSenha no Integração: \033[00;37m\033[01;$COR_PASSWORD$DATABASE_PASSWORD \033[00;37m"
                     if [ $SYSTEM_DB_PASSWORD != $DATABASE_PASSWORD ]; then

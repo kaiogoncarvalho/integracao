@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 display_database_neo()
 {
-    SYSTEM_DB_HOST=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]host['\\\"]\s*=>\s*')([\d.]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
-    SYSTEM_DB_PORT=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]port['\\\"]\s*=>\s*')([\d]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
-    SYSTEM_DB_NAME=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]dbname['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
-    SYSTEM_DB_USER=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]user['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
-    SYSTEM_DB_PASSWORD=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]password['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    if validFile $NEO_CONFIG; then
+        SYSTEM_DB_HOST=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]host['\\\"]\s*=>\s*')([\d.]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+        SYSTEM_DB_PORT=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]port['\\\"]\s*=>\s*')([\d]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+        SYSTEM_DB_NAME=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]dbname['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+        SYSTEM_DB_USER=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]user['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+        SYSTEM_DB_PASSWORD=$(php_preg_match "/(['\\\"]database['\\\"]\s*=>\s*array\s*\(.*?['\\\"]backoffice['\\\"]\s*=>\s*array\s*\([^)]*?['\\\"]password['\\\"]\s*=>\s*')([\w\d[:punct:]]*)(?=['\\\"])/s"  $NEO_CONFIG 2)
+    else
+        STATUS=$STATUS"\033[07;31m- Arquivo config.php não existe (necessário reinstalar sistema para criar)\033[00;31m\n\n"
+    fi
 }
 database_neo(){
 

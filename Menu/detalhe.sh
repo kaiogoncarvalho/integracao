@@ -11,13 +11,15 @@ detalhe(){
         STATUS=''
         SEE_ENV=0
         ALTER_ENV=0
+        SEE_ENV_NEO=0
+        ALTER_ENV_NEO=0
         UPDATE_DATABASE=0
         SEE_PASS=0
         NPM_UPDATE=0
         ENTERC=0
         STOPC=0
 
-        if [ $3 == 'service' ]; then
+        if [ $3 == 'service' ] || [ $4 == 'service' ]; then
             FUNCTION_DATABASE='display_database_neo'
             FUNCTION_CHANGE_DATABASE='database_neo'
         else
@@ -67,8 +69,8 @@ detalhe(){
         fi
 
         if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
-            deleteContainer 'php_cli'
             $FUNCTION_DATABASE
+            deleteContainer 'php_cli'
             echo -e
             echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 
@@ -148,12 +150,21 @@ detalhe(){
 
 
 
-            if validEnv $DIRECTORY; then
+            if validFile $DIRECTORY'/.env'; then
                 SEE_ENV=$NEXT
-                printLine "$SEE_ENV  - Ver Arquivo de configuração (config.php, .env, etc..)"
+                printLine "$SEE_ENV  - Ver Arquivo de configuração .env"
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV=$NEXT
-                printLine "$ALTER_ENV  - Alterar Arquivo de configuração (config.php, .env, etc..)"
+                printLine "$ALTER_ENV  - Alterar Arquivo de configuração .env"
+                NEXT=$(echo $(($NEXT+1)))
+            fi
+
+            if validFile $DIRECTORY'/config.php'; then
+                SEE_ENV_NEO=$NEXT
+                printLine "$SEE_ENV  - Ver Arquivo de configuração config.php"
+                NEXT=$(echo $(($NEXT+1)))
+                ALTER_ENV_NEO=$NEXT
+                printLine "$ALTER_ENV  - Alterar Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
@@ -239,23 +250,39 @@ detalhe(){
           ;;
           $SEE_ENV)
             clear
-            if validEnv $DIRECTORY && isValidInstall $2; then
-                DIR_ENV=$(getFileEnv $DIRECTORY)
+            if validFile $DIRECTORY'/.env' && isValidInstall $2; then
                 printInBar 'Arquivo de Configuração'
-                cat $DIR_ENV
+                cat $DIRECTORY'/.env'
                 echo -e "\n"
             else
-                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+                printInBar 'Projeto não tem arquivo de configuração .env' 'vermelho'
             fi
           ;;
           $ALTER_ENV)
 
-            if validEnv $DIRECTORY  && isValidInstall $2; then
-
-                DIR_ENV=$(getFileEnv $DIRECTORY)
-                vi $DIR_ENV
+            if validFile $DIRECTORY'/.env'  && isValidInstall $2; then
+                vi $DIRECTORY'/.env'
             else
-                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+                printInBar 'Projeto não tem arquivo de configuração .env' 'vermelho'
+            fi
+          ;;
+
+          $SEE_ENV_NEO)
+            clear
+            if validFile $DIRECTORY'/config.php' && isValidInstall $2; then
+                printInBar 'Arquivo de Configuração'
+                cat $DIRECTORY'/config.php'
+                echo -e "\n"
+            else
+                printInBar 'Projeto não tem arquivo de configuração config.php' 'vermelho'
+            fi
+          ;;
+          $ALTER_ENV_NEO)
+
+            if validFile $DIRECTORY'/config.php'  && isValidInstall $2; then
+                vi $DIRECTORY'/config.php'
+            else
+                printInBar 'Projeto não tem arquivo de configuração config.php' 'vermelho'
             fi
           ;;
 

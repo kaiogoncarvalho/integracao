@@ -743,14 +743,18 @@ php_preg_replace()
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
 php_preg_match()
 {
-    if verifyContainerStarted 'php_cli' && validVolume 'php_cli' $2; then
-        docker exec php_cli php preg_match.php "$1" $2 $3
+    if verifyContainerStarted 'phpcli' && validVolume 'phpcli' $2; then
+        docker exec phpcli php preg_match.php "$1" $2 $3
     else
-        if verifyContainer 'php_cli'; then
-            TESTE=$(docker rm -f php_cli)
+        if verifyContainer 'phpcli'; then
+            TESTE=$(docker rm -f phpcli)
         fi
-        TESTE=$(docker run -dti --name php_cli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
-        docker exec php_cli php preg_match.php "$1" $2 $3
+        TESTE=$(docker run -dti --name phpcli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
+
+        if verifyContainerStarted 'phpcli'; then
+            docker exec phpcli php preg_match.php "$1" $2 $3
+        fi
+
     fi
 
 }
@@ -868,26 +872,6 @@ updateUrl()
     fi
     updateEnv $1"_URL=" $NEW_URL
 }
-validEnv(){
-    if validFile "$1/.env"; then
-        return 0
-    fi
-    if validFile "$1/config.php"; then
-        return 0
-    fi
-    return 1
-}
-
-getFileEnv()
-{
-    if validFile "$1/.env"; then
-        echo "$1/.env"
-    fi
-    if validFile "$1/config.php"; then
-        echo "$1/config.php"
-    fi
-}
-
 validNpm(){
     if validFile "$1/packages.json"; then
         return 0

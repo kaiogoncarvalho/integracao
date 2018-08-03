@@ -212,7 +212,6 @@ services:
     build:
       dockerfile: ./DockerFiles/NovaPropostaFrontEnd/Dockerfile
       context: .
-    container_name: nova_proposta_frontend
     image: kaioidealinvest/nova_proposta_frontend
     extra_hosts:
       - "$NOVAPROPOSTA_FRONTEND_URL:127.0.0.1"

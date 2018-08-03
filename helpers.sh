@@ -675,9 +675,9 @@ verifyContainer(){
     VERIFY=$(docker ps -a -q -f name=$1$)
 
    if [ -z $VERIFY ]; then
-     return 1
-    else
      return 0
+    else
+     return 1
     fi
 }
 

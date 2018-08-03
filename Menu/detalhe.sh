@@ -67,18 +67,24 @@ detalhe(){
         fi
 
         if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
-            $FUNCTION_DATABASE
             deleteContainer 'php_cli'
+            $FUNCTION_DATABASE
             echo -e
             echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
+
+            SYSTEM_DB_HOST=''
+            SYSTEM_DB_PORT=''
+            SYSTEM_DB_NAME=''
+            SYSTEM_DB_USER=''
+            SYSTEM_DB_PASSWORD=''
 
             COR_HOST='31m'
             COR_PORT='31m'
             COR_NAME='31m'
             COR_USER='31m'
             COR_PASSWORD='31m'
-
             if validDatabase; then
+
 
                 if [ $SYSTEM_DB_HOST == $DATABASE_HOST ]; then
                     COR_HOST='32m'

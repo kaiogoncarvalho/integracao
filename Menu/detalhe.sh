@@ -161,10 +161,10 @@ detalhe(){
 
             if validFile $DIRECTORY'/config.php'; then
                 SEE_ENV_NEO=$NEXT
-                printLine "$SEE_ENV  - Ver Arquivo de configuração config.php"
+                printLine "$SEE_ENV_NEO  - Ver Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV_NEO=$NEXT
-                printLine "$ALTER_ENV  - Alterar Arquivo de configuração config.php"
+                printLine "$ALTER_ENV_NEO  - Alterar Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 

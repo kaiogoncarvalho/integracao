@@ -661,7 +661,6 @@ isValidInstall(){
     DIR=$(getEnv "$1_LOCAL")
 
     if isValidRepository $DIR; then
-
         if verifyContainer $CONTAINER; then
             return 0
         fi
@@ -672,9 +671,10 @@ isValidInstall(){
 
 #Função verifyContainer: Responsável por verificar se um container existe
 verifyContainer(){
-    VERIFY=$(docker ps -a -q -f name=$1$)
+    VERIFY=$(docker ps -a -q -f name=$1)
 
-   if [ -z $VERIFY ]; then
+
+   if isNotEmptyVariable $VERIFY; then
      return 0
     else
      return 1

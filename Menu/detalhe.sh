@@ -72,11 +72,7 @@ detalhe(){
             echo -e
             echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 
-            SYSTEM_DB_HOST=''
-            SYSTEM_DB_PORT=''
-            SYSTEM_DB_NAME=''
-            SYSTEM_DB_USER=''
-            SYSTEM_DB_PASSWORD=''
+
 
             COR_HOST='31m'
             COR_PORT='31m'
@@ -86,31 +82,31 @@ detalhe(){
             if validDatabase; then
 
 
-                if [ $SYSTEM_DB_HOST == $DATABASE_HOST ]; then
+                if [ $SYSTEM_DB_HOST == $DATABASE_HOST ] 2> /dev/null; then
                     COR_HOST='32m'
                 else
                     STATUS=$STATUS"\033[07;31m- Host do Banco de Dados Diferente, Host: $DATABASE_HOST (necessário atualizar o banco de dados)\033[00;31m\n\n"
                 fi
 
-                if [ $SYSTEM_DB_PORT == $DATABASE_PORT ]; then
+                if [ $SYSTEM_DB_PORT == $DATABASE_PORT ] 2> /dev/null; then
                     COR_PORT='32m'
                 else
                     STATUS=$STATUS"\033[07;31m- Porta do Banco de Dados Diferente, Porta: $DATABASE_PORT (necessário atualizar o banco de dados)\033[00;31m\n\n"
                 fi
 
-                if [ $SYSTEM_DB_NAME == $DATABASE_NAME ]; then
+                if [ $SYSTEM_DB_NAME == $DATABASE_NAME ] 2> /dev/null; then
                     COR_NAME='32m'
                 else
                     STATUS=$STATUS"\033[07;31m- Nome do Banco de Dados Diferente, Nome: $DATABASE_NAME (necessário atualizar o banco de dados)\033[00;31m\n\n"
                 fi
 
-                if [ $SYSTEM_DB_USER == $DATABASE_USER ]; then
+                if [ $SYSTEM_DB_USER == $DATABASE_USER ] 2> /dev/null; then
                     COR_USER='32m'
                 else
                     STATUS=$STATUS"\033[07;31m- Usuário do Banco de Dados Diferente, Usuário: $DATABASE_USER (necessário atualizar o banco de dados)\033[00;31m\n\n"
                 fi
 
-                if [ $SYSTEM_DB_PASSWORD == $DATABASE_PASSWORD ]; then
+                if [ $SYSTEM_DB_PASSWORD == $DATABASE_PASSWORD ] 2> /dev/null; then
                     COR_PASSWORD='32m'
                 else
                     STATUS=$STATUS"\033[07;31m- Senha do Banco de Dados Diferente (necessário atualizar o banco de dados)\033[00;31m\n\n"

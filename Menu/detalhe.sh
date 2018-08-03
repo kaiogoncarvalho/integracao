@@ -70,7 +70,7 @@ detalhe(){
 
         if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
             $FUNCTION_DATABASE
-            deleteContainer 'php_cli'
+            deleteContainer 'phpcli'
             echo -e
             echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 

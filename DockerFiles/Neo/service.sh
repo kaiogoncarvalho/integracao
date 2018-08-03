@@ -51,10 +51,10 @@ service(){
 
     msgConfig "Configurando $NEO_CONFIG:"
     if isNotValidFile config.php; then
-        ln -s $NEO_CONFIG config.php
-        msgConfigItemSucess "Link do $NEO_CONFIG foi criado.\n"
+        ln -s $NEO_CONFIG $DIR'/config.php'
+        msgConfigItemSucess "Link de $NEO_CONFIG para $DIR/config.php  foi criado.\n"
     else
-        msgConfigItemWarning "Link do $NEO_CONFIG já existe.\n"
+        msgConfigItemWarning "Link do $NEO_CONFIG  $DIR/config.php já existe.\n"
     fi
 
     msgConfig "Definindo Permissões:"

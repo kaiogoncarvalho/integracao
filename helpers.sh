@@ -52,12 +52,12 @@ isValidRepository() {
 validFile() {
   if isValidFile $1; then
     if isEmptyVariable $1; then
-     false
+     return 1
     else
-     true
+     return 0
     fi
   else
-    false
+    return 1
   fi
 }
 
@@ -204,6 +204,7 @@ configRepository() {
     REPOSITORY=$(getEnv "$1_REPOSITORY")
 
     if isNotValidRepository $DIR; then
+        registerDatabase
         DIR=$(installRepository $REPOSITORY)
         if [ $DIR ];
         then
@@ -717,6 +718,7 @@ php_preg_match()
 
 #Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado
 validDatabase(){
+
     if isNotEmptyVariable $DATABASE_HOST && isNotEmptyVariable $DATABASE_PORT && isNotEmptyVariable $DATABASE_NAME && isNotEmptyVariable $DATABASE_USER && isNotEmptyVariable $DATABASE_PASSWORD; then
         return 0
     else
@@ -826,4 +828,61 @@ updateUrl()
         echo -e $NEW_URL
     fi
     updateEnv $1"_URL=" $NEW_URL
+}
+validEnv(){
+    if validFile "$1/.env"; then
+        return 0
+    fi
+    if validFile "$1/config.php"; then
+        return 0
+    fi
+    return 1
+}
+
+getFileEnv()
+{
+    if validFile "$1/.env"; then
+        echo "$1/.env"
+    fi
+    if validFile "$1/config.php"; then
+        echo "$1/config.php"
+    fi
+}
+
+validNpm(){
+    if validFile "$1/packages.json"; then
+        return 0
+    fi
+
+    return 1
+
+}
+
+registerDatabase()
+{
+    if ! validDatabase; then
+        read -p "Deseja cadastrar o Banco de Dados? (s/n) >_ " verify
+
+        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+        then
+            msgAlert "Opção Inválida" >&2
+            return 1
+        fi
+
+        if [ $verify == "s" ] || [ $verify == "S" ];
+        then
+            databaseHost
+            databasePort
+            databaseName
+            databaseUser
+            databasePassword
+            echo -e "\n"
+            return 0
+        elif [ $verify == "n" ] || [ $verify == "N" ];
+        then
+            msgConfigItemWarning "Banco de Dados não Cadastrado"
+            return 1
+        fi
+    fi
+
 }

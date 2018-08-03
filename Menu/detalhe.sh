@@ -7,16 +7,21 @@ detalhe(){
         URL=$(getEnv "$2_URL")
         IP=$(getEnv "$2_IP")
         DIRECTORY=$(getEnv "$2_LOCAL")
+        DIR_DOCKER=$(getEnv "$2_DOCKER")
         STATUS=''
+        SEE_ENV=0
+        ALTER_ENV=0
+        UPDATE_DATABASE=0
+        SEE_PASS=0
+        NPM_UPDATE=0
+        ENTERC=0
 
         if [ $3 == 'service' ]; then
             FUNCTION_DATABASE='display_database_neo'
             FUNCTION_CHANGE_DATABASE='database_neo'
-            FUNCTION_ENV='env_neo'
         else
             FUNCTION_DATABASE='display_database_'$CONTAINER
             FUNCTION_CHANGE_DATABASE='database_'$CONTAINER
-            FUNCTION_ENV='env_'$CONTAINER
         fi
 
         printInBar "Ambientes Pravaler" "ciano"
@@ -66,39 +71,43 @@ detalhe(){
             echo -e
             echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 
-            if [ $SYSTEM_DB_HOST == $DATABASE_HOST ]; then
-                COR_HOST='32m'
-            else
-                COR_HOST='31m'
-                STATUS=$STATUS"\033[07;31m- Host do Banco de Dados Diferente, Host: $DATABASE_HOST (necessário atualizar o banco de dados)\033[00;31m\n\n"
-            fi
+            COR_HOST='31m'
+            COR_PORT='31m'
+            COR_NAME='31m'
+            COR_USER='31m'
+            COR_PASSWORD='31m'
 
-            if [ $SYSTEM_DB_PORT == $DATABASE_PORT ]; then
-                COR_PORT='32m'
-            else
-                COR_PORT='31m'
-                STATUS=$STATUS"\033[07;31m- Porta do Banco de Dados Diferente, Porta: $DATABASE_PORT (necessário atualizar o banco de dados)\033[00;31m\n\n"
-            fi
+            if validDatabase; then
 
-            if [ $SYSTEM_DB_NAME == $DATABASE_NAME ]; then
-                COR_NAME='32m'
-            else
-                COR_NAME='31m'
-                STATUS=$STATUS"\033[07;31m- Nome do Banco de Dados Diferente, Nome: $DATABASE_NAME (necessário atualizar o banco de dados)\033[00;31m\n\n"
-            fi
+                if [ $SYSTEM_DB_HOST == $DATABASE_HOST ]; then
+                    COR_HOST='32m'
+                else
+                    STATUS=$STATUS"\033[07;31m- Host do Banco de Dados Diferente, Host: $DATABASE_HOST (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                fi
 
-            if [ $SYSTEM_DB_USER == $DATABASE_USER ]; then
-                COR_USER='32m'
-            else
-                COR_USER='31m'
-                STATUS=$STATUS"\033[07;31m- Usuário do Banco de Dados Diferente, Usuário: $DATABASE_USER (necessário atualizar o banco de dados)\033[00;31m\n\n"
-            fi
+                if [ $SYSTEM_DB_PORT == $DATABASE_PORT ]; then
+                    COR_PORT='32m'
+                else
+                    STATUS=$STATUS"\033[07;31m- Porta do Banco de Dados Diferente, Porta: $DATABASE_PORT (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                fi
 
-            if [ $SYSTEM_DB_PASSWORD == $DATABASE_PASSWORD ]; then
-                COR_PASSWORD='32m'
-            else
-                COR_PASSWORD='31m'
-                STATUS=$STATUS"\033[07;31m- Senha do Banco de Dados Diferente (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                if [ $SYSTEM_DB_NAME == $DATABASE_NAME ]; then
+                    COR_NAME='32m'
+                else
+                    STATUS=$STATUS"\033[07;31m- Nome do Banco de Dados Diferente, Nome: $DATABASE_NAME (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                fi
+
+                if [ $SYSTEM_DB_USER == $DATABASE_USER ]; then
+                    COR_USER='32m'
+                else
+                    STATUS=$STATUS"\033[07;31m- Usuário do Banco de Dados Diferente, Usuário: $DATABASE_USER (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                fi
+
+                if [ $SYSTEM_DB_PASSWORD == $DATABASE_PASSWORD ]; then
+                    COR_PASSWORD='32m'
+                else
+                    STATUS=$STATUS"\033[07;31m- Senha do Banco de Dados Diferente (necessário atualizar o banco de dados)\033[00;31m\n\n"
+                fi
             fi
 
             echo -e "\033[01;37mHost: \033[00;37m\033[01;$COR_HOST$SYSTEM_DB_HOST\033[00;37m"
@@ -118,15 +127,51 @@ detalhe(){
         printLine "1  - Instalar/Reinstalar"
         printLine "2  - Alterar URL"
         if isValidInstall $2; then
-            printLine "3  - Ver Arquivo de configuração (config.php, .env, etc..)"
-            printLine "4  - Alterar Arquivo de configuração (config.php, .env, etc..)"
-            printLine "5  - Acessar Pasta do Projeto"
-            printLine "6  - Composer Update"
-            printLine "7  - Reiniciar Container"
-            printLine "8  - Consultar Log"
+            printLine "3  - Reiniciar Container"
+            printLine "4  - Parar Container"
+            printLine "5  - Consultar Log"
+            printLine "6  - Acessar Pasta do Projeto"
+
+            NEXT=7
+
+            if verifyContainerStarted $CONTAINER;then
+                ENTERC=$NEXT
+                printLine "$ENTERC  - Entrar no Container"
+                NEXT=$(echo $(($NEXT+1)))
+            fi
+
+
+
+
+            if validEnv $DIRECTORY; then
+                SEE_ENV=$NEXT
+                printLine "$SEE_ENV  - Ver Arquivo de configuração (config.php, .env, etc..)"
+                NEXT=$(echo $(($NEXT+1)))
+                ALTER_ENV=$NEXT
+                printLine "$ALTER_ENV  - Alterar Arquivo de configuração (config.php, .env, etc..)"
+                NEXT=$(echo $(($NEXT+1)))
+            fi
+
+            if validFile $DIRECTORY'/composer.json'; then
+                COMPOSER_ENV=$NEXT
+                printLine "$COMPOSER_ENV  - Composer Update"
+                NEXT=$(echo $(($NEXT+1)))
+            fi
+
+            if validNpm $DIRECTORY; then
+                NPM_UPDATE=$NEXT
+                printLine "$NPM_UPDATE - NPM Update"
+                NEXT=$(echo $(($NEXT+1)))
+            fi
+
+
             if function_exists $FUNCTION_DATABASE; then
-                 printLine "9  - Atualizar Banco de Dados"
-                 printLine "10  - Ver Senha do Banco de Dados"
+                 UPDATE_DATABASE=$NEXT
+                 NEXT=$(echo $(($NEXT+1)))
+                 printLine "$UPDATE_DATABASE  - Atualizar Banco de Dados"
+                 SEE_PASS=$NEXT
+                 NEXT=$(echo $(($NEXT+1)))
+                 printLine "$SEE_PASS  - Ver Senha do Banco de Dados"
             fi
         fi
         printLine "0  - Voltar" "branco" "negrito"
@@ -156,53 +201,99 @@ detalhe(){
              printInBar "URL atualizada com Sucesso!" "verde"
           ;;
           3)
-            clear
-            if function_exists $FUNCTION_ENV; then
-                cat $FUNCTION_ENV
-            else
-                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
-            fi
-          ;;
-          4)
-            clear
-            if function_exists $FUNCTION_ENV; then
-                vi $FUNCTION_ENV
-            else
-                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
-            fi
-          ;;
-          5)
-            cd $DIRECTORY
-            exec /usr/bin/bash
-          ;;
-          6)
-            clear
-            msgConfig 'Realizando Composer Update'
-            docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
-          ;;
-          7)
             if isValidInstall $2; then
                 restartContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          8)
+          4)
+            if isValidInstall $2; then
+                docker stop -t 0 $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+          ;;
+          5)
             if isValidInstall $2; then
                 logContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          9)
-            if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
-                $FUNCTION_CHANGE_DATABASE
-                printInBar "Banco de dados atualizado com Sucesso!" "verde"
+          6)
+            cd $DIRECTORY
+            exec bash
+          ;;
+          $ENTERC)
+            if isValidInstall $2 && verifyContainerStarted $CONTAINER; then
+                docker exec -ti $CONTAINER  /bin/bash
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          10)
+          $SEE_ENV)
+            clear
+            if validEnv $DIRECTORY && isValidInstall $2; then
+                DIR_ENV=$(getFileEnv $DIRECTORY)
+                printInBar 'Arquivo de Configuração'
+                cat $DIR_ENV
+                echo -e "\n"
+            else
+                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+            fi
+          ;;
+          $ALTER_ENV)
+
+            if validEnv $DIRECTORY  && isValidInstall $2; then
+
+                DIR_ENV=$(getFileEnv $DIRECTORY)
+                vi $DIR_ENV
+            else
+                printInBar 'Projeto não tem arquivo de configuração' 'vermelho'
+            fi
+          ;;
+
+          $COMPOSER_ENV)
+            if validFile "$DIRECTORY/composer.json" && isValidInstall $2; then
+            clear
+            msgConfig 'Realizando Composer Update'
+            docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+
+          ;;
+
+          $NPM_UPDATE)
+            if validNpm $DIRECTORY && isValidInstall $2; then
+            clear
+            msgConfig 'Realizando Npm Update'
+            docker run --rm -v $DIRECTORY:/app kaiocarvalhopravaler/node:9 npm update
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+
+          ;;
+
+          $UPDATE_DATABASE)
+            if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
+                if validDatabase; then
+                    $FUNCTION_CHANGE_DATABASE
+                    printInBar "Banco de dados atualizado com Sucesso!" "verde"
+                else
+                    if registerDatabase; then
+                        $FUNCTION_CHANGE_DATABASE
+                        printInBar "Banco de dados atualizado com Sucesso!" "verde"
+                    else
+                        printInBar "Banco de dados não foi atualizado" "vermelho"
+                    fi
+                fi
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+          ;;
+          $SEE_PASS)
                 if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
                     echo -e "\033[01;37mSenha no Integração: \033[00;37m\033[01;$COR_PASSWORD$DATABASE_PASSWORD \033[00;37m"
                     if [ $SYSTEM_DB_PASSWORD != $DATABASE_PASSWORD ]; then

@@ -617,7 +617,7 @@ installFtp()
 }
 
 install(){
-    if [ $3 == 'service' ]; then
+    if [ $3 == 'service' ] || [ $4 == 'service' ]; then
         installServiceNeo "$1" "$2" "$3"
     elif [ $3 == 'ftp' ]; then
         installFtp

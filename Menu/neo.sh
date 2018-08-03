@@ -56,7 +56,7 @@ neo() {
           ;;
           7) detalhe "Neo Api" "NEO_API" "service"
           ;;
-          8) detalhe "Oauth" "NEO_OAUTH" "oauth"
+          8) detalhe "Oauth" "NEO_OAUTH" "oauth" "service"
           ;;
           9) detalhe "People" "NEO_PEOPLE" "service"
           ;;

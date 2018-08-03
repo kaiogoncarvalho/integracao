@@ -182,7 +182,7 @@ setup_backoffice()
 
     include_portalpravaler_backoffice
     include_apipravaler_backoffice
-    include_novaproposta_backoffice
+    include_novapropostafrontend_backoffice
     include_neolog_backoffice
     include_retornomec_backoffice
 

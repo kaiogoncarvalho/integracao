@@ -96,12 +96,16 @@ tipoInstalacao(){
             1)
                clear
                updateUrlLote 'rf'
+               updateEnv "NAME_SERVER=" 'rf'
+               reloadEnv
                printInBar "URL's Atualizadas com Sucesso!" "verde"
             ;;
             2)
                clear
                read -p "| Informe o Prefixo/Sufixo das URL's >_ " PREFIX
                updateUrlLote "$PREFIX"
+               updateEnv "NAME_SERVER=" "$PREFIX"
+               reloadEnv
                printInBar "URL's Atualizadas com Sucesso!" "verde"
             ;;
             *) printInBar "Opção inválida!" "vermelho"

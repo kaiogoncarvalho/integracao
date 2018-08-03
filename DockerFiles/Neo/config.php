@@ -19,6 +19,7 @@ return array(
     'email'           => array('host' => 'http://st.email.idealinvest.srv.br'),
     'fee'             => array('host' => 'http://st.fee.idealinvest.srv.br'),
     'institution'     => array('host' => 'http://st.institution.idealinvest.srv.br'),
+    'negotiation'     => array('host' => 'http://st.negotiation.idealinvest.srv.br'),
     'integration'     => array('host' => 'http://st.integration.idealinvest.srv.br'),
     'people'          => array('host' => 'http://st.people.idealinvest.srv.br'),
     'product'         => array('host' => 'http://st.product.idealinvest.srv.br'),

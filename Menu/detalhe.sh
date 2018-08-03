@@ -15,6 +15,7 @@ detalhe(){
         SEE_PASS=0
         NPM_UPDATE=0
         ENTERC=0
+        STOPC=0
 
         if [ $3 == 'service' ]; then
             FUNCTION_DATABASE='display_database_neo'
@@ -128,16 +129,18 @@ detalhe(){
         printLine "2  - Alterar URL"
         if isValidInstall $2; then
             printLine "3  - Reiniciar Container"
-            printLine "4  - Parar Container"
-            printLine "5  - Consultar Log"
-            printLine "6  - Acessar Pasta do Projeto"
+            printLine "4  - Consultar Log"
+            printLine "5  - Acessar Pasta do Projeto"
 
-            NEXT=7
+            NEXT=6
 
             if verifyContainerStarted $CONTAINER;then
                 ENTERC=$NEXT
                 printLine "$ENTERC  - Entrar no Container"
                 NEXT=$(echo $(($NEXT+1)))
+                STOPC=$NEXT
+                NEXT=$(echo $(($NEXT+1)))
+                printLine "$STOPC  - Parar Container"
             fi
 
 
@@ -209,21 +212,21 @@ detalhe(){
           ;;
           4)
             if isValidInstall $2; then
-                docker stop -t 0 $CONTAINER
-            else
-                printInBar "Opção inválida!" "vermelho"
-            fi
-          ;;
-          5)
-            if isValidInstall $2; then
                 logContainer $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
-          6)
+          5)
             cd $DIRECTORY
             exec bash
+          ;;
+           $STOPC)
+            if verifyContainerStarted $2; then
+                docker stop -t 0 $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
           ;;
           $ENTERC)
             if isValidInstall $2 && verifyContainerStarted $CONTAINER; then
@@ -257,7 +260,7 @@ detalhe(){
           $COMPOSER_ENV)
             if validFile "$DIRECTORY/composer.json" && isValidInstall $2; then
             clear
-            msgConfig 'Realizando Composer Update'
+            msgConfig 'Executando Composer Update no Diretório $DIRECTORY'
             docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
             else
                 printInBar "Opção inválida!" "vermelho"

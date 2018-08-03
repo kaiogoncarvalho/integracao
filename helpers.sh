@@ -458,22 +458,60 @@ updateEnv(){
 #função configNeo: instala o config do neo
 configNeo(){
 
-    echo $NEO_CONFIG
     if isNotValidFile $NEO_CONFIG; then
 
         CAMINHO=$(cd $INTEGRACAO_DIR/.. && pwd)
 
-        read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
-        if isValidFile $config; then
-            msgConfigItemSucess "Arquivo $config foi configurado.\n"
-            includeEnv "NEO_CONFIG" $config
-        else
-            msgAlert 'Arquivo não encontrado.'
-            false
+        read -p "Arquivo config.php já existe? (s/n) >_ " verify
+
+        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+        then
+            msgAlert "Opção Inválida" >&2
+            return 1
+        fi
+
+        if [ $verify == "s" ] || [ $verify == "S" ];
+        then
+             read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
+            if isValidFile $config; then
+                msgConfigItemSucess "Arquivo $config foi configurado.\n"
+                includeEnv "NEO_CONFIG" $config
+                return 0
+            else
+                msgAlert 'Arquivo não encontrado.'
+                return 1
+            fi
+        elif [ $verify == "n" ] || [ $verify == "N" ];
+        then
+           read -p "Deseja Criar o Arquivo config.php? (s/n) >_ " verify
+
+           if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+            then
+                msgAlert "Opção Inválida" >&2
+                return 1
+            fi
+            if [ $verify == "s" ] || [ $verify == "S" ];
+            then
+             read -e -p  "Informe o caminho que vai salvar o arquivo config.php do Neo (Somente o Diretório): >_ " -i "$CAMINHO" dir_config
+                if isValidDirectory $dir_config;then
+                    cp "$INTEGRACAO_DIR/DockerFiles/Neo/config.php" "$dir_config"
+                    config=$(cd $dir_config && pwd)'/config.php'
+                    msgConfigItemSucess "Arquivo $config foi criado com Sucesso!.\n"
+                    includeEnv "NEO_CONFIG" $config
+                    return 0
+                else
+                   msgAlert "Não foi possível salvar o arquivo, diretório não existe"
+                   return 1
+                fi
+             elif [ $verify == "n" ] || [ $verify == "N" ];then
+                msgAlert 'Para Instalar os Ambientes Neo é necessário do config.php'
+                return 1
+             fi
+
         fi
     else
         msgConfigItemWarning "Arquivo $NEO_CONFIG já existe.\n"
-        true
+        return 0
     fi
 
 }

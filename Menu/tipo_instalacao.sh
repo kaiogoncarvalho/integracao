@@ -16,6 +16,7 @@ tipoInstalacao(){
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
             printLine "2  - Alterar URL's em massa"
+            printLine "3  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
         printLine "0  - Voltar" "branco" "negrito"
@@ -111,6 +112,13 @@ tipoInstalacao(){
            fi
 
           ;;
+           3)
+           if [ $TIPO_INSTALACAO == 'servidor' ]; then
+                configServer
+           else
+            printInBar "Opção inválida!" "vermelho"
+           fi
+           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;
         esac

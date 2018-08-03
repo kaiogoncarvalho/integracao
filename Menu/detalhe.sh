@@ -260,7 +260,7 @@ detalhe(){
           $COMPOSER_ENV)
             if validFile "$DIRECTORY/composer.json" && isValidInstall $2; then
             clear
-            msgConfig 'Executando Composer Update no Diretório $DIRECTORY'
+            msgConfig "Executando Composer Update no Diretório $DIRECTORY"
             docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
             else
                 printInBar "Opção inválida!" "vermelho"

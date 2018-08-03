@@ -495,7 +495,7 @@ configNeo(){
              read -e -p  "Informe o caminho que vai salvar o arquivo config.php do Neo (Somente o Diretório): >_ " -i "$CAMINHO" dir_config
                 if isValidDirectory $dir_config;then
                     config=$(cd $dir_config && pwd)'/config.php'
-                    cp "$INTEGRACAO_DIR/DockerFiles/Neo/config.php" $config
+                    cp $INTEGRACAO_DIR/DockerFiles/Neo/config.php $config
 
                     msgConfigItemSucess "Arquivo $config foi criado com Sucesso!.\n"
                     includeEnv "NEO_CONFIG" $config

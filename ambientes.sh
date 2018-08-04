@@ -79,7 +79,11 @@ ENV_URL=./url.env
 . $TIPO_INSTALACAO_SH
 . $ENV_URL
 
-INTEGRACAO_DIR=$(pwd)
+if [  -z $INTEGRACAO_DIR ]; then
+    realpath /bin/integracao
+    INTEGRACAO_DIR=$(pwd)
+fi
+
 
 
 # Inicializa as funções de configuração dos projetos

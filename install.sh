@@ -9,11 +9,17 @@ ENV=./.env
 . $ENV
 . $HELPERS
 
-if [ -e "/bin/integracao" ]; then
+verifySudo
+
+if [ -h "/bin/integracao" ]; then
     rm -r /bin/integracao
 fi
 
 updateEnv "INTEGRACAO_DIR=" $(pwd)
-
 ln -rs ambientes.sh /bin/integracao
-echo 'Instalado com Sucesso'
+
+if [ -h "/bin/integracao" ]; then
+    msgGeneral 'Instalado com Sucesso' 'verde' 'reverso'
+else
+    msgGeneral 'Erro ao realizar a instalação' 'vermelho' 'reverso'
+fi

@@ -235,7 +235,7 @@ detalhe(){
             exec bash
           ;;
            $STOPC)
-            if verifyContainerStarted $2; then
+            if verifyContainerStarted $CONTAINER; then
                 docker stop -t 0 $CONTAINER
             else
                 printInBar "Opção inválida!" "vermelho"
@@ -252,7 +252,7 @@ detalhe(){
             clear
             if validFile $DIRECTORY'/.env' && isValidInstall $2; then
                 printInBar 'Arquivo de Configuração'
-                cat $DIRECTORY'/.env'
+                less $DIRECTORY'/.env'
                 echo -e "\n"
             else
                 printInBar 'Projeto não tem arquivo de configuração .env' 'vermelho'
@@ -271,7 +271,7 @@ detalhe(){
             clear
             if validFile $DIRECTORY'/config.php' && isValidInstall $2; then
                 printInBar 'Arquivo de Configuração'
-                cat $DIRECTORY'/config.php'
+                less $DIRECTORY'/config.php'
                 echo -e "\n"
             else
                 printInBar 'Projeto não tem arquivo de configuração config.php' 'vermelho'

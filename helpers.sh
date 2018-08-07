@@ -911,3 +911,13 @@ registerDatabase()
     fi
 
 }
+
+verifySudo()
+{
+    USER=$(whoami)
+
+    if [ $USER != 'root' ]; then
+        msgGeneral 'Necessário executar como sudo' 'vermelho' 'reverso'
+        exit
+    fi
+}

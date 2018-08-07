@@ -1,5 +1,14 @@
 #!/bin/bash
 #!/usr/bin/env bash
+
+if [  -h '/bin/integracao' ]; then
+    ACTUAL_FILE=$(realpath /bin/integracao)
+    ACTUAL_DIR=$(echo $ACTUAL_FILE | grep -oP ".*\/")
+    cd $ACTUAL_DIR
+fi
+
+INTEGRACAO_DIR=$(pwd)
+
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 #Variáveis do ENV
@@ -79,12 +88,7 @@ ENV_URL=./url.env
 . $TIPO_INSTALACAO_SH
 . $ENV_URL
 
-if [  -z $INTEGRACAO_DIR ]; then
-    realpath /bin/integracao
-    INTEGRACAO_DIR=$(pwd)
-fi
-
-
+verifySudo
 
 # Inicializa as funções de configuração dos projetos
 main() {

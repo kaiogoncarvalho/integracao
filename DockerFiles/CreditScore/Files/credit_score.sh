@@ -64,10 +64,6 @@ setup_credit_score()
 
     database_credit_score
 
-    include_backoffice_creditscore
-    include_neolog_creditscore
-    include_neoproposal_creditscore
-
     msgConfig "Criando diretórios e definindo configurações:"
     if [ -d "xdebug-profile-logs" ]
     then
@@ -81,4 +77,8 @@ setup_credit_score()
     dockerComposeUp $CREDITSCORE_CONTAINER
 
     configHost $CREDITSCORE_CONTAINER $CREDITSCORE_URL
+
+    include_backoffice_creditscore
+    include_neolog_creditscore
+    include_neoproposal_creditscore
 }

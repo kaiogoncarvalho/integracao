@@ -26,6 +26,7 @@ database_nova_proposta_backend(){
 include_backoffice_novapropostabackend(){
 
     if isValidInstall 'BACKOFFICE' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        cd $NOVAPROPOSTA_BACKEND_LOCAL
         regexFile 'BO_URL=' "$BACKOFFICE_URL/"
     fi
 }
@@ -33,6 +34,7 @@ include_backoffice_novapropostabackend(){
 include_novapropostafrontend_novapropostabackend()
 {
     if isValidInstall 'NOVAPROPOSTA_FRONTEND' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        cd $NOVAPROPOSTA_BACKEND_LOCAL
         regexFile 'NOVA_PROPOSTA_URL=' "http://$NOVAPROPOSTA_FRONTEND_URL/"
     fi
 
@@ -41,6 +43,7 @@ include_novapropostafrontend_novapropostabackend()
 include_apiapartada_novapropostabackend()
 {
     if isValidInstall 'APIAPARTADA' && isValidInstall 'NOVAPROPOSTA_BACKEND'; then
+        cd $NOVAPROPOSTA_BACKEND_LOCAL
         regexFile 'API_URL=' "$APIAPARTADA_URL/"
     fi
 
@@ -100,7 +103,6 @@ setup_nova_proposta_backend()
     include_novapropostafrontend_novapropostabackend
     include_apiapartada_novapropostabackend
 
-    include_novapropostafrontend_backoffice
     include_novapropostabackend_novapropostafrontend
 
     msgConfig "Atualizando Instituições: "

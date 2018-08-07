@@ -45,7 +45,7 @@ setup_nova_proposta_frontend() {
 
     msgConfig "Copiando arquivo angular-cli.json: "
     if isNotValidFile angular-cli.json; then
-        cp ~angular-cli.json angular-cli.json
+        cp angular-cli.json~ angular-cli.json
         msgConfigItemSucess "Arquivo angular-cli.json foi criado.\n"
     else
         msgConfigItemWarning "Arquivo angular-cli.json já existe.\n"
@@ -70,6 +70,7 @@ setup_nova_proposta_frontend() {
     logContainer $NOVAPROPOSTA_FRONTEND_CONTAINER
 
     include_novapropostafrontend_novapropostabackend
+    include_novapropostafrontend_backoffice
 
 }
 

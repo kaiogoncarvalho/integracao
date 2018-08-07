@@ -212,6 +212,7 @@ services:
     environment:
       - VOLUME=$NOVAPROPOSTA_FRONTEND_DOCKER
       - ENVIRONMENT=dev
+      - DOCUMENT_ROOT=$NOVAPROPOSTA_FRONTEND_DOCUMENT_ROOT
     networks:
       default:
         ipv4_address: $NOVAPROPOSTA_FRONTEND_IP

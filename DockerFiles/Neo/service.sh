@@ -25,7 +25,7 @@ database_neo(){
 }
 
 config_service(){
-    msgConfig "Incluindo Serviço no Config:"
+    msgConfig "Incluindo Serviço no Config do Neo:"
     if isValidInstall $1 && validFile $NEO_CONFIG; then
 
         SYSTEM_URL='http://'$(getEnv "$1_URL")
@@ -35,7 +35,7 @@ config_service(){
 
         msgConfigItemSucess "Serviço incluido.\n"
     else
-        msgAlert "Serviço não incluido devido erro na instalação.\n"
+        msgConfigItemWarning "Serviço não incluido.\n"
     fi
 
 }

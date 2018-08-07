@@ -665,7 +665,7 @@ isValidInstall(){
     CONTAINER=$(getEnv "$1_CONTAINER")
     DIR=$(getEnv "$1_LOCAL")
 
-    if isValidRepository $DIR; then
+    if isValidRepository $DIR || [ $1 == 'FTPRISCOCOBRANCA' ]; then
         if verifyContainer $CONTAINER; then
             return 0
         fi

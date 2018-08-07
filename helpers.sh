@@ -202,9 +202,12 @@ configRepository() {
     NAME_DIR="$1_LOCAL"
     DIR=$(getEnv "$1_LOCAL")
     REPOSITORY=$(getEnv "$1_REPOSITORY")
+    CONTAINER=$(getEnv "$1_CONTAINER")
 
     if isNotValidRepository $DIR; then
-        registerDatabase
+        if function_exists 'database_'$CONTAINER || [ $2 == 'service' ]; then
+            registerDatabase $CONTAINER
+        fi
         DIR=$(installRepository $REPOSITORY)
         if [ $DIR ];
         then
@@ -620,7 +623,7 @@ installFtp()
 }
 
 install(){
-    if [ $3 == 'service' ] || [ $4 == 'service' ]; then
+    if [ $3 == 'service' ] || [ $4 == 'service' ] 2> /dev/null; then
         installServiceNeo "$1" "$2" "$3"
     elif [ $3 == 'ftp' ]; then
         installFtp
@@ -901,11 +904,11 @@ registerDatabase()
             databaseName
             databaseUser
             databasePassword
-            echo -e "\n"
+            msgConfigItemSucess "Banco de Dados Cadastrado \n"
             return 0
         elif [ $verify == "n" ] || [ $verify == "N" ];
         then
-            msgConfigItemWarning "Banco de Dados não Cadastrado"
+            msgConfigItemWarning "Banco de Dados não Cadastrado \n"
             return 1
         fi
     fi

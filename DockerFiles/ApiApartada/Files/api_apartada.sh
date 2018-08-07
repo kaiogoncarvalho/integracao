@@ -3,6 +3,11 @@
 setup_api_apartada()
 {
 
+    if ! isValidInstall 'BACKOFFICE'; then
+        msgAlert 'Necessário instalar o Backoffice para que a Api Apartada funcione corretamente'
+        return 1
+    fi
+
    msgConfig "Criando diretórios e definindo permissões: "
     cd $1
     chmod 777 -R html
@@ -29,4 +34,6 @@ setup_api_apartada()
     configHost $APIAPARTADA_CONTAINER $APIAPARTADA_URL
 
     include_apiapartada_novapropostabackend
+
+    return 0
 }

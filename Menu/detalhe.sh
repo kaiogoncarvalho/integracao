@@ -3,6 +3,7 @@
 detalhe(){
      while true;
     do
+        reloadEnv
         CONTAINER=$(getEnv "$2_CONTAINER")
         URL=$(getEnv "$2_URL")
         IP=$(getEnv "$2_IP")
@@ -19,7 +20,7 @@ detalhe(){
         ENTERC=0
         STOPC=0
 
-        if [ $3 == 'service' ] || [ $4 == 'service' ]; then
+        if [ $3 == 'service' ] || [ $4 == 'service' ] 2> /dev/null; then
             FUNCTION_DATABASE='display_database_neo'
             FUNCTION_CHANGE_DATABASE='database_neo'
         else
@@ -236,7 +237,14 @@ detalhe(){
           ;;
            $STOPC)
             if verifyContainerStarted $CONTAINER; then
-                docker stop -t 0 $CONTAINER
+                msgConfig 'Parando Container:'
+                STOPCONTAINER=$(docker stop -t 0 $CONTAINER)
+
+                if [ $STOPCONTAINER == $CONTAINER ]; then
+                    printInBar 'Container Parado' 'verde'
+                else
+                    printInBar 'Erro ao Parar Container: '$STOPCONTAINER 'vermelho'
+                fi
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
@@ -315,10 +323,13 @@ detalhe(){
                     printInBar "Banco de dados atualizado com Sucesso!" "verde"
                 else
                     if registerDatabase; then
-                        $FUNCTION_CHANGE_DATABASE
-                        printInBar "Banco de dados atualizado com Sucesso!" "verde"
+                        if $FUNCTION_CHANGE_DATABASE; then
+                            printInBar "Banco de dados atualizado com Sucesso!" "verde"
+                        else
+                            printInBar "Banco de dados não foi atualizado" "vermelho"
+                        fi
                     else
-                        printInBar "Banco de dados não foi atualizado" "vermelho"
+                        printInBar "Banco de dados não foi atualizado, devido não ter sido cadastrado" "vermelho"
                     fi
                 fi
             else

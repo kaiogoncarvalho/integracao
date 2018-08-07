@@ -5,11 +5,18 @@
 HELPERS=./helpers.sh
 #Variáveis do ENV
 ENV=./.env
+#Env Example
+ENV_EXAMPLE=./example.env
+#Variável de Integração
+INTEGRACAO=$(pwd)
 
-. $ENV
 . $HELPERS
 
 verifySudo
+
+configEnvIntegracao 'example.env'
+
+msgConfig 'Executando a instalação do Integração'
 
 if [ -h "/bin/integracao" ]; then
     rm -r /bin/integracao
@@ -19,7 +26,9 @@ updateEnv "INTEGRACAO_DIR=" $(pwd)
 ln -rs ambientes.sh /bin/integracao
 
 if [ -h "/bin/integracao" ]; then
-    msgGeneral 'Instalado com Sucesso' 'verde' 'reverso'
+    msgGeneral '- Instalado com Sucesso' 'verde' 'reverso'
 else
-    msgGeneral 'Erro ao realizar a instalação' 'vermelho' 'reverso'
+    msgGeneral '- Erro ao realizar a instalação' 'vermelho' 'reverso'
 fi
+
+echo -e

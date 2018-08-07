@@ -12,10 +12,10 @@ sistemas() {
         printInBar "Ambientes" "amarelo"
         echo -e
         printInBar "Menu" "verde"
-        printLine "1  - Agendamento de Homologação"
-        printLine "2  - Api Apartada"
-        printLine "3  - Api Pravaler"
-        printLine "4  - Backoffice"
+        printLine "1  - Backoffice"
+        printLine "2  - Agendamento de Homologação"
+        printLine "3  - Api Apartada"
+        printLine "4  - Api Pravaler"
         printLine "5  - CDN"
         printLine "6  - CreditScore"
         printLine "7  - FTP Risco e Cobrança"
@@ -42,13 +42,13 @@ sistemas() {
           ;;
           0) break
           ;;
-          1) detalhe "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
+          1) detalhe "Backoffice" "BACKOFFICE" "setup_backoffice"
           ;;
-          2) detalhe "Api Apartada" "APIAPARTADA" "setup_api_apartada"
+          2) detalhe "Agendamento de Homologação" "AGENDAMENTO" "setup_agendamento"
           ;;
-          3) detalhe "Api Pravaler" "APIPRAVALER" "setup_api_pravaler"
+          3) detalhe "Api Apartada" "APIAPARTADA" "setup_api_apartada"
           ;;
-          4) detalhe "Backoffice" "BACKOFFICE" "setup_backoffice"
+          4) detalhe "Api Pravaler" "APIPRAVALER" "setup_api_pravaler"
           ;;
           5) detalhe "CDN" "CDN" "setup_cdn"
           ;;

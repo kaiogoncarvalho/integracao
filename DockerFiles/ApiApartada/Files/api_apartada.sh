@@ -4,7 +4,7 @@ setup_api_apartada()
 {
 
     if ! isValidInstall 'BACKOFFICE'; then
-        msgAlert 'Necessário instalar o Backoffice para que a Api Apartada funcione corretamente'
+        msgGeneral 'Necessário instalar o Backoffice para que a Api Apartada funcione corretamente' 'vermelho' 'reverso'
         return 1
     fi
 

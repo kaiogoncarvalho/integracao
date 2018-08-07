@@ -298,7 +298,7 @@ services:
   seguros:
     restart: always
     container_name: $SEGUROS_CONTAINER
-    image: kaiocarvalhopravaler/php:7.1
+    image: kaiocarvalhopravaler/php:7.1-apache
     stdin_open: true
     tty: true
     dns:
@@ -319,7 +319,7 @@ services:
   marketplace_api:
       restart: always
       container_name: $MARKETPLACE_API_CONTAINER
-      image: kaiocarvalhopravaler/php:7.1
+      image: kaiocarvalhopravaler/php:7.1-apache
       stdin_open: true
       tty: true
       dns:
@@ -344,7 +344,7 @@ services:
     container_name: $RETORNO_MEC_CONTAINER
     stdin_open: true
     tty: true
-    image: kaiocarvalhopravaler/php7.1
+    image: kaiocarvalhopravaler/php7.1-apache
     dns:
       - $DNS
     environment:

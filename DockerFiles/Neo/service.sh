@@ -51,8 +51,7 @@ service(){
      configInitialEnv '.env.dist'
 
     msgConfig "Configurando $NEO_CONFIG:"
-    if isNotValidFile 'config.php' && validFile $NEO_CONFIG;then
-        rm -r config.php
+    if ! [ -h 'config.php' ] && validFile $NEO_CONFIG;then
         ln -s $NEO_CONFIG $DIR
         msgConfigItemSucess "Link de $NEO_CONFIG para $DIR/config.php  foi criado.\n"
     else

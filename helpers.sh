@@ -181,6 +181,7 @@ includeEnv() {
     cd $INTEGRACAO_DIR
     DIR_LOCAL=$(echo $2 | sed -e "s/\//\\\\\//g")
     sed -E -i "s/($1=)(.*)/\1$DIR_LOCAL/g" .env
+    reloadEnv
 }
 
 #função reloadEnv: Recarrega o .env

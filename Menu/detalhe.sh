@@ -137,22 +137,22 @@ detalhe(){
         echo -e $STATUS
 
         printInBar "Menu" "verde"
-        printLine "1  - Instalar/Reinstalar"
-        printLine "2  - Alterar URL"
+        printLine "1 - Instalar/Reinstalar"
+        printLine "2 - Alterar URL"
         if isValidInstall $2; then
-            printLine "3  - Reiniciar Container"
-            printLine "4  - Consultar Log"
-            printLine "5  - Acessar Pasta do Projeto"
+            printLine "3 - Reiniciar Container"
+            printLine "4 - Consultar Log"
+            printLine "5 - Acessar Pasta do Projeto"
 
             NEXT=6
 
             if verifyContainerStarted $CONTAINER;then
                 ENTERC=$NEXT
-                printLine "$ENTERC  - Entrar no Container"
+                printLine "$ENTERC - Entrar no Container"
                 NEXT=$(echo $(($NEXT+1)))
                 STOPC=$NEXT
                 NEXT=$(echo $(($NEXT+1)))
-                printLine "$STOPC  - Parar Container"
+                printLine "$STOPC - Parar Container"
             fi
 
 
@@ -160,25 +160,25 @@ detalhe(){
 
             if validFile $DIRECTORY'/.env'; then
                 SEE_ENV=$NEXT
-                printLine "$SEE_ENV  - Ver Arquivo de configuração .env"
+                printLine "$SEE_ENV - Ver Arquivo de configuração .env"
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV=$NEXT
-                printLine "$ALTER_ENV  - Alterar Arquivo de configuração .env"
+                printLine "$ALTER_ENV - Alterar Arquivo de configuração .env"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
             if validFile $DIRECTORY'/config.php'; then
                 SEE_ENV_NEO=$NEXT
-                printLine "$SEE_ENV_NEO  - Ver Arquivo de configuração config.php"
+                printLine "$SEE_ENV_NEO - Ver Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV_NEO=$NEXT
-                printLine "$ALTER_ENV_NEO  - Alterar Arquivo de configuração config.php"
+                printLine "$ALTER_ENV_NEO - Alterar Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
             if validFile $DIRECTORY'/composer.json'; then
                 COMPOSER_ENV=$NEXT
-                printLine "$COMPOSER_ENV  - Composer Update"
+                printLine "$COMPOSER_ENV - Composer Update"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
@@ -198,7 +198,7 @@ detalhe(){
                  printLine "$SEE_PASS  - Ver Senha do Banco de Dados"
             fi
         fi
-        printLine "0  - Voltar" "branco" "negrito"
+        printLine "0 - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 

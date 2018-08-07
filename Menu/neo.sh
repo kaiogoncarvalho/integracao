@@ -13,18 +13,20 @@ neo() {
         printInBar "Ambientes Neo" "amarelo"
         echo -e
         printInBar "Menu" "verde"
-        printLine "1  - Alfred Client"
-        printLine "2  - Alfred Server"
-        printLine "3  - BPM"
-        printLine "4  - Integration"
-        printLine "5  - Log"
-        printLine "6  - Negotiation"
-        printLine "7  - Neo Api"
-        printLine "8  - Oauth"
-        printLine "9  - People"
-        printLine "10 - Proposal"
-        printLine "11 - Retorno Mec"
-        printLine "12 - Student"
+
+        printLine "1  - Log"
+        printLine "2  - Integration"
+        printLine "3  - People"
+        printLine "4  - Oauth"
+        printLine "5  - BPM"
+        printLine "6  - Student"
+        printLine "7  - Alfred Server"
+        printLine "8  - Alfred Client"
+        printLine "9  - Negotiation"
+        printLine "10 - Neo Api"
+        printLine "11 - Proposal"
+        printLine "12 - Retorno Mec"
+
         printLine "0  - Voltar" "branco" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
@@ -42,29 +44,29 @@ neo() {
           ;;
           0) break
           ;;
-          1) detalhe "Alfred Client" "ALFRED_CLIENT" "alfred_client"
+          1) detalhe "Log" "NEO_LOG" "service"
           ;;
-          2) detalhe "Alfred Server" "ALFRED_SERVER" "service"
+          2) detalhe "Integration" "NEO_INTEGRATION" "service"
           ;;
-          3) detalhe "BPM" "NEO_BPM" "service"
+          3) detalhe "People" "NEO_PEOPLE" "service"
           ;;
-          4) detalhe "Integration" "NEO_INTEGRATION" "service"
+          4) detalhe "Oauth" "NEO_OAUTH" "oauth" "service"
           ;;
-          5) detalhe "Log" "NEO_LOG" "service"
+          5) detalhe "BPM" "NEO_BPM" "service"
           ;;
-          6) detalhe "Negotiation" "NEO_NEGOTIATION" "service"
+          6) detalhe "Student" "NEO_STUDENT" "service"
           ;;
-          7) detalhe "Neo Api" "NEO_API" "service"
+          7) detalhe "Alfred Server" "ALFRED_SERVER" "service"
           ;;
-          8) detalhe "Oauth" "NEO_OAUTH" "oauth" "service"
+          8) detalhe "Alfred Client" "ALFRED_CLIENT" "alfred_client"
           ;;
-          9) detalhe "People" "NEO_PEOPLE" "service"
+          9) detalhe "Negotiation" "NEO_NEGOTIATION" "service"
           ;;
-          10) detalhe "Proposal" "NEO_PROPOSAL" "service"
+          10) detalhe "Neo Api" "NEO_API" "service"
           ;;
-          11) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
+          11) detalhe "Proposal" "NEO_PROPOSAL" "service"
           ;;
-          12) detalhe "Student" "NEO_STUDENT" "service"
+          12) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

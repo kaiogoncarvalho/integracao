@@ -1,14 +1,15 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
+#Variável de Integração
+INTEGRACAO=$(pwd)
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 #Variáveis do ENV
-ENV=./.env
+ENV=$INTEGRACAO/.env
 #Env Example
-ENV_EXAMPLE=./example.env
-#Variável de Integração
-INTEGRACAO=$(pwd)
+ENV_EXAMPLE=$INTEGRACAO/example.env
+
 
 . $HELPERS
 

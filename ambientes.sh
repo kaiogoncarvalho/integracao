@@ -12,9 +12,9 @@ INTEGRACAO_DIR=$(pwd)
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 #Variáveis do ENV
-ENV=./.env
+ENV=$INTEGRACAO_DIR/.env
 #Env Example
-ENV_EXAMPLE=./example.env
+ENV_EXAMPLE=INTEGRACAO_DIR/example.env
 # Configuração dos Outros Sistemas
 SISTEMAS=./Menu/sistemas.sh
 # Configuração dos Sistemas Neo

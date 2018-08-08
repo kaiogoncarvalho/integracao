@@ -430,7 +430,6 @@ configEnvIntegracao(){
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG
             updateEnv "NAME_SERVER=" $NAME_SERVER
-            updateEnv "INTEGRACAO_DIR=" $INTEGRACAO_DIR
 
             updateEnv "DATABASE_HOST=" $DATABASE_HOST
             updateEnv "DATABASE_USER=" $DATABASE_USER

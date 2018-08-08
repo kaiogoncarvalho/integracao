@@ -73,12 +73,21 @@ service(){
     msgConfig "Atualizando Banco de dados no Config:"
     database_neo
 
-    include_callcenter_alfredclient
-    include_bpm_alfredclient
-    include_oauth_alfredclient
-    include_neolog_creditscore
+    if [ $2 == 'ALFRED_SERVER' ]; then
+        include_callcenter_alfredclient
+    fi
 
-    include_neoproposal_creditscore
-    include_neolog_backoffice
+    if [ $2 == 'NEO_BPM' ]; then
+        include_bpm_alfredclient
+    fi
+
+    if [ $2 == 'NEO_LOG' ]; then
+        include_neolog_creditscore
+        include_neolog_backoffice
+    fi
+
+    if [ $2 == 'NEO_PROPOSAL' ]; then
+        include_neoproposal_creditscore
+    fi
 
 }

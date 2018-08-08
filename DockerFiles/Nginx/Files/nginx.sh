@@ -55,7 +55,7 @@ setup_nginx()
     done
     dockerComposeUp 'nginx'
     if validFile $NEO_CONFIG;then
-        sed -i -E "s/(define[(]'ENVIRONMENT'[ ]*,[ ]*?')([A-Z]*)(/\1$NAME_SERVER/g" $NEO_CONFIG
+        sed -i -E "s/(define[(]'ENVIRONMENT'[ ]*,[ ]*?')([A-Z]*?)'/\1$NAME_SERVER/g" $NEO_CONFIG
     fi
 
 }

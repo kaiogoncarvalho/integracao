@@ -169,7 +169,8 @@ dockerComposeUp() {
 
     deleteContainer $1
 
-    docker-compose -p $PROJECT -f $PROJECT.yml  build  --pull $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  pull  $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  build  $1
     docker-compose -p $PROJECT -f $PROJECT.yml  up --remove-orphans -d $1
 
 
@@ -720,7 +721,7 @@ bowerInstall(){
 #Função logContainer: Responsável por retornar o log do container
 logContainer(){
     msgConfig "Consultando Log do container $1: "
-    docker logs $1
+    docker logs  $1
 }
 
 #Função configServer: Responsável por atualizar o NGINX do Servidor

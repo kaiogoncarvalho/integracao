@@ -10,7 +10,7 @@ oauth(){
 
     composerConfig $DIR
 
-    docker run --rm -v $1:/app composer run-script post-install-cmd
+    docker run --rm -v $1:/app composer run-script symfony-scripts
 
      cd $DIR
 

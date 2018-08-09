@@ -52,7 +52,7 @@ neo() {
           ;;
           4) detalhe "Oauth" "NEO_OAUTH" "oauth" "service"
           ;;
-          5) detalhe "BPM" "NEO_BPM" "service"
+          5) detalhe "BPM" "NEO_BPM" "bpm"
           ;;
           6) detalhe "Student" "NEO_STUDENT" "service"
           ;;

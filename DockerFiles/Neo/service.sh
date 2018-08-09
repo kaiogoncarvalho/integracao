@@ -19,6 +19,11 @@ database_neo(){
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'dbname\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_NAME $NEO_CONFIG
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'user\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_USER $NEO_CONFIG
             php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'backoffice\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'replica\'\s*=>\s*array\s*\([^)]*?\'host\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_HOST $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'replica\'\s*=>\s*array\s*\([^)]*?\'port\'\s*=>\s*\')([\d.]*)(?=\')/s" '${1}'$DATABASE_PORT $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'replica\'\s*=>\s*array\s*\([^)]*?\'dbname\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_NAME $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'replica\'\s*=>\s*array\s*\([^)]*?\'user\'\s*=>\s*\')([\w_]*)(?=\')/s" '${1}'$DATABASE_USER $NEO_CONFIG
+            php_preg_replace "/(\'database\'\s*=>\s*array\s*\(.*?\'replica\'\s*=>\s*array\s*\([^)]*?\'password\'\s*=>\s*\')(.*?)(?=\')/s" '${1}'$DATABASE_PASSWORD $NEO_CONFIG
             return 0
         fi
         return 1
@@ -75,10 +80,6 @@ service(){
 
     if [ $2 == 'ALFRED_SERVER' ]; then
         include_callcenter_alfredclient
-    fi
-
-    if [ $2 == 'NEO_BPM' ]; then
-        include_bpm_alfredclient
     fi
 
     if [ $2 == 'NEO_LOG' ]; then

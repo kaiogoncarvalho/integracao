@@ -344,7 +344,7 @@ services:
     container_name: $RETORNO_MEC_CONTAINER
     stdin_open: true
     tty: true
-    image: kaiocarvalhopravaler/php7.1-apache
+    image: kaiocarvalhopravaler/php:7.1-apache
     dns:
       - $DNS
     environment:

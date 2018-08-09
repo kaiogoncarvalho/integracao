@@ -4,6 +4,12 @@ display_database_oauth()
     display_database_neo
 }
 
+database_oauth()
+{
+    database_neo
+}
+
+
 oauth(){
 
     DIR=$1

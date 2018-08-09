@@ -70,7 +70,7 @@ detalhe(){
             echo -e "\033[01;37mURL: \033[00;37m\033[01;$COR_URL$URL \033[00;37m"
             echo -e "\033[01;37mIP: \033[00;37m\033[01;32m$IP\033[00;37m"
 
-            if function_exists $FUNCTION_DATABASE && isValidInstall $2; then
+            if function_exists $FUNCTION_DATABASE; then
                 $FUNCTION_DATABASE
                 deleteContainer 'phpcli'
                 echo -e
@@ -121,6 +121,10 @@ detalhe(){
                 echo -e "\033[01;37mPorta: \033[00;37m\033[01;$COR_PORT$SYSTEM_DB_PORT \033[00;37m"
                 echo -e "\033[01;37mBanco: \033[00;37m\033[01;$COR_NAME$SYSTEM_DB_NAME\033[00;37m"
                 echo -e "\033[01;37mUsuário: \033[00;37m\033[01;$COR_USER$SYSTEM_DB_USER\033[00;37m"
+            fi
+
+            if ! [ -d $DIRECTORY'/vendor' ] && validFile $DIRECTORY'/composer.json'; then
+                STATUS=$STATUS"\033[07;31m- Composer não instalado (necessário reinstalar sistema)\033[00;31m\n\n"
             fi
         else
             echo -e "\033[01;37mURL: \033[00;37m\033[01;31m$URL \033[00;37m"

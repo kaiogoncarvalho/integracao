@@ -217,6 +217,7 @@ configRepository() {
                 includeEnv $NAME_DIR $DIR
                 cd $DIR
                 GIT=$(git config core.filemode false)
+                verifyChangeBranch $1
                 $2 $DIR $1
             else
                 msgAlert 'Repositório Inválido.'
@@ -502,7 +503,7 @@ configNeo(){
                 if isValidDirectory $dir_config;then
                     config=$(cd $dir_config && pwd)'/config.php'
                     cp $INTEGRACAO_DIR/DockerFiles/Neo/config.php $config
-
+                    chmod 777 -R $config
                     msgConfigItemSucess "Arquivo $config foi criado com Sucesso!.\n"
                     includeEnv "NEO_CONFIG" $config
                     return 0
@@ -923,5 +924,41 @@ verifySudo()
     if [ $USER != 'root' ]; then
         msgGeneral 'Necessário executar como sudo' 'vermelho' 'reverso'
         exit
+    fi
+}
+
+changeBranch()
+{
+    ACTUAL_BRANCH=$(getBranch $1)
+    read -e -p  "Informe a Branch: >_ " -i  branch
+    git checkout $ACTUAL_BRANCH
+}
+
+verifyChangeBranch()
+{
+    if isValidInstall; then
+        read -p "Deseja trocar de Branch? (s/n) >_ " verify
+
+        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+        then
+            msgAlert "Opção Inválida" >&2
+            verifyChangeBranch
+        fi
+
+        if [ $verify == "s" ] || [ $verify == "S" ];
+        then
+            BRANCH=$(changeBranch $1)
+            CHANGE_BRANCH=$(getBranch $1)
+            if [ $BRANCH != $CHANGE_BRANCH ]; then
+                msgAlert "Não foi possível trocar de Branch"
+                verifyChangeBranch
+            else
+                msgConfigItemSucess "Branch alterada!"
+            fi
+            return 0
+        elif [ $verify == "n" ] || [ $verify == "N" ];
+        then
+            return 1
+        fi
     fi
 }

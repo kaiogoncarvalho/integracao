@@ -217,6 +217,7 @@ configRepository() {
                 includeEnv $NAME_DIR $DIR
                 cd $DIR
                 GIT=$(git config core.filemode false)
+                echo -e
                 verifyChangeBranch $1
                 $2 $DIR $1
             else
@@ -290,7 +291,7 @@ printLine() {
    if isEmptyVariable $ST; then
         ST=""
    fi
-  msgGeneral "| ${1}" $CL $ST
+  msgGeneral "| ${1}" $CL "$ST" "" "$4"
 }
 
 # função printPopup: imprime um popup
@@ -349,6 +350,7 @@ msgConfigItemSucess(){
 msgGeneral(){
     COR='37m'
     ESTILO=00
+    COR_FUNDO='37m'
     case $2 in
         'preto')
             COR='30m'
@@ -361,6 +363,9 @@ msgGeneral(){
          ;;
          'amarelo')
             COR='33m'
+         ;;
+         'azul')
+            COR='34m'
          ;;
          'rosa')
             COR='35m'
@@ -382,7 +387,33 @@ msgGeneral(){
             ESTILO=07
          ;;
     esac
-    echo -e $4 "\033[$ESTILO;$COR$1\033[00;37m"
+
+    case $5 in
+        'preto')
+            COR_FUNDO='40m'
+         ;;
+         'vermelho')
+            COR_FUNDO='41m'
+         ;;
+         'verde')
+            COR_FUNDO='42m'
+         ;;
+         'amarelo')
+            COR_FUNDO='43m'
+         ;;
+         'azul')
+            COR_FUNDO='44m'
+         ;;
+         'rosa')
+            COR_FUNDO='45m'
+         ;;
+         'ciano')
+            COR_FUNDO='46m'
+         ;;
+         'branco')
+            COR_FUNDO='47m'
+     esac
+    echo -e $4 "\033[$ESTILO;$COR$1\033[00;$COR_FUNDO"
 }
 
 #função configInitialEnv:  Função para copiar o env caso ele não exista
@@ -930,10 +961,21 @@ verifySudo()
 changeBranch()
 {
     ACTUAL_BRANCH=$(getBranch $1)
+    DIR_BRANCH=$(getEnv "$1_LOCAL")
+    cd $DIR_BRANCH
+    echo -e
     read -e -p  "Informe a Branch: >_ " -i  "$ACTUAL_BRANCH" branch
     echo -e  >&2
     git checkout $branch >&2
-    echo $branch
+    CHANGE_BRANCH=$(getBranch $1)
+    if [ $branch != $CHANGE_BRANCH ]; then
+        msgAlert "Não foi possível trocar de Branch"
+        return 1
+    else
+        msgConfigItemSucess "Branch alterada!"
+        return 0
+    fi
+
 }
 
 verifyChangeBranch()
@@ -943,22 +985,29 @@ verifyChangeBranch()
     if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
     then
         msgAlert "Opção Inválida" >&2
-        verifyChangeBranch
+        verifyChangeBranch $1
     fi
 
     if [ $verify == "s" ] || [ $verify == "S" ];
     then
-        BRANCH=$(changeBranch $1)
-        CHANGE_BRANCH=$(getBranch $1)
-        if [ $BRANCH != $CHANGE_BRANCH ]; then
-            msgAlert "Não foi possível trocar de Branch"
-            verifyChangeBranch
+        if changeBranch $1; then
+            return 0
         else
-            msgConfigItemSucess "Branch alterada!"
+            verifyChangeBranch $1
         fi
         return 0
     elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         return 1
     fi
+}
+
+printLineSystem()
+{
+    if isValidInstall $2; then
+        printLine "$1" "branco" "negrito"
+    else
+        printLine "$1"
+    fi
+
 }

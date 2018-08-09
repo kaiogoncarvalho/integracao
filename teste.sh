@@ -23,4 +23,4 @@ INTEGRACAO_DIR=$(pwd)
 . $NGINX_SH
 . $ENV
 
-verifyChangeBranch 'BACKOFFICE'
+sed -i -E "s/(define[(]'ENVIRONMENT'[ ]*,[ ]*?')(.*?)(')/\1dds\3/g" $NEO_CONFIG

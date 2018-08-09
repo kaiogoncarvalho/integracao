@@ -14,20 +14,24 @@ neo() {
         echo -e
         printInBar "Menu" "verde"
 
-        printLine "1  - Log"
-        printLine "2  - Integration"
-        printLine "3  - People"
-        printLine "4  - Oauth"
-        printLine "5  - BPM"
-        printLine "6  - Student"
-        printLine "7  - Alfred Server"
-        printLine "8  - Alfred Client"
-        printLine "9  - Negotiation"
-        printLine "10 - Neo Api"
-        printLine "11 - Proposal"
-        printLine "12 - Retorno Mec"
+        printLineSystem "1  - Log" "NEO_LOG"
+        printLineSystem "2  - Integration" "NEO_INTEGRATION"
+        printLineSystem "3  - People" "NEO_PEOPLE"
+        printLineSystem "4  - Oauth" "NEO_OAUTH"
+        printLineSystem "5  - BPM" "NEO_BPM"
+        printLineSystem "6  - Student" "NEO_STUDENT"
+        printLineSystem "7  - Alfred Server" "ALFRED_SERVER"
+        printLineSystem "8  - Alfred Client" "ALFRED_CLIENT"
+        printLineSystem "9  - Negotiation" "NEO_NEGOTIATION"
+        printLineSystem "10 - Neo Api" "NEO_API"
+        printLineSystem "11 - Proposal" "NEO_PROPOSAL"
+        printLineSystem "12 - Retorno Mec" "RETORNO_MEC"
 
-        printLine "0  - Voltar" "branco" "negrito"
+        if validFile $NEO_CONFIG; then
+            printLine "13 - Ver/Alterar config.php" "amarelo" "negrito"
+        fi
+
+        printLine "0  - Voltar" "azul" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 
@@ -67,6 +71,14 @@ neo() {
           11) detalhe "Proposal" "NEO_PROPOSAL" "service"
           ;;
           12) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
+          ;;
+          13)
+
+            if validFile $NEO_CONFIG; then
+                vi $NEO_CONFIG
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

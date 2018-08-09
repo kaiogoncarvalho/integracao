@@ -143,12 +143,17 @@ detalhe(){
         printInBar "Menu" "verde"
         printLine "1 - Instalar/Reinstalar"
         printLine "2 - Alterar URL"
-        if isValidInstall $2; then
-            printLine "3 - Reiniciar Container"
-            printLine "4 - Consultar Log"
-            printLine "5 - Acessar Pasta do Projeto"
 
-            NEXT=6
+        if isValidRepository $DIRECTORY ; then
+            printLine "3 - Acessar Pasta do Projeto"
+            printLine "4 - Trocar de Branch"
+        fi
+
+        if isValidInstall $2; then
+            printLine "5 - Reiniciar Container"
+            printLine "6 - Consultar Log"
+
+            NEXT=7
 
             if verifyContainerStarted $CONTAINER;then
                 ENTERC=$NEXT
@@ -168,15 +173,6 @@ detalhe(){
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV=$NEXT
                 printLine "$ALTER_ENV - Alterar Arquivo de configuração .env"
-                NEXT=$(echo $(($NEXT+1)))
-            fi
-
-            if validFile $DIRECTORY'/config.php'; then
-                SEE_ENV_NEO=$NEXT
-                printLine "$SEE_ENV_NEO - Ver Arquivo de configuração config.php"
-                NEXT=$(echo $(($NEXT+1)))
-                ALTER_ENV_NEO=$NEXT
-                printLine "$ALTER_ENV_NEO - Alterar Arquivo de configuração config.php"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
@@ -202,7 +198,7 @@ detalhe(){
                  printLine "$SEE_PASS  - Ver Senha do Banco de Dados"
             fi
         fi
-        printLine "0 - Voltar" "branco" "negrito"
+        printLine "0 - Voltar" "azul" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 
@@ -230,22 +226,34 @@ detalhe(){
           ;;
           3)
             if isValidInstall $2; then
-                restartContainer $CONTAINER
+                cd $DIRECTORY
+                exec bash
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
           4)
             if isValidInstall $2; then
-                logContainer $CONTAINER
+                changeBranch $2
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
           5)
-            cd $DIRECTORY
-            exec bash
+            if isValidInstall $2; then
+                restartContainer $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
           ;;
+          6)
+            if isValidInstall $2; then
+                logContainer $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+          ;;
+
            $STOPC)
             if verifyContainerStarted $CONTAINER; then
                 msgConfig 'Parando Container:'
@@ -283,25 +291,6 @@ detalhe(){
                 vi $DIRECTORY'/.env'
             else
                 printInBar 'Projeto não tem arquivo de configuração .env' 'vermelho'
-            fi
-          ;;
-
-          $SEE_ENV_NEO)
-            clear
-            if validFile $DIRECTORY'/config.php' && isValidInstall $2; then
-                printInBar 'Arquivo de Configuração'
-                less $DIRECTORY'/config.php'
-                echo -e "\n"
-            else
-                printInBar 'Projeto não tem arquivo de configuração config.php' 'vermelho'
-            fi
-          ;;
-          $ALTER_ENV_NEO)
-
-            if validFile $DIRECTORY'/config.php'  && isValidInstall $2; then
-                vi $DIRECTORY'/config.php'
-            else
-                printInBar 'Projeto não tem arquivo de configuração config.php' 'vermelho'
             fi
           ;;
 

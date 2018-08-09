@@ -19,7 +19,7 @@ tipoInstalacao(){
             printLine "3  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
-        printLine "0  - Voltar" "branco" "negrito"
+        printLine "0  - Voltar" "azul" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 
@@ -39,7 +39,7 @@ tipoInstalacao(){
             printInBar "Tipo de Instalação" "verde"
             printLine "1  - Normal"
             printLine "2  - Servidor"
-            printLine "0  - Voltar" "branco" "negrito"
+            printLine "0  - Voltar" "azul" "negrito"
             printInBar "s - Sair" "vermelho"
             read -p "| Informe a opção desejada >_ " TIPO
             case $TIPO in

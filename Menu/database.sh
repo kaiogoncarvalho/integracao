@@ -23,7 +23,7 @@ database(){
         printLine "5  - Alterar Senha"
         printLine "6  - Ver Senha"
         printLine "7  - Atualizar Banco de Dados dos Sistemas"
-        printLine "0  - Voltar" "branco" "negrito"
+        printLine "0  - Voltar" "azul" "negrito"
         printInBar "s - Sair" "vermelho"
         read -p "| Informe a opção desejada >_ " OPTION
 

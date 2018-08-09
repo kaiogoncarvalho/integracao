@@ -23,4 +23,4 @@ INTEGRACAO_DIR=$(pwd)
 . $NGINX_SH
 . $ENV
 
-registerDatabase10
+verifyChangeBranch 'BACKOFFICE'

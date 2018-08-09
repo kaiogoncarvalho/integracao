@@ -930,35 +930,35 @@ verifySudo()
 changeBranch()
 {
     ACTUAL_BRANCH=$(getBranch $1)
-    read -e -p  "Informe a Branch: >_ " -i  branch
-    git checkout $ACTUAL_BRANCH
+    read -e -p  "Informe a Branch: >_ " -i  "$ACTUAL_BRANCH" branch
+    echo -e  >&2
+    git checkout $branch >&2
+    echo $branch
 }
 
 verifyChangeBranch()
 {
-    if isValidInstall; then
-        read -p "Deseja trocar de Branch? (s/n) >_ " verify
+    read -p "Deseja trocar de Branch? (s/n) >_ " verify
 
-        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
-        then
-            msgAlert "Opção Inválida" >&2
+    if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+    then
+        msgAlert "Opção Inválida" >&2
+        verifyChangeBranch
+    fi
+
+    if [ $verify == "s" ] || [ $verify == "S" ];
+    then
+        BRANCH=$(changeBranch $1)
+        CHANGE_BRANCH=$(getBranch $1)
+        if [ $BRANCH != $CHANGE_BRANCH ]; then
+            msgAlert "Não foi possível trocar de Branch"
             verifyChangeBranch
+        else
+            msgConfigItemSucess "Branch alterada!"
         fi
-
-        if [ $verify == "s" ] || [ $verify == "S" ];
-        then
-            BRANCH=$(changeBranch $1)
-            CHANGE_BRANCH=$(getBranch $1)
-            if [ $BRANCH != $CHANGE_BRANCH ]; then
-                msgAlert "Não foi possível trocar de Branch"
-                verifyChangeBranch
-            else
-                msgConfigItemSucess "Branch alterada!"
-            fi
-            return 0
-        elif [ $verify == "n" ] || [ $verify == "N" ];
-        then
-            return 1
-        fi
+        return 0
+    elif [ $verify == "n" ] || [ $verify == "N" ];
+    then
+        return 1
     fi
 }

@@ -26,8 +26,12 @@ setup_portal_pravaler()
     fi
     chmod 777 -R $1
 
-    dockerComposeUp 'portal_pravaler'
+    dockerComposeUp $PORTALPRAVALER_CONTAINER
 
-    configHost 'portal_pravaler' $PORTALPRAVALER_URL
+    configHost $PORTALPRAVALER_CONTAINER $PORTALPRAVALER_URL
+
+    include_portalpravaler_backoffice
+
+    include_portalpravaler_retornomec
 }
 

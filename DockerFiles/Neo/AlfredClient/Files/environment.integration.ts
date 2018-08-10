@@ -6,8 +6,8 @@
 export const environment = {
     production: false,
     endpoints: {
-        "bpm"           :"http://qa.bpm.idealinvest.com.br",
-        "oauth"         :"http://qa.oauth.idealinvest.srv.br",
-        "alfredserver"  :"http://lo.callcenter.idealinvest.srv.br"
+        "bpm"           :"http://st.bpm.idealinvest.com.br",
+        "oauth"         :"http://st.oauth.idealinvest.srv.br",
+        "alfredserver"  :"http://st.callcenter.idealinvest.srv.br"
     }
 };

@@ -3,13 +3,15 @@
 
 server()
 {
-    if isValidRepository $1; then
+    URL=$(getEnv "$1_URL")
+
+    if isValidInstall $1; then
         SERVER="
             \n server {
             \n\t listen 80;
-            \n\n\t server_name  $2;
+            \n\n\t server_name  $URL;
             \n\n\t location / {
-            \n\t\t proxy_pass http://$3/;
+            \n\t\t proxy_pass http://$URL/;
             \n\t\t proxy_http_version 1.1;
             \n\t\t proxy_set_header Upgrade \$http_upgrade;
             \n\t\t proxy_set_header Connection 'upgrade';
@@ -22,9 +24,9 @@ server()
 
             \n server {
             \n\t listen 9000;
-            \n\n\t server_name  $2;
+            \n\n\t server_name  $URL;
             \n\n\t location / {
-            \n\t\t proxy_pass http://$3:9000/;
+            \n\t\t proxy_pass http://$URL:9000/;
             \n\t\t proxy_http_version 1.1;
             \n\t\t proxy_set_header Upgrade \$http_upgrade;
             \n\t\t proxy_set_header Connection 'upgrade';
@@ -47,27 +49,15 @@ setup_nginx()
     cd $INTEGRACAO_DIR/$NGINX_DIR
     cp default.example.conf default.conf
     chmod 777 default.conf
-    server $BACKOFFICE_LOCAL $BACKOFFICE_URL backoffice
-    server $BACKOFFICE_LOCAL $BACKOFFICE_API_URL backoffice
-    server $PORTALPRAVALER_LOCAL $PORTALPRAVALER_URL portal_pravaler
-    server $APIPRAVALER_LOCAL $APIPRAVALER_URL api_pravaler
-    server $APIAPARTADA_LOCAL $APIAPARTADA_URL api_apartada
-    server $CREDITSCORE_LOCAL $CREDITSCORE_URL creditscore
-    server $CDN_LOCAL $CDN_URL cdn
-    server $NOVAPROPOSTA_BACKEND_LOCAL $NOVAPROPOSTA_BACKEND_URL nova_proposta_backend
-    server $NOVAPROPOSTA_FRONTEND_LOCAL $NOVAPROPOSTA_FRONTEND_URL nova_proposta_frontend
-    server $AGENDAMENTO_LOCAL $AGENDAMENTO_URL agendamento
-    server $SEGUROS_LOCAL $SEGUROS_URL seguros
-    server $RETORNO_MEC_LOCAL $RETORNO_MEC_URL retorno_mec
-    server $ALFRED_CLIENT_LOCAL $ALFRED_CLIENT_URL alfred-client
-    server $ALFRED_SERVER_LOCAL $ALFRED_SERVER_URL callcenter
-    server $NEO_NEGOTIATION_LOCAL $NEO_NEGOTIATION_URL negotiation
-    server $NEO_PROPOSAL_LOCAL $NEO_PROPOSAL_URL proposal
-    server $NEO_INTEGRATION_LOCAL $NEO_INTEGRATION_URL integration
-    server $NEO_STUDENT_LOCAL $NEO_STUDENT_URL student
-    server $NEO_LOG_LOCAL $NEO_LOG_URL $NEO_LOG_PROJECT
-    server $NEO_API_LOCAL $NEO_API_URL $NEO_API_PROJECT
+    SISTEMS=$(getSystems)
+    for i in $SISTEMS
+    do server $i
+    done
     dockerComposeUp 'nginx'
+    if validFile $NEO_CONFIG;then
+        sed -i -E "s/(define[(]'ENVIRONMENT'[ ]*,[ ]*?')(.*?)(')/\1$NAME_SERVER\3/g" $NEO_CONFIG
+    fi
+
 }
 
 

@@ -53,8 +53,7 @@ Criar o ambiente de todos os Sistemas de uma vez
         * **Portal Pravaler:** http://portalpravaler.desenv        
         * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
         * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv        
-        * **Seguros:** http://seguros.idealinvest.desenv      
-
+        * **Seguros:** http://seguros.idealinvest.desenv     
     * **Ambientes Neo** 
         * **Alfred Client:** http://lo.atendimento.pravaler.com.br
         * **Alfred Server:** http://lo.callcenter.pravaler.srv.br

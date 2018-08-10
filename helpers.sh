@@ -1019,3 +1019,16 @@ updateBranch()
    cd $1
    git pull
 }
+
+regexFilter()
+{
+    VARIABLE=$( echo $1 | sed -e "s/\//\\\\\//g")
+    VARIABLE=$( echo $VARIABLE | sed -e "s/@/%40/g")
+    echo $VARIABLE
+}
+
+regexFilterReverse()
+{
+    VARIABLE=$( echo $1 | sed -e "s/%40/@/g")
+    echo $VARIABLE
+}

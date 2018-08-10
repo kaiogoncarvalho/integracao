@@ -25,10 +25,10 @@ neo() {
         printLineSystem "9  - Negotiation" "NEO_NEGOTIATION"
         printLineSystem "10 - Neo Api" "NEO_API"
         printLineSystem "11 - Proposal" "NEO_PROPOSAL"
-        printLineSystem "12 - Retorno Mec" "RETORNO_MEC"
+
 
         if validFile $NEO_CONFIG; then
-            printLine "13 - Ver/Alterar config.php" "amarelo" "negrito"
+            printLine "12 - Ver/Alterar config.php" "amarelo" "negrito"
         fi
 
         printLine "0  - Voltar" "azul" "negrito"
@@ -70,9 +70,7 @@ neo() {
           ;;
           11) detalhe "Proposal" "NEO_PROPOSAL" "service"
           ;;
-          12) detalhe "Retorno Mec" "RETORNO_MEC" "retorno_mec"
-          ;;
-          13)
+          12)
 
             if validFile $NEO_CONFIG; then
                 vi $NEO_CONFIG

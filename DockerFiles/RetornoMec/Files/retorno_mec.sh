@@ -1,8 +1,23 @@
 #!/usr/bin/env bash
+display_database_retornomec()
+{
+    if validFile $RETORNO_MEC_LOCAL'/.env'; then
+        SYSTEM_DB_HOST=$(grep -oP '(?<=DB_HOST=)([\d.]*)' $RETORNO_MEC_LOCAL/.env)
+        SYSTEM_DB_PORT=$(grep -oP '(?<=DB_PORT=)([\d]*)' $RETORNO_MEC_LOCAL/.env)
+        SYSTEM_DB_NAME=$(grep -oP '(?<=DB_DATABASE=)([\d\w[:punct:]]*)' $RETORNO_MEC_LOCAL/.env)
+        SYSTEM_DB_USER=$(grep -oP '(?<=DB_USERNAME=)([\d\w[:punct:]]*)' $RETORNO_MEC_LOCAL/.env)
+        SYSTEM_DB_PASSWORD=$(grep -oP '(?<=DB_PASSWORD=)([\d\w[:punct:]]*)' $RETORNO_MEC_LOCAL/.env)
+    else
+        STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema para criar)\033[00;31m\n\n"
+    fi
+}
+
+
 database_retornomec()
 {
 
     if isValidInstall 'RETORNO_MEC' && validDatabase; then
+        cd $RETORNO_MEC_LOCAL
         regexFile 'DB_HOST=' "$DATABASE_HOST"
         regexFile 'DB_PORT=' "$DATABASE_PORT"
         regexFile 'DB_DATABASE=' "$DATABASE_NAME"

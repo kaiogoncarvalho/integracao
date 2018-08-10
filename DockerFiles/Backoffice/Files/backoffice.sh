@@ -8,7 +8,7 @@ display_database_backoffice()
         SYSTEM_DB_USER=$(grep -oP '(?<=db.default.user=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
         SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.default.pass=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
     else
-        STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema)\033[00;31m\n\n"
+        STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema para criar)\033[00;31m\n\n"
     fi
 }
 

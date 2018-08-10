@@ -32,7 +32,7 @@ include_backoffice_creditscore()
 {
     if isValidInstall 'BACKOFFICE' && isValidInstall 'CREDITSCORE'; then
         cd $CREDITSCORE_LOCAL
-        regexFile "bo.api.host=" "$BACKOFFICE_API_URL/portal/pravaler_v2"
+        regexFile "bo.api.host=" "$BACKOFFICE_API_URL"
     fi
 }
 
@@ -51,9 +51,17 @@ include_neoproposal_creditscore()
 
     if isValidInstall 'NEO_PROPOSAL' && isValidInstall 'CREDITSCORE'; then
         cd $CREDITSCORE_LOCAL
-        regexFile "neo.proposal.host=" $NEO_PROPOSA_URL
+        regexFile "neo.proposal.host=" 'http://'$NEO_PROPOSAL_URL'/proposal-products'
     fi
 
+}
+
+include_oauth_creditscore()
+{
+     if isValidInstall 'NEO_OAUTH' && isValidInstall 'CREDITSCORE'; then
+        cd $CREDITSCORE_LOCAL
+        regexFile "oauth.host=" 'http://'$NEO_OAUTH_URL'/oauth2'
+    fi
 }
 
 setup_credit_score()
@@ -86,4 +94,5 @@ setup_credit_score()
     include_backoffice_creditscore
     include_neolog_creditscore
     include_neoproposal_creditscore
+    include_oauth_creditscore
 }

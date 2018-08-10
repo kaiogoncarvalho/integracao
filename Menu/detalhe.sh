@@ -226,7 +226,7 @@ detalhe(){
              printInBar "URL atualizada com Sucesso!" "verde"
           ;;
           3)
-            if isValidInstall $2; then
+            if isValidRepository $DIRECTORY ; then
                 cd $DIRECTORY
                 exec bash
             else
@@ -234,14 +234,14 @@ detalhe(){
             fi
           ;;
           4)
-            if isValidInstall $2; then
+            if isValidRepository $DIRECTORY ; then
                 changeBranch $2
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
           5)
-            if isValidInstall $2; then
+            if isValidRepository $DIRECTORY ; then
                 updateBranch $DIRECTORY
             else
                 printInBar "Opção inválida!" "vermelho"

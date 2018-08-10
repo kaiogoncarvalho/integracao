@@ -10,20 +10,24 @@ update_environment(){
 }
 include_callcenter_alfredclient(){
 
-    if isValidInstall 'ALFRED_SERVER' && isValidInstall 'ALFRED_CLIENT'; then
+    if isValidInstall 'ALFRED_SERVER' && isValidRepository $ALFRED_CLIENT_LOCAL; then
         cd $ALFRED_CLIENT_LOCAL/src/environments
         regexFile '"alfredserver"\s*:\s*' '"http://'$ALFRED_SERVER_URL'"' environment.integration.ts
-        restartContainer $ALFRED_CLIENT_CONTAINER
+        if verifyContainerStarted $ALFRED_CLIENT_CONTAINER; then
+            restartContainer $ALFRED_CLIENT_CONTAINER
+        fi
     fi
 
 }
 
 include_bpm_alfredclient(){
 
-    if isValidInstall 'NEO_BPM' && isValidInstall 'ALFRED_CLIENT'; then
+    if isValidInstall 'NEO_BPM' && isValidRepository $ALFRED_CLIENT_LOCAL; then
         cd $ALFRED_CLIENT_LOCAL/src/environments
         regexFile '"bpm"\s*:\s*' '"http://'$NEO_BPM_URL'",' environment.integration.ts
-        restartContainer $ALFRED_CLIENT_CONTAINER
+        if verifyContainerStarted $ALFRED_CLIENT_CONTAINER; then
+            restartContainer $ALFRED_CLIENT_CONTAINER
+        fi
 
     fi
 
@@ -31,10 +35,12 @@ include_bpm_alfredclient(){
 
 include_oauth_alfredclient(){
 
-    if isValidInstall 'NEO_OAUTH' && isValidInstall 'ALFRED_CLIENT'; then
+    if isValidInstall 'NEO_OAUTH' && isValidRepository $ALFRED_CLIENT_LOCAL; then
         cd $ALFRED_CLIENT_LOCAL/src/environments
         regexFile '"oauth"\s*:\s*' '"http://'$NEO_OAUTH_URL'",' environment.integration.ts
-        restartContainer $ALFRED_CLIENT_CONTAINER
+        if verifyContainerStarted $ALFRED_CLIENT_CONTAINER; then
+            restartContainer $ALFRED_CLIENT_CONTAINER
+        fi
     fi
 
 }
@@ -58,10 +64,15 @@ alfred_client() {
     msgConfig "Copiando arquivo de environment: "
     update_environment
 
+    include_callcenter_alfredclient
+    include_bpm_alfredclient
+    include_oauth_alfredclient
 
     dockerComposeUp $ALFRED_CLIENT_CONTAINER 'neo'
 
     configHost $ALFRED_CLIENT_CONTAINER $ALFRED_CLIENT_URL
+
+
 
     chmod 777 -R $1
 
@@ -72,9 +83,7 @@ alfred_client() {
 
     logContainer $ALFRED_CLIENT_CONTAINER
 
-    include_callcenter_alfredclient
-    include_bpm_alfredclient
-    include_oauth_alfredclient
+
 
 
 

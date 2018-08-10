@@ -102,7 +102,7 @@ main() {
   while true;
   do
 
-
+    clear
 
     printInBar "Ambientes Pravaler" "ciano"
     echo -e

@@ -10,6 +10,7 @@ tipoInstalacao(){
         printInBar "Tipo de Instalação" 'amarelo'
         echo -e
         echo -e "\033[01;37mTipo: \033[00;37m\033[01;32m$TIPO_INSTALACAO\033[00;37m"
+        echo -e "\033[01;37mServidor: \033[00;37m\033[01;32m$NAME_SERVER\033[00;37m"
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Tipo de Instalação"

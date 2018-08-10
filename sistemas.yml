@@ -15,7 +15,6 @@ services:
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
-    image: kaiocarvalhopravaler/backoffice
     container_name: $BACKOFFICE_CONTAINER
     extra_hosts:
       - "$BACKOFFICE_URL:127.0.0.1"
@@ -167,7 +166,6 @@ services:
       dockerfile: ./DockerFiles/Nginx/Dockerfile
       context: .
     container_name: nginx
-    image: sistemas/nginx
     ports:
       - "80:80"
       - "9000:9000"
@@ -191,7 +189,6 @@ services:
       dockerfile: ./DockerFiles/MongoDB/Dockerfile
       context: .
     restart: always
-    image: kaiocarvalhopravaler/mongo-temp
     networks:
       - default
     command: mongo "mongodb://mongodb" /data/db/script.js
@@ -366,7 +363,6 @@ services:
     build:
       dockerfile: ./DockerFiles/Backoffice/Dockerfile
       context: .
-    image: kaiocarvalhopravaler/redis
     container_name: redis
     networks:
       - default

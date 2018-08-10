@@ -912,7 +912,7 @@ updateUrl()
     updateEnv $1"_URL=" $NEW_URL
 }
 validNpm(){
-    if validFile "$1/packages.json"; then
+    if validFile "$1/package.json"; then
         return 0
     fi
 

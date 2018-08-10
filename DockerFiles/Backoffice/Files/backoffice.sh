@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 display_database_backoffice()
 {
-    SYSTEM_DB_HOST=$(grep -oP '(?<=db.default.host=)([\d.]*)' $BACKOFFICE_LOCAL/.env)
-    SYSTEM_DB_PORT=$(grep -oP '(?<=db.default.port=)([\d]*)' $BACKOFFICE_LOCAL/.env)
-    SYSTEM_DB_NAME=$(grep -oP '(?<=db.default.name=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
-    SYSTEM_DB_USER=$(grep -oP '(?<=db.default.user=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
-    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.default.pass=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+    if validFile $BACKOFFICE_LOCAL'/.env'; then
+        SYSTEM_DB_HOST=$(grep -oP '(?<=db.default.host=)([\d.]*)' $BACKOFFICE_LOCAL/.env)
+        SYSTEM_DB_PORT=$(grep -oP '(?<=db.default.port=)([\d]*)' $BACKOFFICE_LOCAL/.env)
+        SYSTEM_DB_NAME=$(grep -oP '(?<=db.default.name=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+        SYSTEM_DB_USER=$(grep -oP '(?<=db.default.user=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+        SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.default.pass=)([\d\w[:punct:]]*)' $BACKOFFICE_LOCAL/.env)
+    else
+        STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema)\033[00;31m\n\n"
+    fi
 }
 
 database_backoffice()
@@ -49,7 +53,7 @@ include_retornomec_backoffice()
 
     if isValidInstall 'RETORNO_MEC' && isValidInstall 'BACKOFFICE'; then
         cd $BACKOFFICE_LOCAL
-        regexFile 'retorno.mec=' "$RETORNO_MEC_URL"
+        regexFile 'retorno.mec=' "http://$RETORNO_MEC_URL"
     fi
 }
 include_apipravaler_backoffice()
@@ -66,9 +70,28 @@ include_neolog_backoffice()
 
     if isValidInstall 'NEO_LOG' && isValidInstall 'BACKOFFICE'; then
         cd $BACKOFFICE_LOCAL
-        regexFile 'neo.log=' "$NEO_LOG_URL"
+        regexFile 'neo.log=' "http://$NEO_LOG_URL"
     fi
 }
+
+include_bpm_backoffice()
+{
+    if isValidInstall 'NEO_BPM' && isValidInstall 'BACKOFFICE'; then
+        cd $BACKOFFICE_LOCAL
+        regexFile 'neo.orig=' "http://$NEO_BPM_URL"
+    fi
+}
+
+include_oauth_backoffice()
+{
+    if isValidInstall 'NEO_OAUTH' && isValidInstall 'BACKOFFICE'; then
+        cd $BACKOFFICE_LOCAL
+        regexFile 'neo.oauth=' "http://$NEO_OAUTH_URL"
+        regexFile 'seguro.oauth=' "http://$NEO_OAUTH_URL"
+    fi
+}
+
+
 setup_backoffice()
 {
 
@@ -89,12 +112,9 @@ setup_backoffice()
 
     regexFile 'api.url=' "$BACKOFFICE_API_URL/"
 
-    regexFile 'neo.oauth=' "http://st.oauth.idealinvest.srv.br"
     regexFile 'neo.subscription_fee=' "http://st.fee.idealinvest.srv.br"
     regexFile 'neo.userToAccess=' "backoffice.contrato"
     regexFile 'neo.passwordToAccess=' "123456"
-    regexFile 'neo.orig=' "https://bpm.desenv"
-
 
     msgConfigItem "Arquivo $(pwd)/.env configurado."
 
@@ -185,6 +205,8 @@ setup_backoffice()
     include_novapropostafrontend_backoffice
     include_neolog_backoffice
     include_retornomec_backoffice
+    include_bpm_backoffice
+    include_oauth_backoffice
 
     config_service 'BACKOFFICE'
 

@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 display_database_nova_proposta_backend(){
-    SYSTEM_DB_HOST=$(grep -oP '(?<=DB_BO_HOST=)([\d.]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
-    SYSTEM_DB_PORT=$(grep -oP '(?<=DB_BO_PORT=)([\d]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
-    SYSTEM_DB_NAME=$(grep -oP '(?<=DB_BO_DATABASE=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
-    SYSTEM_DB_USER=$(grep -oP '(?<=DB_BO_USERNAME=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
-    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=DB_BO_PASSWORD=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    if validFile $NOVAPROPOSTA_BACKEND_LOCAL'/.env'; then
+        SYSTEM_DB_HOST=$(grep -oP '(?<=DB_BO_HOST=)([\d.]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+        SYSTEM_DB_PORT=$(grep -oP '(?<=DB_BO_PORT=)([\d]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+        SYSTEM_DB_NAME=$(grep -oP '(?<=DB_BO_DATABASE=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+        SYSTEM_DB_USER=$(grep -oP '(?<=DB_BO_USERNAME=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+        SYSTEM_DB_PASSWORD=$(grep -oP '(?<=DB_BO_PASSWORD=)([\d\w[:punct:]]*)' $NOVAPROPOSTA_BACKEND_LOCAL/.env)
+    else
+        STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema para criar)\033[00;31m\n\n"
+    fi
+
 }
 
 database_nova_proposta_backend(){

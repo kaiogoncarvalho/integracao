@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 display_database_api_pravaler()
 {
-    SYSTEM_DB_HOST=$(php_preg_match "/('host'[[:print:]]*)'([[:digit:].]+)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
-    SYSTEM_DB_PORT=$(php_preg_match "/('port'[[:print:]]*)'([[:digit:]]+)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
-    SYSTEM_DB_NAME=$(php_preg_match "/('dbname'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
-    SYSTEM_DB_USER=$(php_preg_match "/('user'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
-    SYSTEM_DB_PASSWORD=$(php_preg_match "/('password'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+    if validFile $APIPRAVALER_LOCAL'/config/database.php';then
+        SYSTEM_DB_HOST=$(php_preg_match "/('host'[[:print:]]*)'([[:digit:].]+)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+        SYSTEM_DB_PORT=$(php_preg_match "/('port'[[:print:]]*)'([[:digit:]]+)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
+        SYSTEM_DB_NAME=$(php_preg_match "/('dbname'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+        SYSTEM_DB_USER=$(php_preg_match "/('user'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php  2)
+        SYSTEM_DB_PASSWORD=$(php_preg_match "/('password'[^']*)'([^']*)'/s"  $APIPRAVALER_LOCAL/config/database.php 2)
+    else
+        STATUS=$STATUS"\033[07;31m- Arquivo config/database.php não existe (necessário reinstalar o Sistema)\033[00;31m\n\n"
+    fi
+
+
 }
 database_api_pravaler()
 {

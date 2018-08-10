@@ -43,5 +43,6 @@ oauth(){
     database_neo
 
     include_oauth_alfredclient
+    include_oauth_backoffice
 
 }

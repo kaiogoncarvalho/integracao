@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 display_database_creditscore()
 {
-    SYSTEM_DB_HOST=$(grep -oP '(?<=db.bo.host=)([\d.]*)' $CREDITSCORE_LOCAL/.env)
-    SYSTEM_DB_PORT=$(grep -oP '(?<=db.bo.port=)([\d]*)' $CREDITSCORE_LOCAL/.env)
-    SYSTEM_DB_NAME=$(grep -oP '(?<=db.bo.dbname=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
-    SYSTEM_DB_USER=$(grep -oP '(?<=db.bo.user=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
-    SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.bo.pass=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+    if validFile $CREDITSCORE_LOCAL'/.env';then
+        SYSTEM_DB_HOST=$(grep -oP '(?<=db.bo.host=)([\d.]*)' $CREDITSCORE_LOCAL/.env)
+        SYSTEM_DB_PORT=$(grep -oP '(?<=db.bo.port=)([\d]*)' $CREDITSCORE_LOCAL/.env)
+        SYSTEM_DB_NAME=$(grep -oP '(?<=db.bo.dbname=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+        SYSTEM_DB_USER=$(grep -oP '(?<=db.bo.user=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+        SYSTEM_DB_PASSWORD=$(grep -oP '(?<=db.bo.pass=)([\d\w[:punct:]]*)' $CREDITSCORE_LOCAL/.env)
+    else
+         STATUS=$STATUS"\033[07;31m- Arquivo .env não existe (necessário reinstalar o Sistema para criar)\033[00;31m\n\n"
+    fi
+
 }
 
 database_creditscore()

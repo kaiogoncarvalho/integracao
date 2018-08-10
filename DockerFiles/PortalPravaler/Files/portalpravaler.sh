@@ -8,6 +8,7 @@ setup_portal_pravaler()
     composerConfig "$1/workbench/portal/pravaler-backoffice"
     composerConfig "$1/workbench/portal/proposal"
     composerConfig "$1/workbench/portal/marketplace"
+    composerConfig "$1/workbench/portal/seguros"
 
     msgConfig "Configurando permissões de diretórios: "
     cd $1
@@ -25,8 +26,12 @@ setup_portal_pravaler()
     fi
     chmod 777 -R $1
 
-    dockerComposeUp 'portal_pravaler'
+    dockerComposeUp $PORTALPRAVALER_CONTAINER
 
-    configHost 'portal_pravaler' $PORTALPRAVALER_URL
+    configHost $PORTALPRAVALER_CONTAINER $PORTALPRAVALER_URL
+
+    include_portalpravaler_backoffice
+
+    include_portalpravaler_retornomec
 }
 

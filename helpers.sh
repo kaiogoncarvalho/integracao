@@ -1,8 +1,6 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
-INTEGRACAO_DIR=$(pwd)
-
 # função isValidDirectory: verifica se o primeiro parâmetro passado na instancialização da função é um diretório válido
 isValidDirectory() {
   [ -d $1 ]
@@ -18,9 +16,19 @@ isNotEmptyDirectory() {
   [ "$(ls -A $1)" ]
 }
 
-# função isEmptyVariable: verifica se a váriavel existe
+# função isEmptyVariable: verifica se a váriavel não existe
 isEmptyVariable() {
   [ -z $1 ]
+}
+
+# função isNotEmptyVariable: verifica se a váriavel existe
+isNotEmptyVariable() {
+  if [  -z $1 ];
+  then
+    return 1
+  else
+    return 0
+  fi
 }
 
 # função isValidRepository: utiliza a função isValidDirectory e isNotEmptyDirectory para verificar se o primeiro parâmetro passado na instancialização da função é um repositório válido
@@ -44,12 +52,12 @@ isValidRepository() {
 validFile() {
   if isValidFile $1; then
     if isEmptyVariable $1; then
-     false
+     return 1
     else
-     true
+     return 0
     fi
   else
-    false
+    return 1
   fi
 }
 
@@ -150,18 +158,21 @@ dockerComposeUp() {
     msgConfig "Criando e subindo containers:"
     cd $INTEGRACAO_DIR
 
-    if [ "$2" == "neo" ];
+    if isEmptyVariable $2;
     then
-        docker-compose -p neo -f neo.yml stop $1
-        docker rm -f $1
-        docker-compose -p neo -f neo.yml  build  --pull $1
-        docker-compose -p neo -f neo.yml  up --remove-orphans -d $1
+        PROJECT='sistemas'
     else
-        docker-compose stop $1
-        docker rm -f $1
-        docker-compose build --pull $1
-        docker-compose up --remove-orphans -d $1
+        PROJECT=$2
     fi
+
+    docker-compose -p $PROJECT -f $PROJECT.yml stop $1
+
+    deleteContainer $1
+
+    docker-compose -p $PROJECT -f $PROJECT.yml  pull  $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  build  $1
+    docker-compose -p $PROJECT -f $PROJECT.yml  up --remove-orphans -d $1
+
 
 
 }
@@ -171,6 +182,7 @@ includeEnv() {
     cd $INTEGRACAO_DIR
     DIR_LOCAL=$(echo $2 | sed -e "s/\//\\\\\//g")
     sed -E -i "s/($1=)(.*)/\1$DIR_LOCAL/g" .env
+    reloadEnv
 }
 
 #função reloadEnv: Recarrega o .env
@@ -192,16 +204,22 @@ configRepository() {
     NAME_DIR="$1_LOCAL"
     DIR=$(getEnv "$1_LOCAL")
     REPOSITORY=$(getEnv "$1_REPOSITORY")
+    CONTAINER=$(getEnv "$1_CONTAINER")
 
     if isNotValidRepository $DIR; then
+        if function_exists 'database_'$CONTAINER || [ $2 == 'service' ]; then
+            registerDatabase $CONTAINER
+        fi
         DIR=$(installRepository $REPOSITORY)
         if [ $DIR ];
         then
             if isValidRepository $DIR; then
                 includeEnv $NAME_DIR $DIR
-                $2 $DIR $1
                 cd $DIR
-                git config core.filemode false
+                GIT=$(git config core.filemode false)
+                echo -e
+                verifyChangeBranch $1
+                $2 $DIR $1
             else
                 msgAlert 'Repositório Inválido.'
             fi
@@ -209,6 +227,8 @@ configRepository() {
             msgAlert 'Erro ao instalar Sistema.'
         fi
     else
+        cd $DIR
+        GIT=$(git config core.filemode false)
         $2 $DIR $1
         echo -e "\n"
     fi
@@ -271,7 +291,7 @@ printLine() {
    if isEmptyVariable $ST; then
         ST=""
    fi
-  msgGeneral "| ${1}" $CL $ST
+  msgGeneral "| ${1}" $CL "$ST" "" "$4"
 }
 
 # função printPopup: imprime um popup
@@ -308,7 +328,7 @@ msgAlert(){
 
 #função msgConfig: Retorna texto no formato configuração
 msgConfig(){
-    msgGeneral "\n\t$1" 'branco' 'reverso'
+    msgGeneral "\n\t$1\n" 'branco' 'reverso'
 }
 
 #função msgConfigItem:  Retorna texto no formato item configuração
@@ -330,6 +350,7 @@ msgConfigItemSucess(){
 msgGeneral(){
     COR='37m'
     ESTILO=00
+    COR_FUNDO='37m'
     case $2 in
         'preto')
             COR='30m'
@@ -342,6 +363,9 @@ msgGeneral(){
          ;;
          'amarelo')
             COR='33m'
+         ;;
+         'azul')
+            COR='34m'
          ;;
          'rosa')
             COR='35m'
@@ -363,7 +387,33 @@ msgGeneral(){
             ESTILO=07
          ;;
     esac
-    echo -e $4 "\033[$ESTILO;$COR$1\033[00;37m"
+
+    case $5 in
+        'preto')
+            COR_FUNDO='40m'
+         ;;
+         'vermelho')
+            COR_FUNDO='41m'
+         ;;
+         'verde')
+            COR_FUNDO='42m'
+         ;;
+         'amarelo')
+            COR_FUNDO='43m'
+         ;;
+         'azul')
+            COR_FUNDO='44m'
+         ;;
+         'rosa')
+            COR_FUNDO='45m'
+         ;;
+         'ciano')
+            COR_FUNDO='46m'
+         ;;
+         'branco')
+            COR_FUNDO='47m'
+     esac
+    echo -e $4 "\033[$ESTILO;$COR$1\033[00;$COR_FUNDO"
 }
 
 #função configInitialEnv:  Função para copiar o env caso ele não exista
@@ -374,11 +424,17 @@ configInitialEnv(){
     then
         msgConfigItemWarning "Arquivo $(pwd)/.env já existe.\n"
     else
-        cp $1 .env
-        msgConfigItem "Arquivo $(pwd)/.env criado.\n"
+        if isValidFile $1;then
+            cp $1 .env
+            chmod 777 .env
+            msgConfigItemSucess "Arquivo $(pwd)/.env criado.\n"
+        else
+            msgConfigItemWarning "Arquivo $1 não encontrado.\n"
+        fi
+
     fi
 
-    chmod 777 .env
+
 }
 
 #função configEnvIntegracao:  Função para copiar o env do projeto de integração
@@ -399,30 +455,14 @@ configEnvIntegracao(){
             msgConfigItemWarning "Necessário atualizar arquivo $(pwd)/.env, sua versão está desatualizada.\n"
             cp $1 .env
 
-            keepEnv "BACKOFFICE"
-            keepEnv "PORTALPRAVALER"
-            keepEnv "APIPRAVALER"
-            keepEnv "APIAPARTADA"
-            keepEnv "CREDITSCORE"
-            keepEnv "AGENDAMENTO"
-            keepEnv "CDN"
-
-            keepEnv "NOVAPROPOSTA_BACKEND"
-            keepEnv "NOVAPROPOSTA_FRONTEND"
-            keepEnv "RETORNO_MEC"
-            keepEnv "MARKETPLACE_API"
-
-            keepEnv "NEO_NEGOTIATION"
-            keepEnv "NEO_PROPOSAL"
-            keepEnv "NEO_INTEGRATION"
-            keepEnv "NEO_STUDENT"
-            keepEnv "NEO_LOG"
-            keepEnv "NEO_API"
-            keepEnv "ALFRED_SERVER"
-            keepEnv "ALFRED_CLIENT"
+            SISTEMS=$(getSystems)
+            for i in $SISTEMS
+            do keepEnv $i
+            done
 
             updateEnv "TIPO_INSTALACAO=" $TIPO_INSTALACAO
             updateEnv "NEO_CONFIG=" $NEO_CONFIG
+            updateEnv "NAME_SERVER=" $NAME_SERVER
 
             updateEnv "DATABASE_HOST=" $DATABASE_HOST
             updateEnv "DATABASE_USER=" $DATABASE_USER
@@ -456,27 +496,66 @@ updateEnv(){
 #função configNeo: instala o config do neo
 configNeo(){
 
-    echo $NEO_CONFIG
     if isNotValidFile $NEO_CONFIG; then
 
         CAMINHO=$(cd $INTEGRACAO_DIR/.. && pwd)
 
-        read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
-        if isValidFile $config; then
-            msgConfigItemSucess "Arquivo $config foi configurado.\n"
-            includeEnv "NEO_CONFIG" $config
-        else
-            msgAlert 'Arquivo não encontrado.'
-            false
+        read -p "Arquivo config.php já existe? (s/n) >_ " verify
+
+        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+        then
+            msgAlert "Opção Inválida" >&2
+            return 1
+        fi
+
+        if [ $verify == "s" ] || [ $verify == "S" ];
+        then
+             read -e -p  "Informe o caminho do arquivo config.php do Neo: >_ " -i "$CAMINHO" config
+            if isValidFile $config; then
+                msgConfigItemSucess "Arquivo $config foi configurado.\n"
+                includeEnv "NEO_CONFIG" $config
+                return 0
+            else
+                msgAlert 'Arquivo não encontrado.'
+                return 1
+            fi
+        elif [ $verify == "n" ] || [ $verify == "N" ];
+        then
+           read -p "Deseja Criar o Arquivo config.php? (s/n) >_ " verify
+
+           if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+            then
+                msgAlert "Opção Inválida" >&2
+                return 1
+            fi
+            if [ $verify == "s" ] || [ $verify == "S" ];
+            then
+             read -e -p  "Informe o caminho que vai salvar o arquivo config.php do Neo (Somente o Diretório): >_ " -i "$CAMINHO" dir_config
+                if isValidDirectory $dir_config;then
+                    config=$(cd $dir_config && pwd)'/config.php'
+                    cp $INTEGRACAO_DIR/DockerFiles/Neo/config.php $config
+                    chmod 777 -R $config
+                    msgConfigItemSucess "Arquivo $config foi criado com Sucesso!.\n"
+                    includeEnv "NEO_CONFIG" $config
+                    return 0
+                else
+                   msgAlert "Não foi possível salvar o arquivo, diretório não existe"
+                   return 1
+                fi
+             elif [ $verify == "n" ] || [ $verify == "N" ];then
+                msgAlert 'Para Instalar os Ambientes Neo é necessário do config.php'
+                return 1
+             fi
+
         fi
     else
         msgConfigItemWarning "Arquivo $NEO_CONFIG já existe.\n"
-        true
+        return 0
     fi
 
 }
 
-#função keepEnv
+#função keepEnv: Mantem os valores entre versões do Env
 keepEnv(){
 
     NAME_DIR="$1_LOCAL"
@@ -525,7 +604,7 @@ printInBar() {
 }
 
 
-#função createNetwork
+#função createNetwork: Cria uma rede no docker
 createNetwork(){
 
     network=$1
@@ -544,13 +623,15 @@ createNetwork(){
     fi
 }
 
+
 installServiceNeo(){
     printInBar "Operação Iniciada"
     msgGeneral "\nComeçando configuração do Serviço $1:\n" 'verde' 'negrito'
 
     if configNeo;
     then
-        configRepository $2 $3
+        configRepository "$2" "$3"
+        configServer
     fi
     printInBar "Operação Finalizada!"
 }
@@ -559,8 +640,29 @@ installSystem(){
     printInBar "Operação Iniciada"
     msgGeneral "\nComeçando configuração do Sistema $1:\n" 'verde' 'negrito'
 
-    configRepository $2 $3
+    configRepository "$2" "$3"
+    configServer
     printInBar "Operação Finalizada!"
+}
+
+installFtp()
+{
+    msgGeneral "\nComeçando configuração do FTP Risco e Cobrança:\n" 'verde' 'negrito'
+
+    configEnvIntegracao 'example.env'
+    createNetwork
+    reloadEnv
+    setup_ftp_risco_cobranca
+}
+
+install(){
+    if [ $3 == 'service' ] || [ $4 == 'service' ] 2> /dev/null; then
+        installServiceNeo "$1" "$2" "$3"
+    elif [ $3 == 'ftp' ]; then
+        installFtp
+    else
+        installSystem "$1" "$2" "$3"
+    fi
 }
 
 informEnv(){
@@ -589,4 +691,344 @@ databasePassword(){
     read -s -p  "| Informe a Senha >_ " VAR
     updateEnv "DATABASE_PASSWORD=" $VAR
     reloadEnv
+}
+
+#Função isValidInstall: Responsável por validar uma instalação
+isValidInstall(){
+    CONTAINER=$(getEnv "$1_CONTAINER")
+    DIR=$(getEnv "$1_LOCAL")
+
+    if isValidRepository $DIR || [ $1 == 'FTPRISCOCOBRANCA' ]; then
+        if verifyContainer $CONTAINER; then
+            return 0
+        fi
+    fi
+
+    return 1
+}
+
+#Função verifyContainer: Responsável por verificar se um container existe
+verifyContainer(){
+    VERIFY=$(docker ps -a -q -f name=$1)
+
+
+   if isNotEmptyVariable $VERIFY; then
+     return 0
+    else
+     return 1
+    fi
+}
+
+verifyContainerStarted()
+{
+    VERIFY=$(docker ps -q -f name=$1$)
+
+   if [ -z $VERIFY ]; then
+     return 1
+    else
+     return 0
+    fi
+}
+
+#função npmInstall: Executa o NPM install em um diretório passado por parâmetro
+npmInstall() {
+    msgConfig "Realizando o NPM install no diretório $1: "
+    docker run --rm -v $(pwd):/app kaiocarvalhopravaler/node:9 npm install
+    chmod 777 -R "$1"
+}
+
+#Função bowerInstall: Responsável por instalar o Bower
+bowerInstall(){
+    if isEmptyVariable $2; then
+     DIR='vendor'
+    else
+     DIR=$2
+    fi
+
+    msgConfig "Realizando o Bower install no diretório $1: "
+    docker run --rm -v $1:/app kaiocarvalhopravaler/node:9 bower install --allow-root --config.directory=$DIR
+    chmod 777 -R "$1"
+}
+
+#Função logContainer: Responsável por retornar o log do container
+logContainer(){
+    msgConfig "Consultando Log do container $1: "
+    docker logs  $1
+    echo -e
+}
+
+#Função configServer: Responsável por atualizar o NGINX do Servidor
+configServer()
+{
+    if [ $TIPO_INSTALACAO == "servidor" ];
+         then
+            echo -e "\nConfigurando Nginx:\n"
+            reloadEnv
+            setup_nginx
+     fi
+}
+
+#Função getSystems: Responsável por retornar todos os Sistemas instalados
+getSystems(){
+    grep -oP '([[:alnum:]_]*)(?=_LOCAL)' "$INTEGRACAO_DIR/.env"
+}
+
+#Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
+php_preg_replace()
+{
+    docker run -it --rm -v $3:$3 kaiocarvalhopravaler/php:7.0-cli php preg_replace.php "$1" $2 $3
+}
+
+#Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
+php_preg_match()
+{
+    if verifyContainerStarted 'phpcli' && validVolume 'phpcli' $2; then
+        docker exec phpcli php preg_match.php "$1" $2 $3
+    else
+        if verifyContainer 'phpcli'; then
+            TESTE=$(docker rm -f phpcli)
+        fi
+        TESTE=$(docker run -dti --name phpcli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
+
+        if verifyContainerStarted 'phpcli'; then
+            docker exec phpcli php preg_match.php "$1" $2 $3
+        fi
+
+    fi
+
+}
+
+#Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado
+validDatabase(){
+
+    if isNotEmptyVariable $DATABASE_HOST && isNotEmptyVariable $DATABASE_PORT && isNotEmptyVariable $DATABASE_NAME && isNotEmptyVariable $DATABASE_USER && isNotEmptyVariable $DATABASE_PASSWORD; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Função function_exists: Verifica se uma função existe
+function_exists() {
+  [ `type -t $1`"" == 'function' ]
+}
+
+#Função getBranch: Retorna a Branch de um repositório
+getBranch()
+{
+    DIR=$(getEnv "$1_LOCAL")
+    cd $DIR
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    echo ${BRANCH}
+}
+
+# Função validateNetwork: Valida se a Network é valida
+notValidNetwork()
+{
+    TEST=$(docker inspect --format="{{json .NetworkSettings.Networks}}" $1 | grep -E -i "$2")
+
+    if isEmptyVariable $TEST; then
+        return 0
+    else
+        return 1
+    fi
+
+}
+
+validURL()
+{
+    ALIASES=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.Aliases}}{{end}}" $1)
+    for i in $ALIASES
+    do
+        if [ $i == $2 ] || [ $i == '['$2 ] || [ $i == $2']' ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+validVolume()
+{
+   if verifyContainer $1; then
+    TEST_VL=$(docker inspect --format="{{ .HostConfig.Binds}}" $1 | grep $2)
+        if isNotEmptyVariable $TEST_VL; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}
+
+restartContainer()
+{
+    msgConfig "Reiniciando Container $1"
+    if verifyContainer $1; then
+        TESTE_CONTAINER=$(docker restart $1)
+
+        if [ $TESTE_CONTAINER == $1 ]; then
+            msgConfigItemSucess "Container Reiniciado \n"
+        else
+            msgAlert " Erro ao reiniciar container"
+        fi
+    else
+         msgAlert "Container não existe"
+    fi
+
+
+}
+
+deleteContainer()
+{
+    if verifyContainer $1; then
+        TESTE_DELETE=$(docker rm -f $1)
+    fi
+}
+
+updateUrlLote()
+{
+    msgConfig "Atualizando URL's"
+    updateUrl "BACKOFFICE_API" $1
+
+    SISTEMS=$(getSystems)
+    for i in $SISTEMS
+    do
+        updateUrl $i $1
+    done
+
+
+    reloadEnv
+}
+
+updateUrl()
+{
+    PATTERN_URL=$(getEnv $1"_PATTERN_URL")
+    NEW_URL=$(echo $PATTERN_URL | sed "s/%CHANGE%/$2/")
+    if isNotEmptyVariable $NEW_URL; then
+        echo -e $NEW_URL
+    fi
+    updateEnv $1"_URL=" $NEW_URL
+}
+validNpm(){
+    if validFile "$1/package.json"; then
+        return 0
+    fi
+
+    return 1
+
+}
+
+registerDatabase()
+{
+    if ! validDatabase; then
+        read -p "Deseja cadastrar o Banco de Dados? (s/n) >_ " verify
+
+        if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+        then
+            msgAlert "Opção Inválida" >&2
+            return 1
+        fi
+
+        if [ $verify == "s" ] || [ $verify == "S" ];
+        then
+            databaseHost
+            databasePort
+            databaseName
+            databaseUser
+            databasePassword
+            msgConfigItemSucess "Banco de Dados Cadastrado \n"
+            return 0
+        elif [ $verify == "n" ] || [ $verify == "N" ];
+        then
+            msgConfigItemWarning "Banco de Dados não Cadastrado \n"
+            return 1
+        fi
+    fi
+
+}
+
+verifySudo()
+{
+    USER=$(whoami)
+
+    if [ $USER != 'root' ]; then
+        msgGeneral 'Necessário executar como sudo' 'vermelho' 'reverso'
+        exit
+    fi
+}
+
+changeBranch()
+{
+    ACTUAL_BRANCH=$(getBranch $1)
+    DIR_BRANCH=$(getEnv "$1_LOCAL")
+    cd $DIR_BRANCH
+    echo -e
+    read -e -p  "Informe a Branch: >_ " -i  "$ACTUAL_BRANCH" branch
+    echo -e  >&2
+    git checkout $branch >&2
+    CHANGE_BRANCH=$(getBranch $1)
+    if [ $branch != $CHANGE_BRANCH ]; then
+        msgAlert "Não foi possível trocar de Branch"
+        return 1
+    else
+        msgConfigItemSucess "Branch alterada!"
+        return 0
+    fi
+
+}
+
+verifyChangeBranch()
+{
+    read -p "Deseja trocar de Branch? (s/n) >_ " verify
+
+    if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
+    then
+        msgAlert "Opção Inválida" >&2
+        verifyChangeBranch $1
+    fi
+
+    if [ $verify == "s" ] || [ $verify == "S" ];
+    then
+        if changeBranch $1; then
+            return 0
+        else
+            verifyChangeBranch $1
+        fi
+        return 0
+    elif [ $verify == "n" ] || [ $verify == "N" ];
+    then
+        return 1
+    fi
+}
+
+printLineSystem()
+{
+    if isValidInstall $2; then
+        printLine "$1" "branco" "negrito"
+    else
+        printLine "$1"
+    fi
+
+}
+
+updateBranch()
+{
+    msgConfig "Atualizando a Branch: "
+   cd $1
+   git pull
+}
+
+regexFilter()
+{
+    VARIABLE=$( echo $1 | sed -e "s/\//\\\\\//g")
+    VARIABLE=$( echo $VARIABLE | sed -e "s/@/%40/g")
+    echo $VARIABLE
+}
+
+regexFilterReverse()
+{
+    VARIABLE=$( echo $1 | sed -e "s/%40/@/g")
+    echo $VARIABLE
 }

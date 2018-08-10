@@ -27,40 +27,47 @@ Criar o ambiente de todos os Sistemas de uma vez
         * `git clone http://10.10.100.75/ambientes/integracao.git`
 
        
-## Integração
-1. Acessar a pasta do repositório da Integração:
-2. Configurar os ambientes:
-    * `sudo bash ambientes.sh` 
+## Instalar Integração
+1. Acessar o diretório do repositório do Integração:
+2. Instalar Integração:
+    * `sudo bash install.sh` 
     * **Importante: Ser executado em sudo**     
-3. Seguir o passo a passo do Instalador e instalar os sistemas desejados;
-   
-    
+
+## Usar Integração   
+1. Em qualquer diretório, executar o seguinte comando:
+    * `sudo integracao` 
+    * **Importante: Ser executado em sudo** 
+2. Escolher as opções desejadas de acordo com o que for instalar;     
         
 ## Testar os sistemas
 1. Para testar é necessário acessar a seguinte URL:
     * **Ambientes** 
-        * **Agendamento de Homologação:** http://agendamento.homologacao.desenv
-        * **API Apartada:** http://api.apartada.desenv
-        * **API Pravaler:** http://api.pravaler.desenv
-        * **Backoffice:** http://backoffice.desenv   
+        * **Backoffice:** http://backoffice.desenv/portal/pravaler   
+        * **Agendamento de Homologação:** http://agendamento.pravaler.desenv
+        * **API Apartada:** http://api.apartada.desenv/portal/pravaler_v2/api/
+        * **API Pravaler:** http://api.pravaler.desenv        
         * **CDN:** http://cdn.portalpravaler.desenv
         * **CreditScore:** http://creditscore.desenv
-        * **FTP Risco e Cobrança:** http://ftp.risco-cobranca.desenv       
+        * **FTP Risco e Cobrança:** http://ftp.risco-cobranca.desenv
+        * **MarketPlace:** http://marketplace.desenv         
         * **Portal Pravaler:** http://portalpravaler.desenv        
         * **Nova Proposta Backend:** http://cadastro.creditouniversitario.desenv
-        * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv
-        * **Retorno Mec:** http://lo.retornomec.idealinvest.srv.br
+        * **Nova Proposta Frontend:** http://cadastro.portalpravaler.desenv        
         * **Seguros:** http://seguros.idealinvest.desenv      
 
     * **Ambientes Neo** 
-        * **Neo Proposal:** http://lo.proposal.idealinvest.srv.br
-        * **Neo Integration:** http://lo.integration.idealinvest.srv.br
-        * **Neo Student:** http://lo.student.idealinvest.srv.br
-        * **Neo Negotiation:** http://lo.negotiation.idealinvest.srv.br
-        * **Alfred Server:** http://lo.callcenter.idealinvest.srv.br
-        * **Alfred Client:** http://lo.atendimento.idealinvest.com.br
-        * **Neo Log:** http://lo.log.idealinvest.srv.br
-        * **Neo Api:** http://lo.api.idealinvest.srv.br
+        * **Alfred Client:** http://lo.atendimento.pravaler.com.br
+        * **Alfred Server:** http://lo.callcenter.pravaler.srv.br
+        * **BPM:** http://lo.bpm.pravaler.srv.br
+        * **Integration:** http://lo.integration.pravaler.srv.br
+        * **Log:** http://lo.log.pravaler.srv.br
+        * **Negotiation:** http://lo.negotiation.pravaler.srv.br
+        * **Neo Api:** http://lo.api.pravaler.srv.br
+        * **Oauth:** http://lo.oauth.pravaler.srv.br
+        * **People:** http://lo.people.pravaler.srv.br           
+        * **Proposal:** http://lo.proposal.pravaler.srv.br
+        * **Retorno Mec:** http://lo.retornomec.pravaler.srv.br        
+        * **Student:** http://lo.student.pravaler.srv.br                
     
 # Opcional: Instalar o Xdebug
 1. Para instalar o xdebug no **PHPSTORM**, use o seguinte passo a passo:

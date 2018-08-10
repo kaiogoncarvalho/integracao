@@ -3,6 +3,11 @@
 setup_api_apartada()
 {
 
+    if ! isValidInstall 'BACKOFFICE'; then
+        msgGeneral 'Necessário instalar o Backoffice para que a Api Apartada funcione corretamente' 'vermelho' 'reverso'
+        return 1
+    fi
+
    msgConfig "Criando diretórios e definindo permissões: "
     cd $1
     chmod 777 -R html
@@ -24,7 +29,11 @@ setup_api_apartada()
     fi
     chmod 777 -R $1
 
-    dockerComposeUp 'api_apartada'
+    dockerComposeUp $APIAPARTADA_CONTAINER
 
-    configHost 'api_apartada' $APIAPARTADA_URL
+    configHost $APIAPARTADA_CONTAINER $APIAPARTADA_URL
+
+    include_apiapartada_novapropostabackend
+
+    return 0
 }

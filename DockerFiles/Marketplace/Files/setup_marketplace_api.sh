@@ -12,8 +12,8 @@ setup_marketplace_api()
     chmod -R 777 $1/storage
     msgConfigItem "Permissões Definidas"
 
-    dockerComposeUp 'marketplace'
+    dockerComposeUp $MARKETPLACE_API_CONTAINER
 
-    configHost 'marketplace' $MARKETPLACE_API_URL
+    configHost $MARKETPLACE_API_CONTAINER $MARKETPLACE_API_URL
 
 }

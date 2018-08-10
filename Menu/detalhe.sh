@@ -141,27 +141,28 @@ detalhe(){
         echo -e $STATUS
 
         printInBar "Menu" "verde"
-        printLine "1 - Instalar/Reinstalar"
-        printLine "2 - Alterar URL"
+        printLine "1 - Instalar/Reinstalar" "verde"
+        printLine "2 - Alterar URL" "verde"
 
         if isValidRepository $DIRECTORY ; then
-            printLine "3 - Acessar Pasta do Projeto"
-            printLine "4 - Trocar de Branch"
+            printLine "3 - Acessar Pasta do Projeto" "ciano"
+            printLine "4 - Trocar de Branch" "ciano"
+            printLine "5 - Atualizar Branch" "ciano"
         fi
 
         if isValidInstall $2; then
-            printLine "5 - Reiniciar Container"
-            printLine "6 - Consultar Log"
+            printLine "6 - Reiniciar Container" "amarelo"
+            printLine "7 - Consultar Log" "amarelo"
 
-            NEXT=7
+            NEXT=8
 
             if verifyContainerStarted $CONTAINER;then
                 ENTERC=$NEXT
-                printLine "$ENTERC - Entrar no Container"
+                printLine "$ENTERC - Entrar no Container" "amarelo"
                 NEXT=$(echo $(($NEXT+1)))
                 STOPC=$NEXT
                 NEXT=$(echo $(($NEXT+1)))
-                printLine "$STOPC - Parar Container"
+                printLine "$STOPC - Parar Container" "amarelo"
             fi
 
 
@@ -169,10 +170,10 @@ detalhe(){
 
             if validFile $DIRECTORY'/.env'; then
                 SEE_ENV=$NEXT
-                printLine "$SEE_ENV - Ver Arquivo de configuração .env"
+                printLine "$SEE_ENV - Ver Arquivo de configuração .env" "rosa"
                 NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV=$NEXT
-                printLine "$ALTER_ENV - Alterar Arquivo de configuração .env"
+                printLine "$ALTER_ENV - Alterar Arquivo de configuração .env" "rosa"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
@@ -192,10 +193,10 @@ detalhe(){
             if function_exists $FUNCTION_DATABASE; then
                  UPDATE_DATABASE=$NEXT
                  NEXT=$(echo $(($NEXT+1)))
-                 printLine "$UPDATE_DATABASE  - Atualizar Banco de Dados"
+                 printLine "$UPDATE_DATABASE - Atualizar Banco de Dados" "vermelho"
                  SEE_PASS=$NEXT
                  NEXT=$(echo $(($NEXT+1)))
-                 printLine "$SEE_PASS  - Ver Senha do Banco de Dados"
+                 printLine "$SEE_PASS - Ver Senha do Banco de Dados" "vermelho"
             fi
         fi
         printLine "0 - Voltar" "azul" "negrito"
@@ -241,12 +242,19 @@ detalhe(){
           ;;
           5)
             if isValidInstall $2; then
-                restartContainer $CONTAINER
+                updateBranch $DIRECTORY
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
           ;;
           6)
+            if isValidInstall $2; then
+                restartContainer $CONTAINER
+            else
+                printInBar "Opção inválida!" "vermelho"
+            fi
+          ;;
+          7)
             if isValidInstall $2; then
                 logContainer $CONTAINER
             else

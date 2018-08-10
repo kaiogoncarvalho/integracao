@@ -1011,3 +1011,10 @@ printLineSystem()
     fi
 
 }
+
+updateBranch()
+{
+    msgConfig "Atualizando a Branch: "
+   cd $1
+   git pull
+}

@@ -156,6 +156,8 @@ services:
         ipv4_address: $AGENDAMENTO_IP
         aliases:
           - $AGENDAMENTO_URL
+    depends_on:
+      - mysql
   nginx:
     restart: always
     stdin_open: true
@@ -366,3 +368,22 @@ services:
     container_name: redis
     networks:
       - default
+  mysql:
+    restart: always
+    container_name: mysql
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    image: mysql:5.7
+    volumes:
+      - /var/data-mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: agendamentos
+      MYSQL_USER: agendamento
+      MYSQL_PASSWORD: 123456
+    networks:
+      default:
+        ipv4_address: $MYSQL_IP

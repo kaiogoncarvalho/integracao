@@ -4,8 +4,9 @@
 server()
 {
     URL=$(getEnv "$1_URL")
+    CONTAINER=$(getEnv "$1_CONTAINER")
 
-    if isValidInstall $1; then
+    if isValidInstall $1 && verifyContainerStarted $CONTAINER; then
         SERVER="
             \n server {
             \n\t listen 80;

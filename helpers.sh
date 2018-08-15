@@ -962,9 +962,12 @@ verifySudo()
 
 changeBranch()
 {
+
     ACTUAL_BRANCH=$(getBranch $1)
     DIR_BRANCH=$(getEnv "$1_LOCAL")
     cd $DIR_BRANCH
+    msgGeneral "\nBranchs: \n" "branco" "reverso"
+    git branch --all
     echo -e
     read -e -p  "Informe a Branch: >_ " -i  "$ACTUAL_BRANCH" branch
     echo -e  >&2

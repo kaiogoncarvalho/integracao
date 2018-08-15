@@ -981,6 +981,10 @@ changeBranch()
 
 verifyChangeBranch()
 {
+    ACTUAL_BRANCH=$(getBranch $1)
+
+    msgGeneral "\nBranch: $ACTUAL_BRANCH \n" 'verde' 'negrito'
+
     read -p "Deseja trocar de Branch? (s/n) >_ " verify
 
     if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];

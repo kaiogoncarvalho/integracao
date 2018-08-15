@@ -445,6 +445,7 @@ configEnvIntegracao(){
     then
         . $ENV_EXAMPLE
         VERSAO_ATUAL=$VERSAO
+        VERSAO=''
         . $ENV
 
         # Verifica se o arquivo .env está na versão certa

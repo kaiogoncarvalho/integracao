@@ -21,6 +21,7 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_NEGOTIATION_ROOT}
       - URL=$NEO_NEGOTIATION_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_NEGOTIATION_CONTAINER
     networks:
       default:
         ipv4_address: $NEO_NEGOTIATION_IP
@@ -65,6 +66,7 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_INTEGRATION_ROOT}
       - URL=$NEO_INTEGRATION_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_INTEGRATION_CONTAINER
     networks:
       default:
         ipv4_address: $NEO_INTEGRATION_IP

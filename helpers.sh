@@ -126,6 +126,8 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
+    repository=$(cd $repository && pwd)
+
     if [ $verify == "s" ] || [ $verify == "S" ];
     then
         echo $repository
@@ -1039,4 +1041,9 @@ regexFilterReverse()
 {
     VARIABLE=$( echo $1 | sed -e "s/%40/@/g")
     echo $VARIABLE
+}
+
+getHostIp(){
+    IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
+    echo $IP
 }

@@ -58,12 +58,15 @@ tipoInstalacao(){
             ;;
             1)
                updateEnv "TIPO_INSTALACAO=" 'normal'
+               IP=$(getHostIp)
+               regexFile 'HOST_IP=' $IP
                reloadEnv
                clear
                printInBar "Tipo de Instalação Atualizado com Sucesso!" "verde"
             ;;
             2)
                updateEnv "TIPO_INSTALACAO=" 'servidor'
+               regexFile 'HOST_IP=' ''
                reloadEnv
                clear
                printInBar "Tipo de Instalação  Atualizado com Sucesso!" "verde"
@@ -77,7 +80,8 @@ tipoInstalacao(){
              echo -e
             printInBar "Escolha o Tipo de URL" "verde"
             printLine "1  - Risco e Financeiro"
-            printLine "2  - Escolher Prefixo/Sufixo"
+            printLine "2  - Melhoria Contínua"
+            printLine "3  - Escolher Prefixo/Sufixo"
             printLine "0  - Voltar" "branco" "negrito"
             printInBar "s - Sair" "vermelho"
             read -p "| Informe a opção desejada >_ " TIPO_URL
@@ -102,6 +106,13 @@ tipoInstalacao(){
                printInBar "URL's Atualizadas com Sucesso!" "verde"
             ;;
             2)
+               clear
+               updateUrlLote 'mc'
+               updateEnv "NAME_SERVER=" 'mc'
+               reloadEnv
+               printInBar "URL's Atualizadas com Sucesso!" "verde"
+            ;;
+            3)
                clear
                read -p "| Informe o Prefixo/Sufixo das URL's >_ " PREFIX
                updateUrlLote "$PREFIX"

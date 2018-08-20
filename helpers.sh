@@ -256,6 +256,12 @@ getIpContainer() {
 #função configHost: Configura o arquivo hosts
 configHost() {
     msgConfig "Configurando Hosts:"
+
+    if ! verifyContainer $1; then
+        msgAlert "Erro ao configurar o Host, Container não está iniciado"
+        return 1
+    fi
+
     HOST_PRINCIPAL=$(getIpContainer $1)
     if [ "$TIPO_INSTALACAO" == "servidor" ];
     then
@@ -483,7 +489,12 @@ configEnvIntegracao(){
         msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
     fi
 
-    IP=$(getHostIp)
+    if [ $TIPO_INSTALACAO == 'servidor' ]; then
+        IP=''
+    else
+        IP=$(getHostIp)
+    fi
+
     regexFile 'HOST_IP=' $IP
     . $ENV
 

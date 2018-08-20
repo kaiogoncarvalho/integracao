@@ -132,6 +132,12 @@ detalhe(){
             STATUS="\033[07;31m- Ambiente não Instalado\033[00;31m\n"
         fi
 
+        HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
+
+        if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then
+            STATUS=$STATUS"\033[07;31m- Ip do Host não está atualizado no Container (necessário reinstalar sistema)\033[00;31m\n"
+        fi
+
         echo -e
         echo -e "\033[07;37mStatus\n\033[00;37m"
         if isEmptyVariable $STATUS;then
@@ -250,6 +256,7 @@ detalhe(){
           6)
             if isValidInstall $2; then
                 restartContainer $CONTAINER
+                echo -e
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
@@ -257,6 +264,7 @@ detalhe(){
           7)
             if isValidInstall $2; then
                 logContainer $CONTAINER
+                echo -e
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
@@ -279,6 +287,7 @@ detalhe(){
           $ENTERC)
             if isValidInstall $2 && verifyContainerStarted $CONTAINER; then
                 docker exec -ti $CONTAINER  /bin/bash
+                echo -e
             else
                 printInBar "Opção inválida!" "vermelho"
             fi
@@ -307,6 +316,7 @@ detalhe(){
             clear
             msgConfig "Executando Composer Update no Diretório $DIRECTORY"
             docker run --rm -v $DIRECTORY:/app composer update --ignore-platform-reqs --no-scripts
+            echo -e
             else
                 printInBar "Opção inválida!" "vermelho"
             fi

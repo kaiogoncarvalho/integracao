@@ -442,7 +442,7 @@ configInitialEnv(){
 #função configEnvIntegracao:  Função para copiar o env do projeto de integração
 configEnvIntegracao(){
     msgConfig "Configurando arquivo $(pwd)/.env: "
-
+    cd $INTEGRACAO_DIR
     if [ -f ".env" ]
     then
         . $ENV_EXAMPLE
@@ -473,8 +473,6 @@ configEnvIntegracao(){
             updateEnv "DATABASE_PORT=" $DATABASE_PORT
             updateEnv "DATABASE_NAME=" $DATABASE_NAME
 
-
-            . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"
 
         else
@@ -484,6 +482,10 @@ configEnvIntegracao(){
         cp $1 .env
         msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
     fi
+
+    IP=$(getHostIp)
+    regexFile 'HOST_IP=' $IP
+    . $ENV
 
     chmod 777 .env
 }
@@ -1046,4 +1048,10 @@ regexFilterReverse()
 getHostIp(){
     IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
     echo $IP
+}
+
+getHostIpByContainer()
+{
+    HOST_CONTAINER_IP=$(docker inspect --format='{{json .Config.Env}}'  $1 | grep -oP '(?<=REMOTE_HOST=)[^\"]+')
+    echo $HOST_CONTAINER_IP
 }

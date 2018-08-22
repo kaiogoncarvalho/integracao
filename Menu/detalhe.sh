@@ -132,11 +132,14 @@ detalhe(){
             STATUS="\033[07;31m- Ambiente não Instalado\033[00;31m\n"
         fi
 
-        HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
+        if [ $TIPO_SERVIDOR != 'servidor' ]; then
+             HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
 
-        if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then
-            STATUS=$STATUS"\033[07;31m- Ip do Host não está atualizado no Container (necessário reinstalar sistema)\033[00;31m\n"
+            if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then
+                STATUS=$STATUS"\033[07;31m- Ip do Host não está atualizado no Container (necessário reinstalar sistema)\033[00;31m\n"
+            fi
         fi
+
 
         echo -e
         echo -e "\033[07;37mStatus\n\033[00;37m"
@@ -175,11 +178,8 @@ detalhe(){
 
 
             if validFile $DIRECTORY'/.env'; then
-                SEE_ENV=$NEXT
-                printLine "$SEE_ENV - Ver Arquivo de configuração .env" "rosa"
-                NEXT=$(echo $(($NEXT+1)))
                 ALTER_ENV=$NEXT
-                printLine "$ALTER_ENV - Alterar Arquivo de configuração .env" "rosa"
+                printLine "$ALTER_ENV - Ver/Alterar Arquivo de configuração .env" "rosa"
                 NEXT=$(echo $(($NEXT+1)))
             fi
 
@@ -290,16 +290,6 @@ detalhe(){
                 echo -e
             else
                 printInBar "Opção inválida!" "vermelho"
-            fi
-          ;;
-          $SEE_ENV)
-            clear
-            if validFile $DIRECTORY'/.env' && isValidInstall $2; then
-                printInBar 'Arquivo de Configuração'
-                less $DIRECTORY'/.env'
-                echo -e "\n"
-            else
-                printInBar 'Projeto não tem arquivo de configuração .env' 'vermelho'
             fi
           ;;
           $ALTER_ENV)

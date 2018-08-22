@@ -14,10 +14,13 @@ tipoInstalacao(){
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Tipo de Instalação"
+        printLine "2  - Alterar IP do Xdebug para Teste"
+        printLine "3  - Reiniciar todos Containers"
+
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
-            printLine "2  - Alterar URL's em massa"
-            printLine "3  - Instalar/Reinstalar Nginx dos Sistemas"
+            printLine "4  - Alterar URL's em massa"
+            printLine "5  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
         printLine "0  - Voltar" "azul" "negrito"
@@ -76,6 +79,29 @@ tipoInstalacao(){
             esac
           ;;
           2)
+            msgConfig 'Alterando IP do Xdebug dos Containers: \n'
+            SISTEMS=$(getSystems)
+            for i in $SISTEMS
+            do
+                CONTAINER=$(getEnv $i"_CONTAINER")
+                HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
+
+                if [ ! -z $HOST_IP_CONTAINER ]; then
+                    dockerComposeUp $CONTAINER
+                fi
+
+            done
+          ;;
+          3)
+            msgConfig 'Reiniciando Containers: \n'
+            SISTEMS=$(getSystems)
+            for i in $SISTEMS
+            do
+                CONTAINER=$(getEnv $i"_CONTAINER")
+                docker restart -f $CONTAINER
+            done
+          ;;
+          4)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
              echo -e
             printInBar "Escolha o Tipo de URL" "verde"
@@ -128,7 +154,7 @@ tipoInstalacao(){
            fi
 
           ;;
-           3)
+           5)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
                 configServer
            else

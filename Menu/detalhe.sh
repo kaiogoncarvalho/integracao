@@ -132,7 +132,7 @@ detalhe(){
             STATUS="\033[07;31m- Ambiente não Instalado\033[00;31m\n"
         fi
 
-        if [ $TIPO_SERVIDOR != 'servidor' ]; then
+        if [ $TIPO_INSTALACAO != 'servidor' ]; then
              HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
 
             if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then

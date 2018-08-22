@@ -80,17 +80,26 @@ tipoInstalacao(){
           ;;
           2)
             msgConfig 'Alterando IP do Xdebug dos Containers: \n'
+
+            read -e -p  "Informe o IP: >_ " -i  "$HOST_IP" ip
+
+            regexFile 'HOST_IP=' $ip $INTEGRACAO_DIR"/.env"
+            reloadEnv
+
             SISTEMS=$(getSystems)
             for i in $SISTEMS
             do
                 CONTAINER=$(getEnv $i"_CONTAINER")
+                HOST_IP_CONTAINER=''
                 HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
 
-                if [ ! -z $HOST_IP_CONTAINER ]; then
+                if [ ! -z $HOST_IP_CONTAINER ] && verifyContainerStarted $CONTAINER; then
                     dockerComposeUp $CONTAINER
                 fi
 
             done
+            
+            echo -e
           ;;
           3)
             msgConfig 'Reiniciando Containers: \n'

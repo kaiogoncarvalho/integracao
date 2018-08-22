@@ -1,26 +1,27 @@
 #!/usr/bin/env bash
 
-tipoInstalacao(){
+configInstalacao(){
      while true;
     do
         printInBar "Ambientes Pravaler" "ciano"
         echo -e
         printInBar "Criado por Kaio Gonçalves Carvalho"
         echo -e
-        printInBar "Tipo de Instalação" 'amarelo'
+        printInBar "Configurações de Instalação" 'amarelo'
         echo -e
         echo -e "\033[01;37mTipo: \033[00;37m\033[01;32m$TIPO_INSTALACAO\033[00;37m"
         echo -e "\033[01;37mServidor: \033[00;37m\033[01;32m$NAME_SERVER\033[00;37m"
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Tipo de Instalação"
-        printLine "2  - Alterar IP do Xdebug para Teste"
-        printLine "3  - Reiniciar todos Containers"
+        printLine "2  - Alterar IP do Xdebug dos Sistemas"
+        printLine "3  - Reiniciar Todos Containers"
+        printLine "4  - Acessar Diretório do Integração"
 
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
-            printLine "4  - Alterar URL's em massa"
-            printLine "5  - Instalar/Reinstalar Nginx dos Sistemas"
+            printLine "5  - Alterar URL's em massa"
+            printLine "6  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
         printLine "0  - Voltar" "azul" "negrito"
@@ -111,6 +112,10 @@ tipoInstalacao(){
             done
           ;;
           4)
+            cd $INTEGRACAO_DIR
+            exec bash
+          ;;
+          5)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
              echo -e
             printInBar "Escolha o Tipo de URL" "verde"
@@ -163,7 +168,7 @@ tipoInstalacao(){
            fi
 
           ;;
-           5)
+           6)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
                 configServer
            else

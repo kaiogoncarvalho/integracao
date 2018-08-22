@@ -126,19 +126,20 @@ detalhe(){
             if ! [ -d $DIRECTORY'/vendor' ] && validFile $DIRECTORY'/composer.json'; then
                 STATUS=$STATUS"\033[07;31m- Composer não instalado (necessário reinstalar sistema)\033[00;31m\n\n"
             fi
-        else
-            echo -e "\033[01;37mURL: \033[00;37m\033[01;31m$URL \033[00;37m"
-            echo -e "\033[01;37mIP: \033[00;37m\033[01;31m$IP\033[00;37m"
-            STATUS="\033[07;31m- Ambiente não Instalado\033[00;31m\n"
-        fi
-
-        if [ $TIPO_INSTALACAO != 'servidor' ]; then
+            if [ $TIPO_INSTALACAO != 'servidor' ]; then
              HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
 
             if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then
                 STATUS=$STATUS"\033[07;31m- Ip do Host não está atualizado no Container (necessário reinstalar sistema)\033[00;31m\n"
             fi
         fi
+        else
+            echo -e "\033[01;37mURL: \033[00;37m\033[01;31m$URL \033[00;37m"
+            echo -e "\033[01;37mIP: \033[00;37m\033[01;31m$IP\033[00;37m"
+            STATUS="\033[07;31m- Ambiente não Instalado\033[00;31m\n"
+        fi
+
+
 
 
         echo -e

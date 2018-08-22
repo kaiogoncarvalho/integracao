@@ -81,6 +81,8 @@ setup_nova_proposta_backend()
     chmod 777 -R .
 
     deleteContainer 'mongodb'
+    deleteContainer 'rabbitmq'
+    deleteContainer 'mongo-temp'
 
     dockerComposeUp "mongo-temp"
 

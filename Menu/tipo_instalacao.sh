@@ -16,11 +16,12 @@ tipoInstalacao(){
         printLine "1  - Alterar Tipo de Instalação"
         printLine "2  - Alterar IP do Xdebug para Teste"
         printLine "3  - Reiniciar todos Containers"
+        printLine "4  - Acessar Diretório do Integração"
 
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
-            printLine "4  - Alterar URL's em massa"
-            printLine "5  - Instalar/Reinstalar Nginx dos Sistemas"
+            printLine "5  - Alterar URL's em massa"
+            printLine "6  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
         printLine "0  - Voltar" "azul" "negrito"
@@ -111,6 +112,10 @@ tipoInstalacao(){
             done
           ;;
           4)
+            cd $INTEGRACAO_DIR
+            exec bash
+          ;;
+          5)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
              echo -e
             printInBar "Escolha o Tipo de URL" "verde"
@@ -163,7 +168,7 @@ tipoInstalacao(){
            fi
 
           ;;
-           5)
+           6)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
                 configServer
            else

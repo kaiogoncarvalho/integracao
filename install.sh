@@ -2,13 +2,13 @@
 #!/usr/bin/env bash
 
 #Variável de Integração
-INTEGRACAO=$(pwd)
+INTEGRACAO_DIR=$(pwd)
 # Funções Helpers do instalador de ambientes
 HELPERS=./helpers.sh
 #Variáveis do ENV
-ENV=$INTEGRACAO/.env
+ENV=$INTEGRACAO_DIR/.env
 #Env Example
-ENV_EXAMPLE=$INTEGRACAO/example.env
+ENV_EXAMPLE=$INTEGRACAO_DIR/example.env
 
 
 . $HELPERS
@@ -23,7 +23,6 @@ if [ -h "/bin/integracao" ]; then
     rm -r /bin/integracao
 fi
 
-updateEnv "INTEGRACAO_DIR=" $(pwd)
 ln -rs ambientes.sh /bin/integracao
 
 if [ -h "/bin/integracao" ]; then

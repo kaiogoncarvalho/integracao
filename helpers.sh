@@ -126,6 +126,8 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
+    repository=$(cd $repository && pwd)
+
     if [ $verify == "s" ] || [ $verify == "S" ];
     then
         echo $repository
@@ -254,6 +256,12 @@ getIpContainer() {
 #função configHost: Configura o arquivo hosts
 configHost() {
     msgConfig "Configurando Hosts:"
+
+    if ! verifyContainer $1; then
+        msgAlert "Erro ao configurar o Host, Container não está iniciado"
+        return 1
+    fi
+
     HOST_PRINCIPAL=$(getIpContainer $1)
     if [ "$TIPO_INSTALACAO" == "servidor" ];
     then
@@ -440,11 +448,12 @@ configInitialEnv(){
 #função configEnvIntegracao:  Função para copiar o env do projeto de integração
 configEnvIntegracao(){
     msgConfig "Configurando arquivo $(pwd)/.env: "
-
+    cd $INTEGRACAO_DIR
     if [ -f ".env" ]
     then
         . $ENV_EXAMPLE
         VERSAO_ATUAL=$VERSAO
+        VERSAO=''
         . $ENV
 
         # Verifica se o arquivo .env está na versão certa
@@ -470,8 +479,6 @@ configEnvIntegracao(){
             updateEnv "DATABASE_PORT=" $DATABASE_PORT
             updateEnv "DATABASE_NAME=" $DATABASE_NAME
 
-
-            . $ENV
             msgConfigItemSucess "Arquivo $(pwd)/.env foi atualizado.\n"
 
         else
@@ -481,6 +488,15 @@ configEnvIntegracao(){
         cp $1 .env
         msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
     fi
+
+    if [ $TIPO_INSTALACAO == 'servidor' ]; then
+        IP=''
+    else
+        IP=$(getHostIp)
+    fi
+
+    regexFile 'HOST_IP=' $IP
+    . $ENV
 
     chmod 777 .env
 }
@@ -961,9 +977,12 @@ verifySudo()
 
 changeBranch()
 {
+
     ACTUAL_BRANCH=$(getBranch $1)
     DIR_BRANCH=$(getEnv "$1_LOCAL")
     cd $DIR_BRANCH
+    msgGeneral "\nBranchs: \n" "branco" "reverso"
+    git branch --all
     echo -e
     read -e -p  "Informe a Branch: >_ " -i  "$ACTUAL_BRANCH" branch
     echo -e  >&2
@@ -981,6 +1000,10 @@ changeBranch()
 
 verifyChangeBranch()
 {
+    ACTUAL_BRANCH=$(getBranch $1)
+
+    msgGeneral "\nBranch: $ACTUAL_BRANCH \n" 'verde' 'negrito'
+
     read -p "Deseja trocar de Branch? (s/n) >_ " verify
 
     if [ $verify != "s" ] && [ $verify != "S" ]  && [ $verify != "n" ] && [ $verify != "N" ];
@@ -1031,4 +1054,15 @@ regexFilterReverse()
 {
     VARIABLE=$( echo $1 | sed -e "s/%40/@/g")
     echo $VARIABLE
+}
+
+getHostIp(){
+    IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
+    echo $IP
+}
+
+getHostIpByContainer()
+{
+    HOST_CONTAINER_IP=$(docker inspect --format='{{json .Config.Env}}'  $1 | grep -oP '(?<=REMOTE_HOST=)[^\"]+')
+    echo $HOST_CONTAINER_IP
 }

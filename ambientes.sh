@@ -24,7 +24,7 @@ DATABASE=./Menu/database.sh
 # Configuração do Detalhe
 DETALHE_SH=./Menu/detalhe.sh
 # Configuração do Tipo de Instalação
-TIPO_INSTALACAO_SH=./Menu/tipo_instalacao.sh
+CONFIG_INSTALACAO_SH=./Menu/config_instalacao.sh
 # Configuração do Nginx
 NGINX_SH=./DockerFiles/Nginx/Files/nginx.sh
 # Configuração padrão para instalação de serviço
@@ -88,7 +88,7 @@ ENV_URL=./url.env
 . $DETALHE_SH
 . $OAUTH_SH
 . $BPM_SH
-. $TIPO_INSTALACAO_SH
+. $CONFIG_INSTALACAO_SH
 . $ENV_URL
 
 verifySudo
@@ -112,7 +112,7 @@ main() {
     printLine "1 - Ambientes"
     printLine "2 - Ambientes Neo"
     printLine "3 - Banco De Dados"
-    printLine "4 - Tipo de Instalação"
+    printLine "4 - Configurações de Instalação"
     printInBar "s - Sair" "vermelho"
     read -p "| Informe a opção desejada >_ " OPTION
 
@@ -139,7 +139,7 @@ main() {
         database
       ;;
       4)
-        tipoInstalacao
+        configInstalacao
       ;;
       *) clear
         printInBar "Opção inválida!"

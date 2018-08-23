@@ -12,6 +12,8 @@ setup_marketplace_api()
     chmod -R 777 $1/storage
     msgConfigItem "Permissões Definidas"
 
+    deleteContainer 'redis'
+
     dockerComposeUp $MARKETPLACE_API_CONTAINER
 
     configHost $MARKETPLACE_API_CONTAINER $MARKETPLACE_API_URL

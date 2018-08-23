@@ -21,6 +21,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_NEGOTIATION_ROOT}
       - URL=$NEO_NEGOTIATION_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_NEGOTIATION_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_NEGOTIATION_IP
@@ -43,6 +45,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_PROPOSAL_ROOT}
       - URL=$NEO_PROPOSAL_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_PROPOSAL_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_PROPOSAL_IP
@@ -65,6 +69,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_INTEGRATION_ROOT}
       - URL=$NEO_INTEGRATION_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_INTEGRATION_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_INTEGRATION_IP
@@ -87,6 +93,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_STUDENT_ROOT}
       - URL=$NEO_STUDENT_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_STUDENT_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_STUDENT_IP
@@ -109,6 +117,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${ALFRED_SERVER_ROOT}
       - URL=$ALFRED_SERVER_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$ALFRED_SERVER_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $ALFRED_SERVER_IP
@@ -152,6 +162,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_LOG_ROOT}
       - URL=$NEO_LOG_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_LOG_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_LOG_IP
@@ -174,6 +186,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_API_ROOT}
       - URL=$NEO_API_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_API_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_API_IP
@@ -197,6 +211,8 @@ services:
       - URL=$NEO_OAUTH_URL
       - VOLUME=$NEO_SERVICE_VOLUME
       - INDEX=$NEO_OAUTH_INDEX
+      - CONTAINER=$NEO_OAUTH_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_OAUTH_IP
@@ -219,6 +235,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_BPM_ROOT}
       - URL=$NEO_BPM_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_OAUTH_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_BPM_IP
@@ -241,6 +259,8 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_PEOPLE_ROOT}
       - URL=$NEO_PEOPLE_URL
       - VOLUME=$NEO_SERVICE_VOLUME
+      - CONTAINER=$NEO_OAUTH_CONTAINER
+      - REMOTE_HOST=$HOST_IP
     networks:
       default:
         ipv4_address: $NEO_PEOPLE_IP

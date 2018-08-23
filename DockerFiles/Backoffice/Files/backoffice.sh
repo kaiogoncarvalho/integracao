@@ -61,7 +61,7 @@ include_apipravaler_backoffice()
 
     if isValidInstall 'APIPRAVALER' && isValidInstall 'BACKOFFICE'; then
         cd $BACKOFFICE_LOCAL
-        regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v.1.1"
+        regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v1.1"
     fi
 }
 

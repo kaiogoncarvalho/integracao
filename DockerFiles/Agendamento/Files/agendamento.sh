@@ -20,10 +20,10 @@ setup_agendamento()
 
      if [ -d '/var/data-mysql' ]
     then
-        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs já existe."
+        msgConfigItem "Diretório /var/data-mysql já existe."
     else
         mkdir /var/data-mysql
-        msgConfigItem "Diretório $(pwd)/xdebug-profile-logs foi criado."
+        msgConfigItem "Diretório /var/data-mysqlfoi criado."
     fi
     chmod 777 -R $1
 

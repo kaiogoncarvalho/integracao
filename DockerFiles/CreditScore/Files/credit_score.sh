@@ -75,7 +75,7 @@ setup_credit_score()
 
     configInitialEnv '.env-example'
 
-    database_credit_score
+    database_creditscore
 
     msgConfig "Criando diretórios e definindo configurações:"
     if [ -d "xdebug-profile-logs" ]

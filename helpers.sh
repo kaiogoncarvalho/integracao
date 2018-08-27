@@ -126,6 +126,8 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
+    mkdir $repository
+
     repository=$(cd $repository && pwd)
 
     if [ $verify == "s" ] || [ $verify == "S" ];
@@ -489,7 +491,7 @@ configEnvIntegracao(){
         msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
     fi
 
-    if [ $TIPO_INSTALACAO == 'servidor' ]; then
+    if [ $TIPO_INSTALACAO == 'servidor'  ] 2> /dev/null;  then
         IP=''
     else
         IP=$(getHostIp)

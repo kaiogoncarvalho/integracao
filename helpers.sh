@@ -126,6 +126,8 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
+    mkdir $repository
+
     repository=$(cd $repository && pwd)
 
     if [ $verify == "s" ] || [ $verify == "S" ];

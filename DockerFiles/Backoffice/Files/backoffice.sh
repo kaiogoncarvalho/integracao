@@ -57,13 +57,8 @@ include_in_backoffice()
         cd $BACKOFFICE_LOCAL
         for i in "${array_systems[@]}"
         do
-
-            echo "${envs[$i,'REGEX']}"
-            echo "${envs[$i,'REPLACE']}"
              if isValidInstall $i; then
                 if ! [ -z "${envs[$i,'REGEX']}" ] && ! [ -z "${envs[$i,'REPLACE']}" ]; then
-                    echo "${envs[$i,'REGEX']}"
-                    echo "${envs[$i,'REPLACE']}"
                     regexFile "${envs[$i,'REGEX']}" "${envs[$i,'REPLACE']}"
                     CONTAINER=$(getEnv $i"_CONTAINER")
                     if verifyContainerStarted $CONTAINER && [ $2 == 'restart' ] 2> /dev/null ; then

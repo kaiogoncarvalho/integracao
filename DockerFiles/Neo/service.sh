@@ -79,7 +79,7 @@ service(){
     database_neo
 
     if [ $2 == 'ALFRED_SERVER' ]; then
-        include_callcenter_alfredclient
+        include_callcenter_alfredclient 'restart'
     fi
 
     if [ $2 == 'NEO_LOG' ]; then

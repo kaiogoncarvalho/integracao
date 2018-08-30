@@ -42,7 +42,7 @@ oauth(){
 
     database_neo
 
-    include_oauth_alfredclient
+    include_oauth_alfredclient 'restart'
     include_oauth_backoffice
     include_oauth_creditscore
 

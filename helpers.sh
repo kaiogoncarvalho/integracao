@@ -773,6 +773,7 @@ logContainer(){
     msgConfig "Consultando Log do container $1: "
     docker logs  $1
     echo -e
+    sleep 3
 }
 
 #Função configServer: Responsável por atualizar o NGINX do Servidor

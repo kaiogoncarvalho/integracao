@@ -151,8 +151,10 @@ services:
     volumes:
       - $AGENDAMENTO_LOCAL:$AGENDAMENTO_DOCKER
       - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
+    build:
+      dockerfile: ./DockerFiles/Agendamento/Dockerfile
+      context: .
     container_name: $AGENDAMENTO_CONTAINER
-    image: kaiocarvalhopravaler/php:7.2-apache
     dns:
       - $DNS
     extra_hosts:

@@ -126,16 +126,18 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
-    mkdir $repository
-
-    repository=$(cd $repository && pwd)
 
     if [ $verify == "s" ] || [ $verify == "S" ];
     then
+        repository=$(cd $repository && pwd)
         echo $repository
     elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         msgConfig "Clonando Repositório" >&2
+
+        mkdir $repository
+
+        repository=$(cd $repository && pwd)
 
         git clone $1 $repository
 

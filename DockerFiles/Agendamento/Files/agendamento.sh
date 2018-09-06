@@ -33,13 +33,13 @@ setup_agendamento()
    configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
 
    msgConfig "Executando php artisan key:generate: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan key:generate"
+   docker exec -ti $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" key:generate
 
    msgConfig "Executando php artisan migrate: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan migrate"
+   docker exec -ti $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" migrate
 
    msgConfig "Executando php artisan db:seed: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan db:seed"
+   docker exec -ti $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" db:seed
 
 
 }

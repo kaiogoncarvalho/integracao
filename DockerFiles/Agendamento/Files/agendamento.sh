@@ -20,25 +20,26 @@ setup_agendamento()
 
      if [ -d '/var/data-mysql' ]
     then
-        msgConfigItem "Diretório /var/data-mysql já existe."
-    else
-        mkdir /var/data-mysql
-        msgConfigItem "Diretório /var/data-mysqlfoi criado."
+        rm -r /var/data-mysql
     fi
+    mkdir /var/data-mysql
+    msgConfigItem "Diretório /var/data-mysql foi criado."
     chmod 777 -R $1
+
+   deleteContainer 'mysql'
 
    dockerComposeUp $AGENDAMENTO_CONTAINER
 
    configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
 
    msgConfig "Executando php artisan key:generate: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" key:generate
+   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan key:generate"
 
    msgConfig "Executando php artisan migrate: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" migrate
+   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan migrate"
 
    msgConfig "Executando php artisan db:seed: "
-   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan" db:seed
+   docker exec -ti nova_proposta_backend php "$NOVAPROPOSTA_BACKEND_DOCKER/artisan db:seed"
 
 
 }

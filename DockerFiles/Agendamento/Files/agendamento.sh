@@ -106,6 +106,35 @@ set_email_password()
     msgConfigItemSucess "Senha do E-mail Informada"
 }
 
+seed_systems()
+{
+    cd $AGENDAMENTO_LOCAL'/database/seeds'
+    SISTEMS=$(getSystems)
+    for i in $SISTEMS
+    do
+        CONTAINER=$(getEnv $i"_CONTAINER")
+        URL=$(getEnv $i"_URL")
+        LOCAL=$(getEnv $i"_LOCAL")
+        FILE="$CONTAINER.php"
+        if [ -f ".$FILE" ]; then
+             if isValidInstall $i;  then
+                cp ".$FILE" $FILE
+                chmod 777 $FILE
+                sed -E -i "s#(<URL>)#$URL#g" $FILE
+                sed -E -i "s#(<LOCAL_DIR>)#$LOCAL#g" $FILE
+                ativo='false'
+                if verifyContainerStarted $CONTAINER; then
+                    ativo='true'
+                fi
+                sed -E -i "s#(ATIVO)#$ativo#g" $FILE
+             elif [ -f "$FILE" ]; then
+                rm $FILE
+             fi
+
+        fi
+    done
+}
+
 setup_agendamento()
 {
     cd $1
@@ -172,14 +201,19 @@ setup_agendamento()
 
    dockerComposeUp $AGENDAMENTO_CONTAINER
 
-   configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
+   seed_systems
 
+   msgConfig "Configurando o Mysql"
+
+   sleep 60
+
+   configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
 
    msgConfig "Executando php artisan key:generate: "
    docker exec -ti $AGENDAMENTO_CONTAINER php "artisan" key:generate
 
    msgConfig "Executando php artisan migrate: "
-   docker exec $AGENDAMENTO_CONTAINER php artisan migrate
+   docker exec agendamento php artisan migrate
 
    msgConfig "Executando php artisan db:seed: "
    docker exec -ti $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" db:seed

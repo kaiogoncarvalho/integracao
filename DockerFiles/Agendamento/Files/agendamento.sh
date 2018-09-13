@@ -210,13 +210,22 @@ setup_agendamento()
    configHost $AGENDAMENTO_CONTAINER $AGENDAMENTO_URL
 
    msgConfig "Executando php artisan key:generate: "
-   docker exec -ti $AGENDAMENTO_CONTAINER php "artisan" key:generate
+   docker exec $AGENDAMENTO_CONTAINER php "artisan" key:generate
 
    msgConfig "Executando php artisan migrate: "
-   docker exec agendamento php artisan migrate
+   docker exec $AGENDAMENTO_CONTAINER php artisan migrate
+
+   msgConfig "Executando php artisan cache:clear: "
+   docker exec $AGENDAMENTO_CONTAINER php artisan cache:clear
+
+   msgConfig "Executando php artisan optimize"
+   docker exec $AGENDAMENTO_CONTAINER php artisan optimize
 
    msgConfig "Executando php artisan db:seed: "
-   docker exec -ti $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" db:seed
+   docker exec $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" db:seed
+
+    msgConfig "Atualizando .env dos Sistemas: "
+   docker exec $AGENDAMENTO_CONTAINER curl "http://$AGENDAMENTO_URL/api/env/initial"
 
 
 }

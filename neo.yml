@@ -145,7 +145,7 @@ services:
         ipv4_address: $ALFRED_CLIENT_IP
         aliases:
           - $ALFRED_CLIENT_URL
-  log:
+  neo_log:
     restart: always
     stdin_open: true
     tty: true

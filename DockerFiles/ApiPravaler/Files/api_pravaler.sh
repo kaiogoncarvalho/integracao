@@ -35,6 +35,8 @@ setup_api_pravaler()
 
     cd $1
 
+    chmod 777 -R $1
+
     msgConfig "Gerando arquivos de configuração: "
     cd config/
     cp database.example.php database.php
@@ -61,7 +63,7 @@ setup_api_pravaler()
     chmod 777 -R xdebug-profile-logs/
 
     msgConfig "Dando Permissão no Projeto: "
-    chmod 777 -R $1
+
     msgConfigItem "Permissão no diretório $(pwd) concedida."
 
 

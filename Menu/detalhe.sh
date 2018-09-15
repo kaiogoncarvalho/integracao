@@ -129,7 +129,7 @@ detalhe(){
             if [ $TIPO_INSTALACAO != 'servidor' ]; then
              HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
 
-            if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null || [ -z $HOST_IP_CONTAINER ] 2> /dev/null; then
+            if [ $HOST_IP_CONTAINER != $HOST_IP ] 2> /dev/null &&  ! [ -z $HOST_IP ]; then
                 STATUS=$STATUS"\033[07;31m- Ip do Host não está atualizado no Container (necessário reinstalar sistema)\033[00;31m\n"
             fi
         fi

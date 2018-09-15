@@ -227,6 +227,8 @@ setup_agendamento()
     msgConfig "Atualizando .env dos Sistemas: "
    docker exec $AGENDAMENTO_CONTAINER curl "http://$AGENDAMENTO_URL/api/env/initial"
 
+   msgConfig "Atualizando eventos: "
+   docker exec $AGENDAMENTO_CONTAINER curl "http://$AGENDAMENTO_URL/api/events/sync"
 
 }
 

@@ -4,6 +4,8 @@ setup_marketplace_api()
 {
     cd $1
 
+    chmod -R 775 $1
+
     composerConfig $1
 
     configInitialEnv '.env.example'

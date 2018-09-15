@@ -1059,7 +1059,7 @@ regexFilterReverse()
 }
 
 getHostIp(){
-    IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f8)
+    IP=$(hostname -I | grep -o "^[0-9\.]*" )
     echo $IP
 }
 

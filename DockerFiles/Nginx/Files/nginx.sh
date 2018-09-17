@@ -11,6 +11,9 @@ server()
             \n server {
             \n\t listen 80;
             \n\n\t server_name  $URL;
+            \n\nif ( $https = "on" ) {
+                return 301 http://$host$request_uri;
+            \n\n}
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL/;
             \n\t\t proxy_http_version 1.1;
@@ -37,13 +40,6 @@ server()
             \n\t\t proxy_cache_bypass \$http_upgrade;
             \n\t }
             \n }
-
-            \n server {
-            \n\t listen 443 ssl;
-            \n\tlisten [::]:443 ssl;
-            \n\n\t server_name $URL;
-            \n\n\t return 301 http://$URL$request_uri;
-            \n}
 
             ";
         echo -e $SERVER >> default.conf

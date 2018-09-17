@@ -25,7 +25,7 @@ server()
 
             \n server {
             \n\t listen 9000;
-            \n\n\t server_name  $URL;
+            \n\n\t server_name $URL;
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL:9000/;
             \n\t\t proxy_http_version 1.1;
@@ -37,6 +37,13 @@ server()
             \n\t\t proxy_cache_bypass \$http_upgrade;
             \n\t }
             \n }
+
+            \n server {
+            \n\t listen 443 ssl;
+            \n\tlisten [::]:443 ssl;
+            \n\n\t server_name $URL;
+            \n\n\t return 301 http://$URL$request_uri;
+            \n}
 
             ";
         echo -e $SERVER >> default.conf

@@ -9,11 +9,8 @@ server()
     if isValidInstall $1 && verifyContainerStarted $CONTAINER; then
         SERVER="
             \n server {
-            \n\t listen 80;
+            \n\t listen 80 default_server;
             \n\n\t server_name  $URL;
-            \n\nif ( \$https = \"on\" ) {
-                return 301 http://\$host\$request_uri;
-            \n\n}
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL/;
             \n\t\t proxy_http_version 1.1;
@@ -40,6 +37,12 @@ server()
             \n\t\t proxy_cache_bypass \$http_upgrade;
             \n\t }
             \n }
+
+            \n server {
+            \n\t listen 443;
+            \n\t\tserver_name $URL;
+            \n\t\t return 301 http://$URL;
+            \n}
 
             ";
         echo -e $SERVER >> default.conf

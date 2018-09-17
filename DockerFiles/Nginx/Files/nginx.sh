@@ -9,7 +9,7 @@ server()
     if isValidInstall $1 && verifyContainerStarted $CONTAINER; then
         SERVER="
             \n server {
-            \n\t listen 80 default_server;
+            \n\t listen 80;
             \n\n\t server_name  $URL;
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL/;

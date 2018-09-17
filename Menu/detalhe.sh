@@ -71,9 +71,9 @@ detalhe(){
             echo -e "\033[01;37mIP: \033[00;37m\033[01;32m$IP\033[00;37m"
 
             if function_exists $FUNCTION_DATABASE; then
-                $FUNCTION_DATABASE
                 deleteContainer 'phpcli'
-                sleep 3
+                $FUNCTION_DATABASE
+
 
                 echo -e
                 echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"

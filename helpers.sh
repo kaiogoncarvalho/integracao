@@ -794,26 +794,13 @@ getSystems(){
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
 php_preg_replace()
 {
-    docker run -it --rm -v $3:$3 kaiocarvalhopravaler/php:7.0-cli php preg_replace.php "$1" $2 $3
+    docker run --rm -v $3:$3 kaiocarvalhopravaler/php:7.0-cli php preg_replace.php "$1" $2 $3
 }
 
 #Função php_preg_replace: Função responsável por fazer preg_replace do php em um arquivo
 php_preg_match()
 {
-    if verifyContainerStarted 'phpcli' && validVolume 'phpcli' $2; then
-        docker exec phpcli php preg_match.php "$1" $2 $3
-    else
-        if verifyContainer 'phpcli'; then
-            TESTE=$(docker rm -f phpcli)
-        fi
-        TESTE=$(docker run -dti --name phpcli -v $2:$2 kaiocarvalhopravaler/php:7.0-cli /bin/bash)
-
-        if verifyContainerStarted 'phpcli'; then
-            docker exec phpcli php preg_match.php "$1" $2 $3
-        fi
-
-    fi
-
+    docker run --rm -v $2:$2 kaiocarvalhopravaler/php:7.0-cli php preg_match.php "$1" $2 $3
 }
 
 #Função validDatabase: Função Responsável por validar se o Banco de Dados foi totalmente cadastrado

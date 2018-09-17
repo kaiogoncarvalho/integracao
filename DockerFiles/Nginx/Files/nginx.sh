@@ -11,8 +11,8 @@ server()
             \n server {
             \n\t listen 80;
             \n\n\t server_name  $URL;
-            \n\nif ( $https = "on" ) {
-                return 301 http://$host$request_uri;
+            \n\nif ( $https = \"on\" ) {
+                return 301 http://\$host\$request_uri;
             \n\n}
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL/;

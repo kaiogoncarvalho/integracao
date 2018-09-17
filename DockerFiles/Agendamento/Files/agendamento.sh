@@ -79,7 +79,7 @@ set_squad()
 
 set_email()
 {
-    read -p " \n Informe o E-mail do Squad: " email
+    read -p -e " \n Informe o E-mail do Squad: " email
 
     if [ -z $email ]; then
         msgAlert "Informe o E-mail"
@@ -94,7 +94,7 @@ set_email()
 
 set_email_password()
 {
-    read -s -p "\n Informe a Senha do E-mail: " senha
+    read -s -p -e "\n Informe a Senha do E-mail: " senha
 
     if [ -z $senha ]; then
         msgAlert "Informe a Senha"
@@ -218,8 +218,8 @@ setup_agendamento()
    msgConfig "Executando php artisan cache:clear: "
    docker exec $AGENDAMENTO_CONTAINER php artisan cache:clear
 
-   msgConfig "Executando php artisan optimize"
-   docker exec $AGENDAMENTO_CONTAINER php artisan optimize
+   msgConfig "Executando composer dump-autolaod"
+   docker run --rm -v $AGENDAMENTO_LOCAL:/app composer dump-autoload
 
    msgConfig "Executando php artisan db:seed: "
    docker exec $AGENDAMENTO_CONTAINER php "$AGENDAMENTO_DOCKER/artisan" db:seed

@@ -43,7 +43,7 @@ server()
             \n\t ssl_certificate /etc/ssl/phpit.pem;
             \n\t ssl_certificate_key /etc/ssl/phpit.key;
             \n\t server_name $URL;
-            \n\t return 301 http://$URL;
+            \n\t return 301 http://\$host\$request_uri;
             \n}
 
             ";

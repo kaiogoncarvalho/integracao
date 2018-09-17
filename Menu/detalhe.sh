@@ -34,7 +34,7 @@ detalhe(){
         echo -e
         echo -e
         printInBar "Sistema $1" "amarelo"
-         echo -e
+        echo -e
         echo -e "\033[07;37mInformações\n\033[00;37m"
 
         if isValidInstall $2; then

@@ -901,7 +901,7 @@ restartContainer()
 deleteContainer()
 {
     if verifyContainer $1; then
-        TESTE_DELETE=$(docker rm -f $1)
+        TESTE_DELETE=$(docker rm -t 0 -f $1)
     fi
 }
 

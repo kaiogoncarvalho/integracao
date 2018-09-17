@@ -41,7 +41,7 @@ server()
             \n server {
             \n\t listen 443 ssl;
             \n\t ssl_certificate /etc/ssl/phpit.pem;
-            \n\t ssl_certificate_key /etc/ssl/phpit.key;s
+            \n\t ssl_certificate_key /etc/ssl/phpit.key;
             \n\t server_name $URL;
             \n\t return 301 http://$URL;
             \n}

@@ -73,6 +73,8 @@ detalhe(){
             if function_exists $FUNCTION_DATABASE; then
                 $FUNCTION_DATABASE
                 deleteContainer 'phpcli'
+                sleep 3
+
                 echo -e
                 echo -e "\033[07;37mBanco de Dados Backoffice\n\033[00;37m"
 

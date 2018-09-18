@@ -218,7 +218,7 @@ setup_agendamento()
    msgConfig "Executando php artisan cache:clear: "
    docker exec $AGENDAMENTO_CONTAINER php artisan cache:clear
 
-   msgConfig "Executando composer dump-autolaod"
+    msgConfig "Executando composer dump-autolaod"
    docker run --rm -v $AGENDAMENTO_LOCAL:/app composer dump-autoload
 
    msgConfig "Executando php artisan db:seed: "

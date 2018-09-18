@@ -92,6 +92,35 @@ set_email()
 
 }
 
+set_id_aplicativo()
+{
+    read -p "\n Informe o ID do Aplicativo: " id_aplicativo
+
+    if [ -z $id_aplicativo ]; then
+        msgAlert "Informe o ID do Aplicativo"
+        set_id_aplicativo
+    fi
+
+    regexFile "OUTLOOK_CLIENT_ID=" "'$id_aplicativo'"
+
+    msgConfigItemSucess "ID do Aplicativo Informado"
+}
+
+set_senha_aplicativo()
+{
+    read -p "\n Informe a Senha do Aplicativo: " senha_aplicativo
+
+    if [ -z $senha_aplicativo ]; then
+        msgAlert "Informe a Senha do Aplicativo"
+        set_senha_aplicativo
+    fi
+
+    regexFile "OUTLOOK_CLIENT_SECRET=" "'$senha_aplicativo'"
+
+    msgConfigItemSucess "Senha do Aplicativo Informada"
+
+}
+
 set_email_password()
 {
     read -s -p "\n Informe a Senha do E-mail: " senha
@@ -115,6 +144,7 @@ seed_systems()
         CONTAINER=$(getEnv $i"_CONTAINER")
         URL=$(getEnv $i"_URL")
         LOCAL=$(getEnv $i"_LOCAL")
+        REPOSITORY=$(getEnv $i"_REPOSITORY")
         FILE="$CONTAINER.php"
         if [ -f ".$FILE" ]; then
              if isValidInstall $i;  then
@@ -122,6 +152,7 @@ seed_systems()
                 chmod 777 $FILE
                 sed -E -i "s#(<URL>)#$URL#g" $FILE
                 sed -E -i "s#(<LOCAL_DIR>)#$LOCAL#g" $FILE
+                sed -E -i "s#(<REPOSITORY>)#$REPOSITORY#g" $FILE
                 ativo='false'
                 if verifyContainerStarted $CONTAINER; then
                     ativo='true'
@@ -151,6 +182,14 @@ setup_agendamento()
         set_squad
     fi
     regexFile 'APP_URL=' "$AGENDAMENTO_URL"
+
+    if [ -z "$OUTLOOK_CLIENT_ID" ]; then
+        set_id_aplicativo
+    fi
+
+    if [ -z "$OUTLOOK_CLIENT_SECRET" ]; then
+        set_senha_aplicativo
+    fi
 
     if [ -z $MAIL_USERNAME ]; then
         set_email

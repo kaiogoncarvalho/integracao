@@ -53,6 +53,8 @@ service(){
 
      cd $DIR
 
+     chmod 777 -R $DIR
+
      configInitialEnv '.env.dist'
 
     msgConfig "Configurando $NEO_CONFIG:"
@@ -65,7 +67,7 @@ service(){
 
     msgConfig "Definindo Permissões:"
 
-    chmod 777 -R .
+    chmod 777 -R $DIR
 
     msgConfigItem "Permissões Definidas."
 

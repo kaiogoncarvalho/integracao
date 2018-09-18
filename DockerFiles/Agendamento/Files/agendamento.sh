@@ -79,7 +79,7 @@ set_squad()
 
 set_email()
 {
-    read -p -e " \n Informe o E-mail do Squad: " email
+    read -p " \n Informe o E-mail do Squad: " email
 
     if [ -z $email ]; then
         msgAlert "Informe o E-mail"
@@ -94,7 +94,7 @@ set_email()
 
 set_email_password()
 {
-    read -s -p -e "\n Informe a Senha do E-mail: " senha
+    read -s -p "\n Informe a Senha do E-mail: " senha
 
     if [ -z $senha ]; then
         msgAlert "Informe a Senha"

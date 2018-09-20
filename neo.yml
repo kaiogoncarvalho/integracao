@@ -235,7 +235,7 @@ services:
       - ROOT=${NEO_SERVICE_VOLUME}${NEO_BPM_ROOT}
       - URL=$NEO_BPM_URL
       - VOLUME=$NEO_SERVICE_VOLUME
-      - CONTAINER=$NEO_OAUTH_CONTAINER
+      - CONTAINER=$NEO_BPM_CONTAINER
       - REMOTE_HOST=$HOST_IP
     networks:
       default:

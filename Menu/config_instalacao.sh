@@ -91,10 +91,7 @@ configInstalacao(){
             for i in $SISTEMS
             do
                 CONTAINER=$(getEnv $i"_CONTAINER")
-                HOST_IP_CONTAINER=''
-                HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
-
-                if [ ! -z $HOST_IP_CONTAINER ] && verifyContainerStarted $CONTAINER; then
+                if verifyContainerStarted $CONTAINER; then
                     dockerComposeUp $CONTAINER
                 fi
 

@@ -14,9 +14,9 @@ configInstalacao(){
         echo -e
         printInBar "Menu" "verde"
         printLine "1  - Alterar Tipo de Instalação"
-        printLine "2  - Alterar IP do Xdebug dos Sistemas"
-        printLine "3  - Reiniciar Todos Containers"
-        printLine "4  - Acessar Diretório do Integração"
+        printLine "2  - Reiniciar Todos Containers"
+        printLine "3  - Acessar Diretório do Integração"
+        printLine "4  - Atualizar a Branch do Integração"
 
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
@@ -80,29 +80,6 @@ configInstalacao(){
             esac
           ;;
           2)
-            msgConfig 'Alterando IP do Xdebug dos Containers: \n'
-
-            read -e -p  "Informe o IP: >_ " -i  "$HOST_IP" ip
-
-            regexFile 'HOST_IP=' $ip $INTEGRACAO_DIR"/.env"
-            reloadEnv
-
-            SISTEMS=$(getSystems)
-            for i in $SISTEMS
-            do
-                CONTAINER=$(getEnv $i"_CONTAINER")
-                HOST_IP_CONTAINER=''
-                HOST_IP_CONTAINER=$(getHostIpByContainer $CONTAINER)
-
-                if [ ! -z $HOST_IP_CONTAINER ] && verifyContainerStarted $CONTAINER; then
-                    dockerComposeUp $CONTAINER
-                fi
-
-            done
-            
-            echo -e
-          ;;
-          3)
             msgConfig 'Reiniciando Containers: \n'
             SISTEMS=$(getSystems)
             for i in $SISTEMS
@@ -111,9 +88,12 @@ configInstalacao(){
                 docker restart -f $CONTAINER
             done
           ;;
-          4)
+          3)
             cd $INTEGRACAO_DIR
             exec bash
+          ;;
+          4)
+               updateBranch $INTEGRACAO_DIR
           ;;
           5)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then

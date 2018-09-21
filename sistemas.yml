@@ -150,9 +150,11 @@ services:
     tty: true
     volumes:
       - $AGENDAMENTO_LOCAL:$AGENDAMENTO_DOCKER
-      - $BACKOFFICE_LOCAL:$BACKOFFICE_DOCKER
+      - $PROJETOS_DIR:$PROJETOS_DIR
+    build:
+      dockerfile: ./DockerFiles/Agendamento/Dockerfile
+      context: .
     container_name: $AGENDAMENTO_CONTAINER
-    image: kaiocarvalhopravaler/php:7.2-apache
     dns:
       - $DNS
     extra_hosts:
@@ -163,11 +165,14 @@ services:
       - SITE_DOCUMENT_ROOT=${AGENDAMENTO_DOCKER}${AGENDAMENTO_DOCUMENT_ROOT}
       - CONTAINER=$AGENDAMENTO_CONTAINER
       - REMOTE_HOST=$HOST_IP
+    working_dir: ${AGENDAMENTO_DOCKER}
     networks:
       default:
         ipv4_address: $AGENDAMENTO_IP
         aliases:
           - $AGENDAMENTO_URL
+    depends_on:
+      - mysql
   nginx:
     restart: always
     stdin_open: true
@@ -181,6 +186,7 @@ services:
     ports:
       - "80:80"
       - "9000:9000"
+      - "443:443"
     networks:
       default:
         ipv4_address: $NGINX_IP
@@ -386,3 +392,23 @@ services:
     container_name: redis
     networks:
       - default
+  mysql:
+    restart: always
+    container_name: mysql
+    stdin_open: true
+    tty: true
+    dns:
+      - $DNS
+    image: mysql:5.7
+    volumes:
+      - /var/data-mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=agendamentos
+      - MYSQL_USER=agendamento
+      - MYSQL_PASSWORD=123456
+    networks:
+      default:
+        ipv4_address: $MYSQL_IP
+    ports:
+       - '3306:3306'

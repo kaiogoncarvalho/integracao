@@ -42,8 +42,11 @@ oauth(){
 
     database_neo
 
-    include_oauth_alfredclient
-    include_oauth_backoffice
+    include_oauth_alfredclient 'restart'
+
+    systems=( "NEO_OAUTH" )
+    include_in_backoffice  "${systems[@]}"
+
     include_oauth_creditscore
 
 }

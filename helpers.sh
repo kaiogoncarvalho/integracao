@@ -126,16 +126,18 @@ installRepository() {
 
     read -e -p  "Informe o caminho do repositório: >_ " -i "$CAMINHO" repository
 
-    mkdir $repository
-
-    repository=$(cd $repository && pwd)
 
     if [ $verify == "s" ] || [ $verify == "S" ];
     then
+        repository=$(cd $repository && pwd)
         echo $repository
     elif [ $verify == "n" ] || [ $verify == "N" ];
     then
         msgConfig "Clonando Repositório" >&2
+
+        mkdir $repository
+
+        repository=$(cd $repository && pwd)
 
         git clone $1 $repository
 
@@ -771,6 +773,7 @@ logContainer(){
     msgConfig "Consultando Log do container $1: "
     docker logs  $1
     echo -e
+    sleep 3
 }
 
 #Função configServer: Responsável por atualizar o NGINX do Servidor

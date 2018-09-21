@@ -73,7 +73,8 @@ setup_api_pravaler()
 
     database_api_pravaler
 
-    include_apipravaler_backoffice
+    systems=( "APIPRAVALER" )
+    include_in_backoffice  "${systems[@]}"
     include_apipravaler_novapropostafrontend
     include_apipravaler_retornomec
 }

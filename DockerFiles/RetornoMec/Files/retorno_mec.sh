@@ -75,7 +75,8 @@ retorno_mec()
     include_portalpravaler_retornomec
     include_apipravaler_retornomec
 
-    include_retornomec_backoffice
+    systems=( "RETORNO_MEC" )
+    include_in_backoffice  "${systems[@]}"
 
     config_service 'RETORNO_MEC'
 

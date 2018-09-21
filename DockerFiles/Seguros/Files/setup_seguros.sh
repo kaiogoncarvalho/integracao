@@ -44,4 +44,7 @@ setup_seguros()
 
     configHost $SEGUROS_CONTAINER $SEGUROS_URL
 
+    systems=( "SEGUROS" )
+    include_in_backoffice  "${systems[@]}"
+
 }

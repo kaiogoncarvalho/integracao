@@ -29,67 +29,57 @@ database_backoffice()
 
 }
 
-include_portalpravaler_backoffice()
+include_in_backoffice()
 {
+    declare -A envs
+    array_systems=("$@")
 
-     if isValidInstall 'PORTALPRAVALER' && isValidInstall 'BACKOFFICE'; then
-          cd $BACKOFFICE_LOCAL
-          regexFile 'portal.domain=' "$PORTALPRAVALER_URL"
-     fi
-}
+    envs["PORTALPRAVALER","REGEX"]="portal.domain="
+    envs["PORTALPRAVALER","REPLACE"]=$PORTALPRAVALER_URL
 
-include_novapropostafrontend_backoffice()
-{
+    envs["NOVAPROPOSTA_FRONTEND","REGEX"]="proposta2017.path="
+    envs["NOVAPROPOSTA_FRONTEND","REPLACE"]="http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
 
-     if isValidInstall 'NOVAPROPOSTA_FRONTEND' && isValidInstall 'BACKOFFICE'; then
-          cd $BACKOFFICE_LOCAL
-          regexFile 'proposta2017.path=' "http://$NOVAPROPOSTA_FRONTEND_URL/app/\#/finalize"
-     fi
+    envs["RETORNO_MEC","REGEX"]="retorno.mec="
+    envs["RETORNO_MEC","REPLACE"]="http://$RETORNO_MEC_URL"
 
-}
+    envs["APIPRAVALER","REGEX"]="api.aprovacaoIes.path="
+    envs["APIPRAVALER","REPLACE"]="http://$APIPRAVALER_URL/v1.1"
 
-include_retornomec_backoffice()
-{
+    envs["NEO_LOG","REGEX"]="neo.log="
+    envs["NEO_LOG","REPLACE"]="http://$NEO_LOG_URL"
 
-    if isValidInstall 'RETORNO_MEC' && isValidInstall 'BACKOFFICE'; then
+    envs["NEO_BPM","REGEX"]="neo.orig="
+    envs["NEO_BPM","REPLACE"]="http://$NEO_BPM_URL"
+
+    envs["SEGUROS","REGEX"]="seguro.index="
+    envs["SEGUROS","REPLACE"]="http://$SEGUROS_URL"
+
+
+    if isValidInstall 'BACKOFFICE'; then
         cd $BACKOFFICE_LOCAL
-        regexFile 'retorno.mec=' "http://$RETORNO_MEC_URL"
-    fi
-}
-include_apipravaler_backoffice()
-{
+        for i in "${array_systems[@]}"
+        do
+             if isValidInstall $i; then
+                if ! [ -z "${envs[$i,'REGEX']}" ] && ! [ -z "${envs[$i,'REPLACE']}" ]; then
+                    regexFile "${envs[$i,'REGEX']}" "${envs[$i,'REPLACE']}"
+                    CONTAINER=$(getEnv $i"_CONTAINER")
+                    if verifyContainerStarted $CONTAINER && [ $2 == 'restart' ] 2> /dev/null ; then
+                        restartContainer $CONTAINER
+                        CONTAINER=''
+                    fi
+                fi
 
-    if isValidInstall 'APIPRAVALER' && isValidInstall 'BACKOFFICE'; then
-        cd $BACKOFFICE_LOCAL
-        regexFile 'api.aprovacaoIes.path=' "http://$APIPRAVALER_URL/v1.1"
+                if [ $i == 'NEO_OAUTH' ]; then
+                    regexFile 'neo.oauth=' "http://$NEO_OAUTH_URL"
+                    regexFile 'seguro.oauth=' "http://$NEO_OAUTH_URL"
+                fi
+             fi
+        done
     fi
-}
 
-include_neolog_backoffice()
-{
-
-    if isValidInstall 'NEO_LOG' && isValidInstall 'BACKOFFICE'; then
-        cd $BACKOFFICE_LOCAL
-        regexFile 'neo.log=' "http://$NEO_LOG_URL"
-    fi
-}
-
-include_bpm_backoffice()
-{
-    if isValidInstall 'NEO_BPM' && isValidInstall 'BACKOFFICE'; then
-        cd $BACKOFFICE_LOCAL
-        regexFile 'neo.orig=' "http://$NEO_BPM_URL"
-    fi
 }
 
-include_oauth_backoffice()
-{
-    if isValidInstall 'NEO_OAUTH' && isValidInstall 'BACKOFFICE'; then
-        cd $BACKOFFICE_LOCAL
-        regexFile 'neo.oauth=' "http://$NEO_OAUTH_URL"
-        regexFile 'seguro.oauth=' "http://$NEO_OAUTH_URL"
-    fi
-}
 
 
 setup_backoffice()
@@ -200,13 +190,8 @@ setup_backoffice()
 
     database_backoffice
 
-    include_portalpravaler_backoffice
-    include_apipravaler_backoffice
-    include_novapropostafrontend_backoffice
-    include_neolog_backoffice
-    include_retornomec_backoffice
-    include_bpm_backoffice
-    include_oauth_backoffice
+    systems=( "PORTALPRAVALER" "NOVAPROPOSTA_FRONTEND" "RETORNO_MEC" "APIPRAVALER" "NEO_LOG" "NEO_BPM" "NEO_OAUTH" "SEGUROS" )
+    include_in_backoffice  "${systems[@]}"
 
     config_service 'BACKOFFICE'
 

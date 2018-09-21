@@ -10,7 +10,7 @@ return array(
     'product-front'   => array('host' => 'http://st.product.idealinvest.com.br'),
     'backoffice'      => array(
         'host'  => 'http://backoffice.pravaler.rf',
-        'token' => '539a6c1ee350a8c21d56b68719a01caf'
+        'token-proposta' => '539a6c1ee350a8c21d56b68719a01caf'
     ),
     'api'             => array('host' => 'http://st.import.proposal.idealinvest.srv.br'),
     'assignment'      => array('host' => 'http://st.assignment.idealinvest.srv.br'),

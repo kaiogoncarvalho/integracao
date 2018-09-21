@@ -19,6 +19,7 @@ detalhe(){
         NPM_UPDATE=0
         ENTERC=0
         STOPC=0
+        IPCHANGE=0
 
         if [ $3 == 'service' ] || [ $4 == 'service' ] 2> /dev/null; then
             FUNCTION_DATABASE='display_database_neo'
@@ -175,9 +176,10 @@ detalhe(){
                 STOPC=$NEXT
                 NEXT=$(echo $(($NEXT+1)))
                 printLine "$STOPC - Parar Container" "amarelo"
+                IPCHANGE=$NEXT
+                NEXT=$(echo $(($NEXT+1)))
+                printLine "$IPCHANGE - Alterar IP Xdebug do Container" "amarelo"
             fi
-
-
 
 
             if validFile $DIRECTORY'/.env'; then
@@ -358,6 +360,25 @@ detalhe(){
                  else
                     printInBar "Opção inválida!" "vermelho"
                 fi
+          ;;
+          $IPCHANGE)
+            msgConfig 'Alterando IP Xdebug do Container: \n'
+
+            read -e -p  "Informe o IP: >_ " -i  "$HOST_IP" ip
+
+            regexFile 'HOST_IP=' $ip $INTEGRACAO_DIR"/.env"
+            reloadEnv
+
+            if verifyContainerStarted $CONTAINER; then
+                if [ $3 == 'service' ] || [ $4 == 'service' ] 2> /dev/null; then
+                    dockerComposeUp $CONTAINER 'neo'
+                else
+                    dockerComposeUp $CONTAINER
+                fi
+
+            fi
+
+            echo -e
           ;;
           *) printInBar "Opção inválida!" "vermelho"
           ;;

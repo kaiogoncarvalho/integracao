@@ -49,8 +49,11 @@ include_in_backoffice()
     envs["NEO_LOG","REGEX"]="neo.log="
     envs["NEO_LOG","REPLACE"]="http://$NEO_LOG_URL"
 
-    envs["NEO_BPM","REGEX"]="neo.log="
+    envs["NEO_BPM","REGEX"]="neo.orig="
     envs["NEO_BPM","REPLACE"]="http://$NEO_BPM_URL"
+
+    envs["SEGUROS","REGEX"]="seguro.index="
+    envs["SEGUROS","REPLACE"]="http://$SEGUROS_URL"
 
 
     if isValidInstall 'BACKOFFICE'; then
@@ -67,7 +70,7 @@ include_in_backoffice()
                     fi
                 fi
 
-                if [ $1 == 'NEO_OAUTH' ]; then
+                if [ $i == 'NEO_OAUTH' ]; then
                     regexFile 'neo.oauth=' "http://$NEO_OAUTH_URL"
                     regexFile 'seguro.oauth=' "http://$NEO_OAUTH_URL"
                 fi
@@ -187,7 +190,7 @@ setup_backoffice()
 
     database_backoffice
 
-    systems=( "PORTALPRAVALER" "NOVAPROPOSTA_FRONTEND" "RETORNO_MEC" "APIPRAVALER" "NEO_LOG" "NEO_BPM" "NEO_OAUTH" )
+    systems=( "PORTALPRAVALER" "NOVAPROPOSTA_FRONTEND" "RETORNO_MEC" "APIPRAVALER" "NEO_LOG" "NEO_BPM" "NEO_OAUTH" "SEGUROS" )
     include_in_backoffice  "${systems[@]}"
 
     config_service 'BACKOFFICE'

@@ -17,6 +17,7 @@ bpm(){
     php_preg_replace "/(\'base_url\'\s*=>\s*')(http:[\w\d:.\/]*?)(?=\')/s" '${1}'$SYSTEM_URL $NEO_CONFIG
 
     include_bpm_alfredclient 'restart'
-    include_bpm_backoffice
+    systems=( "NEO_BPM" )
+    include_in_backoffice  "${systems[@]}"
 
 }

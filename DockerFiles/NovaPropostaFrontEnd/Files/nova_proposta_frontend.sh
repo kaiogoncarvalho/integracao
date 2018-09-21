@@ -70,7 +70,8 @@ setup_nova_proposta_frontend() {
     logContainer $NOVAPROPOSTA_FRONTEND_CONTAINER
 
     include_novapropostafrontend_novapropostabackend
-    include_novapropostafrontend_backoffice
+    systems=( "NOVAPROPOSTA_FRONTEND" )
+    include_in_backoffice  "${systems[@]}"
 
 }
 

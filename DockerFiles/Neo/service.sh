@@ -86,7 +86,8 @@ service(){
 
     if [ $2 == 'NEO_LOG' ]; then
         include_neolog_creditscore
-        include_neolog_backoffice
+        systems=( "NEO_LOG" )
+        include_in_backoffice  "${systems[@]}"
     fi
 
     if [ $2 == 'NEO_PROPOSAL' ]; then

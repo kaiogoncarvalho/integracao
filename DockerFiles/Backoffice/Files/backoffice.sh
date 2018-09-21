@@ -190,7 +190,6 @@ setup_backoffice()
     systems=( "PORTALPRAVALER" "NOVAPROPOSTA_FRONTEND" "RETORNO_MEC" "APIPRAVALER" "NEO_LOG" "NEO_BPM" "NEO_OAUTH" )
     include_in_backoffice  "${systems[@]}"
 
-
     config_service 'BACKOFFICE'
 
     include_backoffice_creditscore

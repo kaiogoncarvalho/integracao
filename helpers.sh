@@ -491,13 +491,11 @@ configEnvIntegracao(){
         msgConfigItemSucess  "Arquivo $(pwd)/.env criado.\n"
     fi
 
-    if [ $TIPO_INSTALACAO == 'servidor'  ] 2> /dev/null;  then
-        IP=''
-    else
+    if ! [ $TIPO_INSTALACAO == 'servidor'  ] 2> /dev/null;  then
         IP=$(getHostIp)
+        regexFile 'HOST_IP=' $IP
     fi
 
-    regexFile 'HOST_IP=' $IP
     . $ENV
 
     chmod 777 .env

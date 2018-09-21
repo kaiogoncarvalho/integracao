@@ -10,7 +10,7 @@ server()
         SERVER="
             \n server {
             \n\t listen 80;
-            \n\n\t server_name  $URL;
+            \n\n\t server_name $URL;
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL/;
             \n\t\t proxy_http_version 1.1;
@@ -25,7 +25,7 @@ server()
 
             \n server {
             \n\t listen 9000;
-            \n\n\t server_name  $URL;
+            \n\n\t server_name $URL;
             \n\n\t location / {
             \n\t\t proxy_pass http://$URL:9000/;
             \n\t\t proxy_http_version 1.1;
@@ -37,6 +37,14 @@ server()
             \n\t\t proxy_cache_bypass \$http_upgrade;
             \n\t }
             \n }
+
+            \n server {
+            \n\t listen 443 ssl;
+            \n\t ssl_certificate /etc/ssl/phpit.pem;
+            \n\t ssl_certificate_key /etc/ssl/phpit.key;
+            \n\t server_name $URL;
+            \n\t return 301 http://\$host\$request_uri;
+            \n}
 
             ";
         echo -e $SERVER >> default.conf

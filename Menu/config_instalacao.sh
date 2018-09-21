@@ -17,11 +17,12 @@ configInstalacao(){
         printLine "2  - Alterar IP do Xdebug dos Sistemas"
         printLine "3  - Reiniciar Todos Containers"
         printLine "4  - Acessar Diretório do Integração"
+        printLine "5  - Atualizar a Branch do Integração"
 
 
         if [ $TIPO_INSTALACAO == 'servidor' ]; then
-            printLine "5  - Alterar URL's em massa"
-            printLine "6  - Instalar/Reinstalar Nginx dos Sistemas"
+            printLine "6  - Alterar URL's em massa"
+            printLine "7  - Instalar/Reinstalar Nginx dos Sistemas"
         fi
 
         printLine "0  - Voltar" "azul" "negrito"
@@ -113,6 +114,9 @@ configInstalacao(){
             exec bash
           ;;
           5)
+               updateBranch $INTEGRACAO_DIR
+          ;;
+          6)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
              echo -e
             printInBar "Escolha o Tipo de URL" "verde"
@@ -165,7 +169,7 @@ configInstalacao(){
            fi
 
           ;;
-           6)
+           7)
            if [ $TIPO_INSTALACAO == 'servidor' ]; then
                 configServer
            else

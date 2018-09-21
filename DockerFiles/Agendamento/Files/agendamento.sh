@@ -269,5 +269,7 @@ setup_agendamento()
    msgConfig "Atualizando eventos: "
    docker exec $AGENDAMENTO_CONTAINER curl "http://$AGENDAMENTO_URL/api/events/sync"
 
+
+
 }
 
